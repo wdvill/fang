@@ -1,0 +1,206 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}" style="color:#163abb;">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p10 border8">
+                       <div class="p3 bgc1 gr_t5"><b>工作经历</b><span><a href="javascript:void();" onclick="addOrCancelWork();">添加</a>|<a href="javascript:void();" onclick="addOrCancelWork();">返回</a></span></div>
+                       <div class="p5">
+                       <form action="{:U('home/account/savework')}" method="post" id="work_form">
+                         <div class="mb10">
+                            <div class="l wid30 tr font6 lh">时间</div>
+                            <div class="r wid69 font6">
+                            	<select name="start" style="width:60px; height:20px; border:1px solid #CCC;"><script>document.write(getYearList(2012));</script></select> 年  
+                                ---   
+                                <select name="end" style="width:60px; height:20px; border:1px solid #CCC;"><script>document.write(getYearList(2012));</script></select> 年</div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">城市</div>
+                            <div class="r wid69 work_location"><script>ui.getarea('area','',1,2);</script></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">公司名称</div>
+                            <div class="r wid69"><input name="company" type="text" style="width:400px; height:20px; border:1px solid #CCC; color:#999;" value="" /></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">职位</div>
+                            <div class="r wid69"><input name="position" type="text" style="width:400px; height:20px; border:1px solid #CCC; color:#999;" /></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">公司网址</div>
+                            <div class="r wid69"><input name="website" type="text" style="width:400px; height:20px; border:1px solid #CCC; color:#999;" value="" /></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">行业</div>
+                            <div class="r wid69">
+                            	<select name="industry" style="width:400px; height:20px; border:1px solid #CCC; color:#999;">
+                                	<option value="">请选择</option>
+                                    <optgroup label="计算机/互联网/通信/电子">
+                                        <option value="计算机软件">计算机软件</option>
+                                        <option value="计算机硬件">计算机硬件</option>
+                                        <option value="通信/电信/网络设备">通信/电信/网络设备</option>
+                                        <option value="通信/电信运营、增值服务">通信/电信运营、增值服务</option>
+                                        <option value="互联网/电子商务网络游戏">互联网/电子商务网络游戏</option>
+                                        <option value="电子技术/半导体/集成电路">电子技术/半导体/集成电路</option>
+                                        <option value="仪器仪表/工业自动化">仪器仪表/工业自动化</option>
+                                      </optgroup>
+                                      <optgroup label="会计/金融/银行/保险">
+                                        <option value="会计/审计">会计/审计</option>
+                                        <option value="金融/投资/证券">金融/投资/证券</option>
+                                        <option value="银行">银行</option>
+                                        <option value="保险">保险</option>
+                                      </optgroup>
+                                      <optgroup label="贸易/消费/制造/营运">
+                                        <option value="贸易/进出口">贸易/进出口</option>
+                                        <option value="批发/零售">批发/零售</option>
+                                        <option value="快速消费品(食品,饮料,化妆品)">快速消费品(食品,饮料,化妆品)</option>
+                                        <option value="服装/纺织/皮革">服装/纺织/皮革</option>
+                                        <option value="家具/家电/工艺品/玩具/珠宝">家具/家电/工艺品/玩具/珠宝</option>
+                                        <option value="办公用品及设备">办公用品及设备</option>
+                                        <option value="机械/设备/重工">机械/设备/重工</option>
+                                        <option value="汽车及零配件">汽车及零配件</option>
+                                      </optgroup>
+                                      <optgroup label="制药/医疗">
+                                        <option value="制药/生物工程">制药/生物工程</option>
+                                        <option value="医疗/护理/保健/卫生">医疗/护理/保健/卫生</option>
+                                        <option value="医疗设备/器械">医疗设备/器械</option>
+                                      </optgroup>
+                                      <optgroup label="广告/媒体">
+                                        <option value="广告">广告</option>
+                                        <option value="公关/市场推广/会展">公关/市场推广/会展</option>
+                                        <option value="影视/媒体/艺术">影视/媒体/艺术</option>
+                                        <option value="文字媒体/出版">文字媒体/出版</option>
+                                        <option value="印刷/包装/造纸">印刷/包装/造纸</option>
+                                      </optgroup>
+                                      <optgroup label="房地产/建筑">
+                                        <option value="房地产开发">房地产开发</option>
+                                        <option value="建筑与工程">建筑与工程</option>
+                                        <option value="家居/室内设计/装潢">家居/室内设计/装潢</option>
+                                        <option value="物业管理/商业中心">物业管理/商业中心</option>
+                                      </optgroup>
+                                      <optgroup label="专业服务/教育/培训">
+                                        <option value="中介服务">中介服务</option>
+                                        <option value="专业服务(咨询，人力资源)">专业服务(咨询，人力资源)</option>
+                                        <option value="外包服务">外包服务</option>
+                                        <option value="检测，认证">检测，认证</option>
+                                        <option value="法律">法律</option>
+                                        <option value="教育/培训">教育/培训</option>
+                                        <option value="学术/科研">学术/科研</option>
+                                      </optgroup>
+                                      <optgroup label="服务业">
+                                        <option value="餐饮业">餐饮业</option>
+                                        <option value="酒店/旅游">酒店/旅游</option>
+                                        <option value="娱乐/休闲/体育">娱乐/休闲/体育</option>
+                                        <option value="美容/保健">美容/保健</option>
+                                        <option value="生活服务">生活服务</option>
+                                      </optgroup>
+                                      <optgroup label="物流/运输">
+                                        <option value="交通/运输/物流">交通/运输/物流</option>
+                                        <option value="航天/航空">航天/航空</option>
+                                      </optgroup>
+                                      <optgroup label="能源/原材料">
+                                        <option value="石油/化工/矿产/地质">石油/化工/矿产/地质</option>
+                                        <option value="采掘业/冶炼">采掘业/冶炼</option>
+                                        <option value="电力/水利">电力/水利</option>
+                                        <option value="原材料和加工">原材料和加工</option>
+                                      </optgroup>
+                                      <optgroup label="政府/非赢利机构/其他">
+                                        <option value="政府">政府</option>
+                                        <option value="非盈利机构">非盈利机构</option>
+                                        <option value="环保">环保</option>
+                                        <option value="农业/渔业/林业">农业/渔业/林业</option>
+                                        <option value="多元化业务集团公司">多元化业务集团公司</option>
+                                        <option value="其他行业">其他行业</option>
+                                      </optgroup>
+                                </select>
+                            </div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">性质</div>
+                            <div class="r wid69">
+                            <select name="property" style="width:400px; height:20px; border:1px solid #CCC; color:#999;">
+                            	<option value="">请选择</option>
+                                <option value="国企">国企</option>
+                                <option value="外企">外企</option>
+                                <option value="私营">私营</option>
+                                <option value="合资">合资</option>
+                                <option value="政务机关">政务机关</option>
+                                <option value="事业单位">事业单位</option>
+                            </select>
+                            </div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">规模</div>
+                            <div class="r wid69">
+                            <select name="scale" style="width:400px; height:20px; border:1px solid #CCC; color:#999;">
+                                <option value="">请选择</option>
+                                <option value="50">&lt;50</option>
+                                <option value="50-100">50-100</option>
+                                <option value="100-300">100-300</option>
+                                <option value="300-1000">300-1000</option>
+                                <option value="1000+">1000+</option>
+                            </select>
+                            </div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">工作概况</div>
+                            <div class="r wid69"><textarea name="intro" cols="" rows="" style="width:400px; height:150px; border:1px solid #CCC; color:#999;"></textarea></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30"></div>
+                            <div class="r wid69 submit_work"><input type="image" src="__THEME__/images/bc.jpg" style="cursor:pointer"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="__THEME__/images/qx.jpg" onclick="addOrCancelWork();" style="cursor:pointer"/></div>
+                            <div class="cl"></div>
+                         </div>
+                         <input type="hidden" name="addoredit" value="" />
+                         <input type="hidden" name="pd" value="" />
+                         </form>
+                       </div>
+                       <php>if($work){</php>
+                       <volist id="vo" name="work">
+                       	<div class="p3 bgc1 gr_t5 worklist_{$vo.id}">
+                        	<b style="width:88%">
+                            	{$vo.data.start}年---{$vo.data.end}年&nbsp;&nbsp;
+                            	{$vo.data.company}&nbsp;{$vo.data.position}&nbsp;&nbsp;
+                                <php>if($vo['data']['industry']){</php>{$vo.data.industry} | <php>}</php>
+                                <php>if($vo['data']['property']){</php>{$vo.data.property} | <php>}</php>
+                                <php>if($vo['data']['scale']){</php>{$vo.data.scale}<php>}</php>	
+                                &nbsp;&nbsp;{$vo.data.location}
+                            </b>
+                            <span>
+                            	<a href="javascript:void();" onclick="editWork({$vo.id});" style="color:#03C;font-size:14px;font-weight:400">编辑</a> | <a href="javascript:void();" onclick="deleteWork({$vo.id});" style="color:#03C;font-size:14px;font-weight:400">删除</a>
+                            </span>
+                        </div>
+                       </volist>
+                       <php>}</php>
+                    </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

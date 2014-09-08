@@ -1,0 +1,77 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">全局配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/doSetSiteOpt')}">
+    <dl class="lineD">
+      <dt>网站名称：</dt>
+      <dd>
+        <input name="site_name" type="text" size="40" value="{$site_name}">
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>网站描述：</dt>
+      <dd>
+        <input name="site_slogan" type="text"  size="90" value="{$site_slogan}">
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>页面头信息关键字：</dt>
+      <dd>
+        <input name="site_header_keywords" type="text" size="90" value="{$site_header_keywords}">
+        <p>多个使用英文的“|”分割</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>页面头信息描述：</dt>
+      <dd>
+        <input name="site_header_description" type="text"  size="90" value="{$site_header_description}">
+        <p>多个使用英文的“|”分割</p>
+      </dd>
+    </dl>
+    <dl class="lineD" style="display:none">
+      <dt>网站状态：</dt>
+      <dd>
+        <p><label>
+        	<input name="site_closed" type="radio" value="1" <eq name="site_closed" value="1">checked</eq>>关闭
+        </label></p>
+       <p>
+        <label>
+        	<input name="site_closed" type="radio" value="0" <eq name="site_closed" value="0">checked</eq>>开启
+        </label></p>
+      </dd>
+    </dl>
+    <dl class="lineD" style="display:none">
+      <dt>网站关闭理由：</dt>
+      <dd>
+        <input name="site_closed_reason" type="text" value="{$site_closed_reason}">
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>网站域名备案：</dt>
+      <dd>
+        <input name="site_icp" type="text"  size="40" value="{$site_icp}">
+        <p>例如：北京全媒体 京ICP备00000001号</p>
+      </dd>
+    </dl>
+    <dl  style="display:none">
+      <dt>开启验证码：</dt>
+      <dd>
+        <label>
+        	<input name="site_verify[]" type="checkbox" value="register" <php>if(in_array('register',$site_verify)) {</php>checked<php>}</php>>注册页面
+        </label>
+        <br>
+        <label>
+        	<input name="site_verify[]" type="checkbox" value="login" <php>if(in_array('login',$site_verify)) {</php>checked<php>}</php>>登录页面
+        </label>
+      </dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<include file="../Public/_footer" />

@@ -1,0 +1,62 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+
+<include file="__THEME__/editor" />
+
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>相片</div>
+	
+	<div class="form2">
+	<form method="post" action="{:U('admin/Content/doEditAlbum')}"  enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$id}">
+	<eq name="type" value="edit">
+	<input type="hidden" name="id" value="{$id}">
+	</eq>
+	<input type="hidden" name="fid" value="{$fid}">
+	<input type="hidden" name="type" value="{$type}">
+    <dl class="lineD">
+      <dt>图片：</dt>
+      <dd>
+        <input name="logo" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(选填，格式最好为640*960的宽图)
+        <php>if (strlen($pic)>0 && !stristr($pic,'http://')) {</php>
+        <br/><img src="__UPLOAD__/{$pic}" style="height:300px; border:1px solid #CCC;"/>
+        <php> } else if (strlen($pic)>0 && stristr($pic,'http://')) {</php>
+        <br/><img src="{$pic}" style="height:300px; border:1px solid #CCC;"/>
+        <php> }</php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>简介：</dt>
+      <dd>
+      	<textarea name="desc" id="intro" style="width:550px;height:40px">{$desc}</textarea>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>排序id：</dt>
+      <dd>
+        <input name="sort_id" id='sort_id' type="text" size="25" value="{$sort_id}"> (必填)
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+});
+</script>
+<include file="../Public/_footer" />

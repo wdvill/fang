@@ -1,0 +1,81 @@
+<include file="__THEME__/header" />
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}" style="color:#163abb;">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p10 border8">
+                        <div class="p3 bgc1 gr_t5"><b>个人简介</b></div>
+                        <div class="mb10 p10">
+                          <php>if(!$intro['interest'] && !$intro['summary']){</php>
+                              <p class="font6 mb10">暂无用户简介...</p>
+                          <php>}else{</php>
+                              <p class="font6 mb10">{$intro.summary}</p>
+                              <php>if($intro['interest']){</php>
+                                <p class="font3">兴趣爱好：<label class="font6">{$intro.interest}</label></p>
+                              <php>}</php>
+                          <php>}</php>
+                          <div class="cl"></div>
+                        </div>
+                        <php>if($edu){</php>
+                        <div class="p3 bgc1 gr_t5"><b>教育经历</b></div>
+                        <volist id="vo" name="edu">
+                            <div class="mb5 p10">
+                                 <div class="l wid20">
+                                   <p>◆ &nbsp;&nbsp;&nbsp; {$vo.data.start} -- {$vo.data.end}</p>
+                                 </div>
+                                 <div class="r wid75">
+                                    <p class="font3">{$vo.data.school}&nbsp;&nbsp;{$vo.data.subject}</p>
+                                    <p class="font4">{$vo.data.intro}</p>
+                                 </div>
+                                 <div class="cl"></div> 
+                             </div>
+                         </volist>
+                         <php>}</php>
+                        <php>if($work){</php>
+                        <div class="p3 bgc1 gr_t5"><b>工作经历</b></div>
+                        <volist id="vo" name="work">
+                            <div class="mb5 p10">
+                                 <div class="l wid20">
+                                   <p>◆ &nbsp;&nbsp;&nbsp; {$vo.data.start} -- {$vo.data.end}</p>
+                                 </div>
+                                 <div class="r wid75">
+                                    <p class="font3">{$vo.data.company}&nbsp;&nbsp;{$vo.data.position}</p>
+                                    <p class="font4">{$vo.data.intro}</p>
+                                 </div>
+                                 <div class="cl"></div> 
+                             </div>
+                         </volist>
+                         <php>}</php>
+                         <div class="p3 bgc1 gr_t5">
+                        	<b>群组（{$space_count.group}）</b>
+                            <span><a href="{$uid|getUserUrl='group'}">更多 >></a></span>
+                        </div>
+                         <div class="mb5 p10">
+                            <volist id="vo" name="group">
+                                <div class="l wid20 tc emh25">
+                                   <div><a href="{:U('group/group/index',array('gid'=>$vo['id']))}" target="_blank"><img src="{$vo.logo}" width="93" height="87" /></a><p class="font5"><a href="{:U('group/group/index',array('gid'=>$vo['id']))}" target="_blank">{$vo.name}</a></p></div>
+                                </div>
+                            </volist>
+                            <div class="cl"></div>
+                         </div>
+                    </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

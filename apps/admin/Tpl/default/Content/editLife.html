@@ -1,0 +1,130 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+<SCRIPT language="javascript">
+function go() 
+{ 
+window.open("http://www.liyusi.cn/public/gps.html",null,"height=360,width=550, top=140,left=200,resizable=no,status=no,toolbar=no,menubar=no,location=no"); 
+}
+</script> 
+<include file="__THEME__/editor" />
+
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>生活内容</div>
+	
+	<div class="form2">
+	<form method="post" action="{:U('admin/Content/doEditLife')}"  enctype="multipart/form-data">
+	<eq name="type" value="edit">
+	<input type="hidden" name="id" value="{$id}">
+	</eq>
+    <dl class="lineD">
+      <dt>商户名称：</dt>
+      <dd>
+        <input name="cname" type="text" size="75" value="{$cname}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>地址：</dt>
+      <dd>
+        <input name="address" type="text" size="75" value="{$address}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>电话：</dt>
+      <dd>
+        <input name="telephone" type="text" size="75" value="{$telephone}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>标签：</dt>
+      <dd>
+        <input name="tag" type="text" size="75" value="{$tag}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>分类：</dt>
+      <dd>
+        <select name="cate_id">
+        	<php>
+        		foreach($info_cate as $_key=>$_value){
+        			if ($cate_id == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>经纬度：</dt>
+      <dd>
+        <input name="loglat" type="text" size="75" value="{$longitude},{$latitude}"> (格式：118.126626,39.631437)
+        <a href="#" onclick="go()">查询</a>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>展示图：</dt>
+      <dd>
+        <input name="pic" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(选填，格式最好为240×180的宽图)
+        <php>if (strlen($pic)>0 && !stristr($pic,'http://')) {</php>
+        <br/><img src="__UPLOAD__/{$pic}" style="height:90px; border:1px solid #CCC;"/>
+        <php> } else if (strlen($pic)>0 && stristr($pic,'http://')) {</php>
+        <br/><img src="{$pic}" style="height:90px; border:1px solid #CCC;"/>
+        <php> }</php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>列表图：</dt>
+      <dd>
+        <input name="smallpic" type="file" style="width:120px; height:20px; border:1px solid #CCC;" />(选填，格式最好为120×90的宽图)
+        <php>if (strlen($smallpic)>0 && !stristr($smallpic,'http://')) {</php>
+        <br/><img src="__UPLOAD__/{$smallpic}" style="height:90px; border:1px solid #CCC;"/>
+        <php> } else if (strlen($smallpic)>0 && stristr($smallpic,'http://')) {</php>
+        <br/><img src="{$smallpic}" style="height:90px; border:1px solid #CCC;"/>
+        <php> }</php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>简介：</dt>
+      <dd>
+      	<textarea name="intro" id="intro" style="width:550px;height:40px">{$intro}</textarea>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>排序id：</dt>
+      <dd>
+        <input name="sort_id" type="text" size="75" value="{$sort_id}"> (用于排序，可以不填写，按照从大到小排序)
+	  </dd>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>状态：</dt>
+      <dd>
+        <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq>>未审核<br />
+		<input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq>>已审核
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+});
+</script>
+<include file="../Public/_footer" />

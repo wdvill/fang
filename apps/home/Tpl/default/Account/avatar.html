@@ -1,0 +1,63 @@
+<include file="__THEME__/header" />
+<link href="../Public/js/setavatar/css/imgareaselect-default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../Public/js/avatar/avatar.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<script type="text/javascript" src="../Public/js/setavatar/jquery.imgareaselect.min.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}" style="color:#163abb;">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p30">
+                     <div class="l wid46">
+                        <div class="gr_t8 mb5"><b>更换职业肖像</b></div>
+                        <p class="font2 mb5">请选择新的照片文件，文件需小于2.5MB，格式为JPG</p>
+                        <p>
+                        	<input name="upload_avatar" id="upload_avatar" type="file" style="width:300px; height:25px; border:1px solid #CCC;"/>&nbsp;&nbsp;&nbsp;&nbsp; <img src="__THEME__/images/sc1.gif" id="uploadAvatar" style="cursor:pointer"/>
+                            <input type="hidden" id="curr_avatar" value="{$mid|getUserFace='o'}" />
+                            <input type="hidden" id="avatar_data" />
+                            <input type="hidden" name="x1">
+                            <input type="hidden" name="y1">
+                            <input type="hidden" name="x2">
+                            <input type="hidden" name="y2">
+                            <input type="hidden" name="w">
+                            <input type="hidden" name="h">
+                        </p>
+                        <div style="display:none;margin-left:20px;" id="loading_avatar">
+                            <img src="__THEME__/images/loading.gif" align="absmiddle" />上传中，请稍侯...
+                        </div>
+                     </div>
+                     <div class="r wid46">
+                        <div class="gr_t8 mb5"><b>裁切活缩放照片</b></div>
+                        <p class="font2 mb5">您可以拖动照片以裁切满意的肖像</p>
+                        <div class="bgc4 p30 tc mb10" id="photo">
+                        	<img src="{$mid|getUserFace='o'}" id="avatar_preview" style="max-width:300px"/>
+                        </div>
+                        <div class="cl"></div>
+                        <p class="l wid49"><img src="__THEME__/images/bc.jpg" style="cursor:pointer" id="save_avatar"/></p>
+                        <p class="r wid49 tr"><img src="__THEME__/images/qx.jpg" style="cursor:pointer" onclick="cancelAvatar();"/></p>
+                        <div class="cl"></div>
+                     </div>
+                     <div class="cl"></div>
+                    </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

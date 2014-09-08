@@ -1,0 +1,66 @@
+<include file="__THEME__/header_reg" />
+<div class="pagewidth">
+    <div class="sy_t1">
+      <div class="l wid60 sy_t2 tr">弘扬传统文化 结交高端共识</div>
+       <div class="r wid24 sy_t3">
+          <h1></h1><br />
+          <h1>已经是知行会员了？<a href="{:U('home/public/login')}">登录</a></h1>
+       </div>
+    </div>
+    <div class="cl"></div>
+</div>
+<div class="pagewidth1">
+    <div class="sy_t4">
+       <div class="l wid49 sy_t5">
+          <div id="KinSlideshow" style="visibility:hidden;">
+          	<volist id="vo" name="list">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="450" height="245" /></a>
+          	</volist>
+          </div>
+       </div>
+       <div class="l wid37 sy_t6 signs-register">
+           <div class="tr sy_t7 mb10">快速申请注册</div>
+           <div class="cl"></div>
+           <div class="l wid33 tr sy_t8 mb10">姓名：</div>
+           <div class="r wid66 mb10"><input id="name" type="text" style="width:200px; height:25px; border:1px solid #3c728c;"/></div>
+           <div class="cl"></div>
+           <div class="l wid33 tr sy_t8 mb10">Email：</div>
+           <div class="r wid66 mb10"><input id="email" type="text" style="width:200px; height:25px; border:1px solid #3c728c;"/></div>
+           <div class="cl"></div>
+           <div class="l wid33 tr sy_t8 mb10">密码：</div>
+           <div class="r wid66 mb10"><input id="user_password" type="password" style="width:200px; height:25px; border:1px solid #3c728c;"/></div>
+           <div class="cl"></div>
+           <div class="l wid33 tr sy_t8 mb10">手机：</div>
+           <div class="r wid66 mb10"><input id="cellphone" type="text" style="width:200px; height:25px; border:1px solid #3c728c;"/></div>
+           <div class="cl"></div>
+           <div class="l wid33"></div>
+           <div class="r wid66 mb10 sy_t8"><input name="service" type="checkbox" value="1" checked="checked"/> 我已经阅读并同意<a href="{:U('home/help/terms')}" target="blank">服务条款</a></div>
+           <div class="cl"></div>
+           <div class="l wid33"></div>
+           <div class="r wid66 mb10">
+           	<img src="__THEME__/images/zc1.jpg" id="register_submit" style="cursor:pointer"/>
+            <br /><span class="register-error"></span>
+           </div>
+       </div>
+       <div class="cl"></div>
+       <div>
+           <div class="l wid60 sy_t9">
+           知行网是一个汇聚了中国职业精英、创业者和企业家的职业社交网络平台，能够帮助你<br />
+           有效拓展行业人脉，取得更大的职业成功。
+           </div>
+           <div class="l wid28 sy_t10">
+           <form action="{:U('home/friend/search')}" method="post" onsubmit="if($('input[name=k]').val().trim()=='') return false;">	
+           	<input name="k" type="text" style="width:150px; height:28px; border:1px solid #3c728c;float:left"/>
+            <input type="image" src="__THEME__/images/cz.jpg" style="margin-left:10px;float:left"/>
+           </form>
+           </div>
+           <div class="cl"></div>
+       </div>
+       <div class="p10 sy_t11">
+           <hr />
+           <div class="sy_t12">
+               合作媒体<br />
+               <div class="tc"><img src="__THEME__/images/pic25.jpg" /></div>
+           </div>
+       </div>
+<include file="__THEME__/footer" />

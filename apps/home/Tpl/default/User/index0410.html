@@ -1,0 +1,245 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/index.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/qa.js"></script>
+<script>
+$(document).ready(function(){
+	weibo.init();
+});
+</script>
+<div class="pagewidth">
+    <div class="l wid22">
+    	<!--肖像start-->
+       <div class="tit3_1 mb10" style="background:#EDD9BE;padding:5px 10px;">
+          <div class="l wid49 tit3_1_1">浏览：{$userinfo.visit_count}</div>
+          <div class="r wid49 tr tit3_1_2"><a href="{:U('home/Account/index')}">[我的档案]</a></div>
+          <div class="cl"></div>
+          <div class="tc mb5"><img src="{$userinfo.face}" /></div>
+          <php>if(!strstr($userinfo['face'],'avatar/'.$mid)){</php>
+          <div class="tc tit3_1_3 mb5">请上传<label><a href="{:U('home/Account/avatar')}">职业肖像</a></label>，填写<label><a href="{:U('home/Account/index')}">个人简介</a></label><br />让更多的机会发现您</div>
+          <php>}</php>
+          <div class="tc tit3_1_4">人脉：<b>{$userinfo.friend_count}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;粉丝：<label>{$userinfo.follower_count}</label></div>
+       </div>
+       <div class="cl"></div>
+       <!--肖像end-->
+       <!--start-->
+        <div class="mb5"><img src="__THEME__/images/ssrm.jpg" /></div>
+        <div class="border1 p5 hei30 mb5 mr">
+           <div class="l wid70">
+           <form action="{:U('home/friend/search')}" method="post" target="_blank" onsubmit="return searchFriend(this);">
+               <input name="k" type="text" style="border:1px solid #ccc; width:135px; height:25px; color:#999a9b; line-height:25px;font-size:12px;" value="按姓名/职位/公司搜索"/></div>
+               <div class="r wid29"><input type="image" src="__THEME__/images/ss.gif" /></div>
+           </form>
+        </div>
+        <div class="mb5"><img src="__THEME__/images/ksyq.jpg" /></div>
+        <div class="border1 p5 hei30 mb5 mr">
+           <form action="{:U('home/friend/doInvite')}" method="post" onsubmit="return quickInvite(this);">
+                <div class="l wid70">
+                    <input name="email" type="text" style="border:1px solid #ccc; width:135px; font-size:12px; height:25px; color:#999a9b; line-height:25px;" value="输入对方邮件地址"/>
+                </div>
+               <div class="r wid29"><input type="image" src="__THEME__/images/yq1.gif" /></div>
+           </form>
+        </div>
+       <!--end-->
+       <!--热门活动start-->
+       <div class="tit4"><a href="{:U('event/index/index',array('order'=>'hot'))}">热门活动</a></div>
+       <div class="tit4_1">
+       	  <if condition="$hot_event">
+              <volist id="vo" name="hot_event">
+                  <div class="border2 hei50 mb5">
+                     <div class="tit4_1_1"><a href="{$vo.url}" target="_blank">{$vo.title}</a></div>
+                     <div class="cl"></div>
+                     <div class="l wid49 tit4_1_2">{$vo['uid']|getUserName}</div>
+                     <div class="r wid49 tit4_1_3 tr">{$vo['ctime']|date="Y-m-d",###}</div>
+                  </div>
+                  <div class="cl"></div>
+              </volist>
+          <else/>
+              暂无热门活动...
+          </if>
+       </div>
+       <div class="tit4_2"></div>
+       <!--热门活动end-->
+       <!--我的群组start-->
+       <div class="tit4"><a href="{:U('group/someone/index')}">我的群组</a></div>
+       <div class="tit4_1">
+       	  <volist id="vo" name="hot_group">
+          	<p class="p3 ml"><a href="{:U('group/group/index',array('gid'=>$vo['gid']))}" target="_blank">{$vo.name}</a></p>
+          </volist>
+          <p class="tr"><a href="{:U('group/someone/index')}">更多</a> </p>   
+       </div>
+       <div class="tit4_2"></div>
+       <!--我的群组end-->
+       <!--热门群组start-->
+       <div class="tit4"><a href="{:U('group/index/index')}">热门群组</a></div>
+       <div class="tit4_3">
+          <div>
+            <ul class="ul_1 size110 p3">
+            <volist id="vo" name="hot_group">
+              <li><a href="{:U('group/group/index',array('gid'=>$vo['gid']))}" target="_blank">{$vo.name}</a></li>
+            </volist>
+            </ul>
+            <p class="tr"><a href="{:U('group/index/index')}">更多</a> </p>  
+          </div> 
+       </div>
+       <div class="tit4_2"></div>
+       <!--热门群组end-->
+       <!--最近来访start-->
+       {:W('Visitor', array('id'=>$mid))}
+       <!--最近来访end-->
+       <!--最近加入start-->
+       <div class="tit4"><a href="#" target="_blank">最近加入</a></div>
+       <div class="tit5" style="width:197px;">
+          <volist id="vo" name="recent_join">
+          <div class="p5">
+             <div class="l wid29"><img src="{$vo.face}" width="45" height="45" /></div>
+             <div class="r wid70">
+                <p class="font"><a href="{$vo.url}" target="_blank">{$vo.uname}</a></p>
+                <p class="font1">{$vo.position}</p>
+             </div>
+             <div class="cl"></div>
+             <div class="font2">{$vo.company}</div>
+          </div> 
+          <div class="cl"></div>
+          </volist>  
+       </div>
+       <div class="cl"></div>
+       <div class="tit4_2"></div>
+       <!--最近加入end-->
+       <!--他们在线start-->
+       <div class="tit4"><a href="#" target="_blank">他们在线</a></div>
+          <div class="tit5" style="width:197px;">
+            <div class="p5" >
+              <if condition="$online">
+                    <volist name="online" id="vo">
+                        <div class="l wid49 tc ">
+                            <a href="{$vo.url}" target="_blank"><img src="{$vo.face}" width="70" height="70" /></a>
+                            <p><a href="{$vo.url}" target="_blank">{$vo.uname}</a></p>
+                        </div>
+                    </volist>
+                <else/>
+                    暂无在线用户...
+                </if>
+            </div> 
+          </div>
+       <div class="cl"></div>
+       <div class="tit4_2"></div>
+       <!--他们在线end-->
+    </div>
+    <div class="r wid77">
+       <div class="rtit1">
+        <a href="{:U('home/info/index')}"><div class="l wid10 rtit1_1" style="cursor:pointer"></div></a>
+        <div class="r wid89">
+        	<php>
+            foreach($info as $k=>$v){
+            </php>
+               <div class="l wid24">
+                  <ul class="ul_2 size110">
+                     <volist id="vo" name="v">
+                        <li><a href="{$vo.url}" title="<php>echo msubstr($vo['title'],0,40,'utf-8',false);</php>" target="_blank"><php>echo msubstr($vo['title'],0,9,'utf-8',false);</php></a></li>
+                     </volist>
+                  </ul>
+               </div>
+            <php>
+             }
+            </php>
+        </div>
+       </div>
+       <div class="cl"></div>
+       <div class="mb5"  style="height:125px;">
+          <div id="KinSlideshow" style="visibility:hidden;">
+              <volist id="vo" name="ads">
+                  <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="729" height="125" /></a>
+              </volist>
+      	  </div>
+       </div>
+       <div class="rtit2">
+          <div class="hei25">
+            <div class="l wid70 rtit2_1">发布：
+            	<a href="javascript:void();" onclick="showSelection('weibo',this);" style="color:#F00">微博</a> | 
+            	<a href="javascript:void();" onclick="showSelection('question',this);">提问</a> | 
+                <a href="{:U('event/index/addEvent')}">活动</a> | 
+                <a href="{:U('home/project/post_project')}">项目</a>
+                <!--<a href="javascript:void();" onclick="showSelection('activity',this);">活动</a> | 
+                <a href="javascript:void();" onclick="showSelection('project',this);">项目</a>-->
+            </div>
+            <div class="r wid29 tr rtit2_2"><input type="checkbox" name="issync" value="sina" id="sina_sync" <php>if($login_bind['sina']){</php>checked="checked"<php>}</php> onclick="selectSync(this)"><img src="__THEME__/images/ico3.gif" width="16" height="16">同步到新浪微博</div>
+          </div>
+          <div class="cl"></div>
+          <div class="publish weibo">
+          	<form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" oncomplete="false" onsubmit="return weibo.do_publish()" >
+              <input type="hidden" name="publish_type" value="0">
+              <div class="l wid89"><textarea name="content" id="content_publish" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666">我想说...</textarea></div>
+              <input type="hidden" name="sync[]" value="" />
+              <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif"/></div>
+              <div class="cl"></div>
+              <div id="publish_type_content_before" style="float:left;"></div>
+            </form>
+          </div>
+          <div class="publish question" id="publish_question" style="display:none">
+            <div class="l wid89"><textarea name="content" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666" onfocus="onFocus('我要提问...',this);" onblur="onBlur('我要提问...',this);">我要提问...</textarea></div>
+            <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif" id="question_publish"/></div>
+            <div class="cl"></div>
+            <div style="float:left;">
+            	<span><input type="checkbox" name="ques_private" value="1" checked="checked"/>我的朋友 - 私密问题</span>&nbsp;|&nbsp;
+                <span><input type="checkbox" name="ques_public" value="1" />知行问答 - 公开问题</span>
+            </div>
+          </div> 
+          <!--<div class="publish activity" style="display:none">
+              <div class="l wid89"><textarea name="" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666">活动发布...</textarea></div>
+              <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif" /></div>
+          </div>
+          <div class="publish project" style="display:none">
+              <div class="l wid89"><textarea name="" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666">项目发布...</textarea></div>
+              <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif" /></div>
+          </div>-->
+      </div>
+      <div class="cl"></div>
+        <div class="fx_tit3 mb10 publish question" id="private_question" style="display:none;height:200px">
+            <div class="border2 mb10 hei25" style="font-size:14px;font-weight:600">
+                <span id="ques_email" style="color:#F00;cursor:pointer">邮箱地址</span>&nbsp;|&nbsp;<span id="ques_friend" style="cursor:pointer">一度人脉</span>
+            </div>
+            <div class="cl"></div>
+            <div class="p10" id="ques_email_detail">
+                <div class="hei25 mb10">
+                    <div class="l wid89" style="font-size:14px;">
+                        邮箱地址以英文逗号或者空格分隔<br />
+                        <textarea name="qemail" style="width:600px; height:100px; border:1px solid #CCC;"></textarea>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <div class="p10" id="ques_friend_detail" style="display:none">
+                <div class="hei25 mb10">
+                    <div class="l wid89" style="font-size:14px; border-top:#999 1px solid;padding:5px 0;">
+                        <div style="background:#E3F0F9;padding:2px 10px"><input type="checkbox" value="0" onclick="checkAllFriend(this);">&nbsp;&nbsp;全选</div>
+                        <div id="get_all_friend" style="overflow-y:scroll;height:100px;"></div>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </div>
+        </div>
+        <div class="cl"></div>
+      <div class="bg p15">
+      	  <volist id="vo" name="feed['data']">
+             <div class="mb10">
+                <div class="l wid12">
+                  <p><img src="{$vo[0]['uid']|getUserFace}" width="100%"/></p>
+                  <p class="tc font"><a href="{$vo[0]['uid']|getUserUrl}" target="_blank">{$vo.0.uname}</a></p>
+                </div>
+                <div class="r wid86">
+                	<volist id="vo1" name="vo">
+                        {$vo1.title}
+                   	</volist>
+                </div>
+             </div>
+             <div class="cl "></div>
+             <div class="border6 mb20"></div>
+             <div class="cl "></div>
+         </volist>
+      </div> 
+    </div>  
+</div>
+<include file="__THEME__/footer" />

@@ -1,0 +1,115 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  
+  <div class="page_tit">问答管理</div>
+  <div class="Toolbar_inbox">
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteQuestion();"><span>删除问题</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="{:U('admin/Content/answer')}" class="btn_a""><span>答案管理</span></a>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">发布者</th>
+    <th class="line_l">问题内容</th>
+    <th class="line_l">提问时间</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="question">
+      <tr overstyle='on' id="{$vo.ques_id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.ques_id}"></td>
+        <td>{$vo.ques_id}</td>
+        <td><b><a href="{$vo['uid']|getUserUrl}" target="_blank">{$vo.uid|getUserName}</a></b></td>
+        <td><php>echo msubstr($vo['content'],0,60);</php></td>
+        <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
+        <td><eq name="vo.status" value="1">已审核<else/>未审核</eq></td>
+        <td>
+			<a href="javascript:void(0);" onclick="deleteQuestion('{$vo.ques_id}')">删除</a>
+		</td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteQuestion();"><span>删除问题</span></a>
+  </div>
+</div>
+
+<script>
+    //鼠标移动表格效果
+    $(document).ready(function(){
+        $("tr[overstyle='on']").hover(
+          function () {
+            $(this).addClass("bg_hover");
+          },
+          function () {
+            $(this).removeClass("bg_hover");
+          }
+        );
+    });
+    
+    function checkon(o){
+        if( o.checked == true ){
+            $(o).parents('tr').addClass('bg_on') ;
+        }else{
+            $(o).parents('tr').removeClass('bg_on') ;
+        }
+    }
+    
+    function checkAll(o){
+        if( o.checked == true ){
+            $('input[name="checkbox"]').attr('checked','true');
+            $('tr[overstyle="on"]').addClass("bg_on");
+        }else{
+            $('input[name="checkbox"]').removeAttr('checked');
+            $('tr[overstyle="on"]').removeClass("bg_on");
+        }
+    }
+
+    //获取已选择用户的ID数组
+    function getChecked() {
+        var ids = new Array();
+        $.each($('table input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+    
+    function deleteQuestion(ids) {
+    	var length = 0;
+    	if(ids) {
+    		length = 1;
+    	}else {
+    		ids    = getChecked();
+    		length = ids[0] == 0 ? ids.length - 1 : ids.length;
+            ids    = ids.toString();
+    	}
+    	if(ids=='') {
+    		ui.error('请先选择一个问题');
+    		return ;
+    	}
+    	if(confirm('您将删除'+length+'条记录，删除后无法恢复，确定继续？')) {
+    		$.post("{:U('admin/Content/doDeleteQuestion')}",{ids:ids},function(res){
+    			if(res=='1') {
+    				ui.success('删除成功');
+    				removeItem(ids);
+    			}else {
+    				ui.error('删除失败');
+    			}
+    		});
+    	}
+    }
+    
+    function removeItem(ids) {
+    	ids = ids.split(',');
+        for(i = 0; i < ids.length; i++) {
+            $('#'+ids[i]).remove();
+        }
+    }
+</script>
+<include file="../Public/_footer" />

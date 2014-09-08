@@ -1,0 +1,35 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">附件配置</div>
+  
+  <div class="form2">
+  	<form method="post" action="{:U('admin/Global/attachConfig')}">
+    <dl class="lineD">
+      <dt>目录规则：</dt>
+      <dd>
+        <input name="attach_path_rule" type="text" value="{$attach_path_rule}">
+        <p>注：不建议修改</p>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>最大允许值：</dt>
+      <dd>
+        <input name="attach_max_size" type="text" value="{$attach_max_size}">
+        <p>单位：兆(M) 允许使用小数点。如：0.5或2等</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>扩展名限定：</dt>
+      <dd>
+        <input name="attach_allow_extension" type="text" value="{$attach_allow_extension}">
+        <p>多个使用英文的“,”分割</p>
+      </dd>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<include file="../Public/_footer" />

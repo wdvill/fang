@@ -1,0 +1,43 @@
+<include file="__THEME__/header" />
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{$uid|getUserUrl}">个人资料</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='weibo'}">微博（{$space_count.weibo}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='qa'}">问答（{$space_count.qa}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='group'}">群组（{$space_count.group}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='event'}">活动（{$space_count.event}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='blog'}" style="color:#163abb;">博客（{$space_count.blog}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='follow'}">关注（{$userinfo.following_count}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='fan'}">粉丝（{$userinfo.follower_count}）</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p15">
+                    	<volist id="vo" name="blog['data']">
+                            <div class="p5 mb10 hd_t2">
+                                <div class="ml10">
+                                	<div class="l wid60 hd_t4 mb10"><a href="{:U('home/blog/blog_detail',array('id'=>$vo['id']))}" target="_blank">{$vo.title}</a></div>
+                                	<div class="r wid39">
+                                        <p>博客分类：{$vo.category_title}</p>
+                      					<p>发布时间：{$vo.cTime|date="Y-m-d H:m",###}&nbsp;&nbsp;&nbsp;&nbsp; 浏览次数：{$vo.readCount}次</p>
+                                    </div>
+                                	<div class="cl"></div>
+                                	<div class="hd_t5"><php> echo msubstr(real_strip_tags($vo['content']),0,90);</php></div>
+                                	<div class="cl"></div>
+                                </div>
+                                <div class="cl"></div>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

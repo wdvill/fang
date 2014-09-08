@@ -1,0 +1,92 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  
+  <div class="page_tit">用户提交商家信息</div>
+  <div class="Toolbar_inbox">
+	<form method="get" action="{:U('admin/Content/lifecontent2')}"  enctype="multipart/form-data">
+  	<b>&nbsp;&nbsp;标题：</b><input type="text" id="title" name="title" size="12" value="<php>echo isset($_GET['title'])?$_GET['title']:''</php>"/>
+  	<b>&nbsp;&nbsp;地址：</b><input type="text" id="address" name="address" size="12" value="<php>echo isset($_GET['address'])?$_GET['address']:''</php>"/>
+  	<b>&nbsp;&nbsp;电话：</b><input type="text" id="telephone" name="telephone" size="12" value="<php>echo isset($_GET['telephone'])?$_GET['telephone']:''</php>"/>
+  	<b>&nbsp;&nbsp;简介：</b><input type="text" id="intro" name="intro" size="12" value="<php>echo isset($_GET['intro'])?$_GET['intro']:''</php>"/>
+    <input type="submit" class="btn_b" value="确定" />
+	</form>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th class="line_l">ID</th>
+    <th class="line_l">原ID</th>
+	<th class="line_l">商家名称</th>
+    <th class="line_l">商家电话</th>
+	<th class="line_l">商家地址</th>
+	<th class="line_l">商家简介</th>
+    <th class="line_l">提交时间</th>
+  </tr>
+  <volist id="vo" name="info['data']">
+      <tr overstyle='on' id="{$vo.id}">
+        <td>{$vo.copy_id}</td>
+        <td>{$vo.id}</td>
+        <td><php>echo msubstr($vo['cname'],0,215);</php></td>
+        <td><php>echo msubstr($vo['telephone'],0,215);</php></td>
+        <td><php>echo msubstr($vo['address'],0,255);</php></td>
+        <td><php>echo msubstr($vo['intro'],0,250);</php></td>
+        <td>{$vo.ctime}</td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+	<a href="{:U('admin/Content/life')}" class="btn_a""><span>查看生活服务</span></a>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$info.html}
+  </div>
+</div>
+
+<script>
+    //鼠标移动表格效果
+    $(document).ready(function(){
+        $("tr[overstyle='on']").hover(
+          function () {
+            $(this).addClass("bg_hover");
+          },
+          function () {
+            $(this).removeClass("bg_hover");
+          }
+        );
+    });
+    
+    function checkon(o){
+        if( o.checked == true ){
+            $(o).parents('tr').addClass('bg_on') ;
+        }else{
+            $(o).parents('tr').removeClass('bg_on') ;
+        }
+    }
+    
+    function checkAll(o){
+        if( o.checked == true ){
+            $('input[name="checkbox"]').attr('checked','true');
+            $('tr[overstyle="on"]').addClass("bg_on");
+        }else{
+            $('input[name="checkbox"]').removeAttr('checked');
+            $('tr[overstyle="on"]').removeClass("bg_on");
+        }
+    }
+
+    //获取已选择用户的ID数组
+    function getChecked() {
+        var ids = new Array();
+        $.each($('table input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+    
+    function removeItem(ids) {
+    	ids = ids.split(',');
+        for(i = 0; i < ids.length; i++) {
+            $('#'+ids[i]).remove();
+        }
+    }
+</script>
+<include file="../Public/_footer" />

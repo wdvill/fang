@@ -1,0 +1,70 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/project.js"></script>
+
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="cl"></div>
+    <div class="bg" >
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="TabTab03Con1" class="p10">
+              <div class="p10">
+              <volist id="vo" name="data['data']">
+                <div class="p5 mb10 border2" style="height:90px;">
+                     <div class="l wid44">
+                         <div class=" mb5 font8"><b><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}" target="_blank">{$vo.title}</a></b></div>
+                         <div class="font1">
+                            <p>资金规模；<php>echo $project_capital[$vo['cap_id']];</php></p>
+                            <p>项目类别：<php>echo $project_cate[$vo['cate_id']];</php></p>
+                            <p>发布时间：{$vo.ctime|date="Y-m-d H:m",###}&nbsp;&nbsp;&nbsp;&nbsp; 浏览次数：{$vo.browsecount}次</p>
+                         </div>
+                     </div>
+                 <div class="r wid55 font1">
+                     <php> echo $data['intro'] = htmlspecialchars_decode(msubstr($vo['intro'],0,90));</php>
+                     </div>
+                 </div>
+                 <div class="cl"></div>  
+                 </volist>
+
+                 <div class="cl"></div>
+                 <div class="tc">{$data.html}</div>
+
+              </div>
+          </div>
+        </div> 
+       </div>
+    </div>
+  </div>  
+  <div class="r wid22">
+    <div class="tit4">热门项目</div>
+     <div class="tit5" style="width:197px;">
+        <div class="p5">
+        <volist id="vo" name="hot_project">
+           <p class="font2"><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}" target="_blank">{$vo.title}</a></p>
+         </volist>
+        </div> 
+        <div class="cl"></div>
+     </div>
+     <div class="cl"></div>
+    <div class="tit4_2"></div>
+     <div class="cl"></div>
+    <div class="tit4"><a href="#" >最新项目</a></div>
+     <div class="tit4_1">
+        <ul class="ul_1 size110">
+        <volist id="vo" name="new_project">
+           <li><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}" target="_blank">{$vo.title}</a></li>
+        </volist>
+        </ul>
+     </div>
+    <div class="tit4_2 mb5"></div>
+    <!--广告start-->
+      <php>$ads = D("Ads","home")->getADList();</php>
+      <div class="mb5">
+          <volist id="vo" name="ads">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="210" height="236" /></a>
+          </volist>
+      </div>
+     <!--广告end-->
+  </div>
+</div>
+<include file="__THEME__/footer" />

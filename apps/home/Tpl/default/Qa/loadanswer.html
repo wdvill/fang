@@ -1,0 +1,40 @@
+﻿<volist id="vo" name="list['data']">
+    <div class="p10 l" style="width:750px;" id="answer_list_c_{$vo.id}">
+        <div class="l wid12 tc"><a href="{$vo.url}" target="_blank"><img src="{$vo.face}" width="50" height="50"/></a></div>
+        <div class="r wid86 rtit5 mb5">
+            <p>
+            	<a href="{$vo.url}" target="_blank">{$vo.uname}</a>&nbsp;&nbsp;<label>{$vo.ctime|friendLydate}</label>
+                <php>if($mid == $vo['ques_uid'] || $mid == $vo['uid']){</php>
+                   &nbsp;&nbsp;&nbsp;&nbsp;
+                   <php>if(empty($vo['reply']) && $mid == $vo['ques_uid']){</php>
+                   		<a href="javascript:void();" style="color:#F00" onclick="replyAnswer({$vo.id},{$vo.ques_id});">回复</a>&nbsp;|&nbsp;
+                   <php>}</php>
+                   <a href="javascript:void();" style="color:#F00" onclick="deleteAnswer({$vo.id});">删除</a>
+                <php>}</php>
+            </p>
+            <php>if($vo['public'] == 1 || $mid == $vo['ques_uid'] || $mid == $vo['uid']){</php>
+            	<span>{$vo.content|formatComment=true}</span>
+            <php>}else{</php>
+            	<span>？ 私密回答</span>
+            <php>}</php>
+        </div>
+        <php>if(!empty($vo['reply']) && ($vo['public'] == 1 || $mid == $vo['ques_uid'] || $mid == $vo['uid'])){</php>
+        	<div id="reply_list_{$vo.reply.0.id}">
+                <div class="r wid86 rtit5" style="background:#CBE1F3; color:#F00">
+                    <div class="l">博主回复&nbsp;&nbsp;<span style="color:#999">{$vo.reply.0.ctime|friendlyDate}</span></div>
+                    <php>if($mid == $vo['ques_uid']){</php>
+                        <div class="r mr10">
+                            <a href="javascript:void();" onclick="deleteReplyAnswer({$vo.reply.0.id});">删除</a>
+                        </div>
+                    <php>}</php>
+                </div>
+                <volist id="vo1" name="vo['reply']">
+                <div class="r wid86 rtit5">
+                    <span>{$vo1.content|formatComment=true}</span>
+                </div>
+                </volist>
+            </div>
+        <php>}</php>
+    </div>
+    <div class="cl {$vo.id}" style="border-bottom:1px dashed #DCD2B5"></div>
+</volist>

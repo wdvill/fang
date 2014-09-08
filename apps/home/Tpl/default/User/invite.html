@@ -1,0 +1,20 @@
+<include file="__THEME__/header" />
+<div class="pagewidth">
+    <div class="">
+       <div class="rtit6">
+          <div style="height:220px">
+            <div class="l wid80 rtit2_1">
+            	<h1 style="font-size:18px">您的专属邀请链接：</h1>
+                <p style="margin:20px 50px;font-size:16px;font-weight:500">复制此邀请链接，用QQ、MSN、或邮件的形式发给朋友
+通过此链接加入的用户，将自动成为您的好友</p>
+				<p style="margin:20px 50px;">
+                	<input type="text" value="{$invite_url}" onclick="this.select();" style="width:650px;height:40px;font-size:18px;font-weight:700;padding-left:10px;" />
+                    <embed width="120" height="50" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" allowscriptaccess="sameDomain" wmode="transparent" quality="high" src="__PUBLIC__/js/copy.swf" flashvars="txt={$invite_url}">
+                </p>
+            </div>
+          </div>
+          <div class="cl"></div>
+       </div>
+    </div>  
+</div>
+<include file="__THEME__/footer" />

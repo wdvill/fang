@@ -1,0 +1,26 @@
+<?php
+return array (
+  0 => 'id',
+  1 => 'cname',
+  2 => 'tag',
+  3 => 'cid',
+  4 => 'cate_id',
+  5 => 'topic_id',
+  6 => 'telephone',
+  7 => 'address',
+  8 => 'sdish',
+  9 => 'consume',
+  10 => 'longitude',
+  11 => 'latitude',
+  12 => 'intro',
+  13 => 'comment',
+  14 => 'status',
+  15 => 'ctime',
+  16 => 'pic',
+  17 => 'smallpic',
+  18 => 'uid',
+  19 => 'sort_id',
+  '_autoinc' => true,
+  '_pk' => 'id',
+);
+?>

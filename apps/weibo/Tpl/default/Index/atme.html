@@ -1,0 +1,165 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/qa_weibo.js"></script>
+<script>
+$(document).ready(function(){
+	weibo.init();
+	var url = "{:U('home/User/searchTips')}";
+	userAutoTips({id:'content_publish',url: url});
+});
+</script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <include file='public' />
+    <div class="w_tit1 mb5" style="height:35px">
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/index')}">全部</a></div>
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/mine')}">我发布的</a></div>
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/mycomment')}">我评论的</a></div>
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/myfollow')}">我关注的</a></div>
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/mycollect')}">我收藏的</a></div>
+       <div class="l mr w_tit2"><a href="{:U('weibo/index/mygroup')}">群组里的</a></div>
+       <div class="l mr w_tit2"><b><a href="{:U('weibo/index/atme')}">@我</a></b></div>
+       <div class="r wid29 w_tit3">
+        <form action="{:U('weibo/index/index')}" method="post" id="search_weibo_form">
+        <div class="l wid79 tr">
+          <input name="k" type="text" style="width:150px; height:24px; background:#FFF; line-height:24px; font-size:12px; color:#999; border:1px solid #CCC;padding-left:5px" value="搜索微博..." onfocus="focusWeiboSearch(this,'focus');" onblur="focusWeiboSearch(this,'blur');"/>
+        </div>
+        <div class="l wid20"><input type="image" src="__THEME__/images/ss1.jpg" /></div>
+        </form>
+       </div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg p15">
+    <php>if($list['data']){</php>
+    <volist id="vo" name="list['data']">
+        <div class="mb10" id="list_li_{$vo.id}">
+            <div class="l wid12">
+                <p style="text-align:center"><a href="{$vo.url}" target="_blank"><img src="{$vo.face}" width="80%" /></a></p>
+                <p class="tc font"><a href="{$vo.url}" target="_blank">{$vo.uname}</a></p>
+            </div>
+            <div class="r wid86">
+            	<div class="rtit3 mb10">{$vo.content|format=true}</div> 
+                <php>if( $vo['transpond_id'] ){</php>
+                    <php>if($vo['expend']){</php>
+                        <div class="">
+                            <div class="rtit3_2"></div>
+                            <div class="bgc1 p10 border3 wid610">
+                                <p class="font5"><space uid="vo.expend.uid" class="null" >@{uname}</space></p>
+                                <p class="rtit3_3 mb10"><b>“</b>{$vo.expend.content|format=true}<b>”</b></p>
+                                <div class="cl"></div>
+                                <div class="mb5">
+                                    <div class="l wid20 font2">{$vo.expend.ctime|friendlyDate}</div>
+                                    <div class="r wid77 tr">
+                                        <label class="font5"><a href="javascript:void();">转发</a></label>
+                                        <php>if($vo['expend']['transpond']){</php>
+                                            <label class="font2">共{$vo.expend.transpond}次</label>
+                                        <php>}</php>
+                                        &nbsp;|&nbsp;
+                                        <label class="font5"><a href="javascript:void();">收藏</a></label>
+                                        <php>if($vo['expend']['collect']){</php>
+                                            <label class="font2">共{$vo.expend.collect}次</label>
+                                        <php>}</php>
+                                        &nbsp;|&nbsp;
+                                        <label class="font5"><a href="javascript:void();">评论</a></label>
+                                        <php>if($vo['expend']['comment']){</php>
+                                            <label class="font2">共{$vo.expend.comment}次</label>
+                                        <php>}</php>
+                                    </div>
+                                </div>
+                                <div class="cl border4"></div>
+                            </div>
+                        </div>
+                    <php>}else{</php>
+                    	<div class="">
+                            <div class="rtit3_2"></div>
+                            <div class="bgc1 p10 border3 wid610">
+                                <b>此微博已被原作者删除</b>
+                                <div class="cl border4"></div>
+                            </div>
+                        </div>
+                    <php>}</php>
+                <php>}else{</php>
+                    {$vo.expend}
+                <php>}</php>
+                <div class="p3  mb10 border5 hei2">
+                    <p class="l wid49 rtit3_1">{$vo.ctime|friendlyDate}</p>
+                    <p class="tr">
+                    	<php>if($vo['uid']==$mid){</php>
+                        	<label class="font5"><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id})">删除</a></label>&nbsp;&nbsp;|&nbsp;&nbsp;
+	                    <php>}</php>
+                        <php>if($vo['uid']!=$mid){</php>
+                    		<php>if($vo['uid']!=$mid){</php>
+                    		<label class="font5"><a href="javascript:void(0)" onclick="weibo.transpond({$vo.id})">转发({$vo.transpond})</a></label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <php>}</php>
+                        <php>}</php>
+                        <label class="font5">
+                        	<php>if($vo['is_favorited']){</php>
+                                <a href="javascript:void(0)" onclick="weibo.unFavorite({$vo.id},this)">取消收藏</a>
+                            <php>}else{</php>
+                                <a href="javascript:void(0)" onclick="weibo.favorite({$vo.id},this)">收藏</a>
+                            <php>}</php>
+                        </label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <label class="font5"><a href="javascript:void(0)" rel="comment" minid="{$vo.id}" >评论({$vo.comment})</a></label>
+                    </p>
+                </div>
+                <div class="cl"></div>
+            	<div class="bgc2 mb10" id="comment_list_{$vo.id}"></div>     
+        	</div>
+        </div>
+        <div class="cl {$vo.id}"></div>
+        <div class="border6 mb20 {$vo.id}"></div>
+        <div class="cl {$vo.id}"></div>
+    </volist>
+    <php>}else{</php>
+    <h1 align="center">没有@我的微博</h1>
+    <php>}</php>
+    </div>
+    <div class="tc">{$list.html}</div>
+  </div>  
+  <div class="r wid22">
+    <!--广告start-->
+    <div class="w_tit4 mb5">来自知行网的广告</div>
+    <php>$ads = D("Ads","home")->getADList();</php>
+      <div class="mb5">
+          <volist id="vo" name="ads">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="210" height="236" /></a>
+          </volist>
+      </div>
+    <!--广告end-->  
+    <div class="cl"></div>
+     <!--最近加入start-->
+    <div class="tit4">人气用户</div>
+    <php>$hotuser = getWeiboHotUser();</php>
+    <div class="tit5" style="width:197px;">
+    <volist id="vo" name="hotuser">
+        <div class="p5">
+           <div class="l wid29"><img src="{$vo.face}" width="45" height="45" /></div>
+           <div class="r wid70">
+              <p class="font"><a href="{$vo.url}" target="_blank">{$vo.uname}</a></p>
+              <p class="font1">{$vo.position}</p>
+           </div>
+           <div class="cl"></div>
+           <div class="font2">{$vo.company}</div>
+        </div> 
+        <div class="cl"></div>
+    </volist>
+    </div>
+    <div class="cl"></div>
+    <div class="tit4_2"></div>
+     <!--最近加入end-->
+     <div class="cl"></div>
+     <!--热门话题start-->
+    <div class="tit4"><a href="{:U('weibo/topic/hot')}">热门话题</a></div>
+    <php>$hottopic = D("Topic","weibo")->getHot('',5);</php>
+    <div class="tit4_1">
+    <volist id="vo" name="hottopic">
+		<p class="p3 ml"><a href="{:U('weibo/topic/detail',array('td'=>$vo['topic_id']))}" target="_blank">{$vo.name}</a></p>   
+    </volist>  
+    </div>
+    <div class="tit4_2"></div>
+    <!--热门话题end-->
+  </div>
+</div>
+<include file="__THEME__/footer" />

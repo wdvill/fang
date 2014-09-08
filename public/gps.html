@@ -1,0 +1,41 @@
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text ml; charset=utf-8">  
+<title>查询商户GPS经纬度</title>  
+<script type="text/javascript" src=" http://api.map.baidu.com/api?key=458d39374361da27e548367a735831ba&v=1.0&services=true" ></script>  
+</head>  
+<body>  
+<div style="position:absolute;width:600px;height:500px;top:100;left:70;border:1px solid gray;overflow-y:hidden;" id="container"></div>  
+请输入查询的商户全名： <input id="text_" size=30 type="text" value="朝阳市政府"/>
+<input type="button" value=" 查  询 " onclick="searchByStationName();">  <br/><br/>
+<font color='red'>以下是该商户的经纬度：</font>
+<input type="text" value="" size=30 id="gps"> 请三击经纬度然后“ctrl+c”复制到您的网页中。
+</body>  
+<script>  
+var map = new BMap.Map("container");     
+map.centerAndZoom(new BMap.Point(121.480,31.220),4);   
+  
+var localSearch= new BMap.LocalSearch (map, {     
+    renderOptions: {     
+      pageCapacity: 5,     
+      autoViewport: true,     
+     selectFirstResult: false     
+    }     
+});     
+  
+localSearch.enableAutoViewport();   
+function searchByStationName()   
+{   
+       
+     var keyword = document.getElementById("text_").value;   
+     localSearch.setSearchCompleteCallback(function(searchResult){   
+         var poi = searchResult.getPoi(0);   
+         document.getElementById("gps").value=poi.point.lng+","+poi.point.lat;
+         //alert(poi.point.lng+"    "+poi.point.lat);   
+         map.centerAndZoom(poi.point, 15);   
+     });   
+     localSearch.search(keyword);   
+       
+}   
+</script>  
+</html>  

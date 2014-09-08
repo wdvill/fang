@@ -1,0 +1,40 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}" style="color:#163abb;">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p10 border8">
+                       <div class="p5">
+            			<ul class="bindls">
+                            <li class="sina" style="font-size:16px"><b>新浪微博</b>
+                                <present name="sina">
+                                    <a href="#" class="bind_action delbind" tp="sina" tpch="新浪微博">已经绑定</a>
+                                <else />
+                                    <a href="#" class="bind_action bind" tp="sina" tpch="新浪微博">开始绑定</a>
+                                </present>
+                            </li>
+                        </ul>
+                       </div>
+                    </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

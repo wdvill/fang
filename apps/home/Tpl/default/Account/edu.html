@@ -1,0 +1,79 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}" style="color:#163abb;">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p10 border8">
+                       <div class="p3 bgc1 gr_t5"><b>教育背景</b><span><a href="javascript:void();" onclick="addOrCancelEdu();">添加</a>|<a href="javascript:void();" onclick="addOrCancelEdu();">返回</a></span></div>
+                       <div class="p5">
+                         <form action="{:U('home/account/saveedu')}" method="post" id="edu_form">
+                         <div class="mb10">
+                            <div class="l wid30 tr font6 lh">入学时间</div>
+                            <div class="r wid69 font6">
+                            	<select name="start" style="width:130px; height:20px; border:1px solid #CCC;"><script>document.write(getYearList(2012));</script></select> 年  
+                                -------------
+                                <select name="end" style="width:130px; height:20px; border:1px solid #CCC;"><script>document.write(getYearList(2012));</script></select> 年</div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">学校</div>
+                            <div class="r wid69"><input name="school" type="text" style="width:400px; height:20px; border:1px solid #CCC; color:#999;" /></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">专业</div>
+                            <div class="r wid69"><input name="subject" type="text" style="width:400px; height:20px; border:1px solid #CCC; color:#999;" /></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">城市</div>
+                            <div class="r wid69 edu_location"><script>ui.getarea('area','',1,2);</script></div>
+                            <div class="cl"></div>
+                         </div>
+                         <div class="mb10">
+                            <div class="l wid30 tr font6">概况</div>
+                            <div class="r wid69"><textarea name="intro" cols="" rows="" style="width:400px; height:150px; border:1px solid #CCC; color:#999;"></textarea></div>
+                            <div class="cl"></div>
+                         </div>                        
+                         <div class="mb10">
+                            <div class="l wid30"></div>
+                            <div class="r wid69 submit_edu"><input type="image" src="__THEME__/images/bc.jpg" style="cursor:pointer"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="__THEME__/images/qx.jpg" onclick="addOrCancelEdu();" style="cursor:pointer"/></div>
+                            <div class="cl"></div>
+                         </div> 
+                         <input type="hidden" name="addoredit" value="" />
+                         <input type="hidden" name="pd" value="" />
+                         </form>
+                       </div>
+                       <php>if($edu){</php>
+                       <volist id="vo" name="edu">
+                       	<div class="p3 bgc1 gr_t5 edulist_{$vo.id}">
+                        	<b style="width:88%">{$vo.data.start}年---{$vo.data.end}年&nbsp;&nbsp;&nbsp;&nbsp;{$vo.data.school}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.data.subject}&nbsp;&nbsp;&nbsp;&nbsp;{$vo.data.location}</b>
+                            <span>
+                            	<a href="javascript:void();" onclick="editEdu({$vo.id});" style="color:#03C;font-size:14px;font-weight:400">编辑</a> | <a href="javascript:void();" onclick="deleteEdu({$vo.id});" style="color:#03C;font-size:14px;font-weight:400">删除</a>
+                            </span>
+                        </div>
+                       </volist>
+                       <php>}</php>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

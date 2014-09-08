@@ -1,0 +1,22 @@
+<div class="r wid22">
+   <div class="qz_t5 mb5"><a href="#">创建者</a></div> 
+   <div class="l wid33"><img src="{$admin.face}" width="50" height="50"/></div> 
+   <div class="r wid66">
+      <p class="qz_t6">{$admin.uname}</p>
+      <p class="qz_t7">{$admin.position}</p>
+      <p class="qz_t6">{$admin.company}</p>
+   </div>
+   <div class="cl"></div>
+   <div class="qz_t8 mb5"><b class="l"><a href="{:U('event/index/member',array('id'=>$id))}">最新加入成员</a></b><p class="r tr"><a href="{:U('event/index/member',array('id'=>$id))}">(更多)</a>&nbsp;</p> </div>
+   <volist id="vo" name="eventmember['data']">
+       <div class="l wid33 mb10"><img src="{$vo.face}" width="50" height="50"/></div> 
+       <div class="r wid66 mb10">
+          <p class="qz_t6">{$vo.uname}</p>
+          <p class="qz_t7">{$vo.position}</p>
+          <p class="qz_t6">{$vo.company}</p>
+       </div>
+       <div class="cl"></div>
+       <div class="mb10 border7"></div>
+       <div class="cl"></div>
+   </volist>
+</div>

@@ -1,0 +1,61 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/friend.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+      <div class="bg p10">
+          <div class="">
+            <div class="w_tit1 mb5">
+               <div class="tab">
+                  <div id="bg" class="xixi1">
+                      <div id="font1" class="tab1"><a href="{:U('home/friend/index')}">人脉拓展</a></div>
+                      <div id="font2" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect')}">一度人脉</a></div>
+                      <div id="font3" class="tab2" style="width:70px;"><a href="{:U('home/friend/category')}" style="color:#163abb;">人脉分类</a></div>
+                      <div id="font4" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect_more')}">更多人脉</a></div>
+                      <div id="font5" class="tab2" style="width:70px;"><a href="{:U('home/friend/fan')}">我的粉丝</a></div>
+                      <div id="font6" class="tab2" style="width:120px;"><a href="{:U('home/friend/inbox')}">待处理的名片<php>if($inbox_count>0){</php>({$inbox_count})<php>}</php></a></div>
+                      <div id="font7" class="tab2" style="width:110px;"><a href="{:U('home/friend/outbox')}">递出的名片<php>if($outbox_count>0){</php>({$outbox_count})<php>}</php></a></div>
+                      <div id="font8" class="tab2" style="width:70px;"><a href="{:U('home/friend/record')}">录入名片</a></div>
+                      <div class="cl"></div>
+                  </div>
+                  <div class="p15" style="width:650px;">
+                     <div class="p10">
+                        <div class="border1 p15 mb10" id="d1">
+                          <div class="bgc5 hei20 mb5 p5">
+                          	<h1 class="font8"><eq name="type" value="edit">{$group.title}&nbsp;&nbsp;{$group.count}人<else/>添加新分类</eq></h1>
+                          </div>
+                          <div class="p15">
+                             <div class="mb10">
+                               <p class="font6 l wid30">1.请填写此分类的名称：</p>
+                               <p class="r wid70"><input name="cate_name" type="text" style="width:500px; height:20px; border:1px solid #CCC;" value="{$group.title}"/></p>
+                             </div>
+                             <div class="cl"></div>
+                             <div class="mb10">
+                               <p class="font6">2.请选择要添加到此分类的成员：</p>
+                               <p class="p10" style="overflow-y:scroll;height:200px;font-size:14px">
+                                   <input type="checkbox" value="0" onclick="checkAll(this);"/> 全选<br />
+                                   <volist id="vo" name="friend['data']">
+                                        <input type="checkbox" value="{$vo.uid}" <eq name="type" value="edit"><php>if(in_array($vo['uid'],$group['friend'])){</php>checked="checked"<php>}</php></eq> />&nbsp;&nbsp;
+                                        <label><b>{$vo.uname}</b>&nbsp;&nbsp;({$vo.position} ，{$vo.company})</label><br />
+                                   </volist>
+                               </p>
+                             </div>
+                             <div class="cl"></div>
+                             <div class="mb10">
+                               <p class="l wid10"></p>
+                               <p class="r wid89">
+                               	<img src="__THEME__/images/bc.jpg" id="save_category" style="cursor:pointer"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                <a href="{:U('home/friend/category')}"><img src="__THEME__/images/qx.jpg"/></a></p>
+                             </div>
+                             <div class="cl"></div>
+                          </div>
+                        </div>
+                     </div>
+                  </div>
+              </div>
+      		</div>
+          </div>
+      </div>
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" /> 

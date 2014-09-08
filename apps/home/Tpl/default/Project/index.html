@@ -1,0 +1,55 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/project.js"></script>
+
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+    	<form action="{:U('home/project/search')}" method="post" onsubmit="return searchGroup(this);">
+        	<div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的项目..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+      </div>
+    <div class="cl"></div>
+    <div class="bg">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+             <div class="l wid55">
+              <div id="font1" class="tab1" style="width:80px;"><a href="{:U('home/project/index')}" style="color:#163abb;">全部项目</a></div>
+              <div id="font2" class="tab2" style="width:85px;"><a href="{:U('home/project/my_project')}">我发布的项目</a></div>
+              <div id="font3" class="tab2" style="width:100px;"><a href="{:U('home/project/fav_project')}">我收藏的项目</a></div>
+              <div id="font4" class="tab2" ><a href="{:U('home/project/post_project')}">发布新项目</a></div>
+             </div> 
+          </div>
+          <div id="TabTab03Con1" class="p10">
+              <div class="p10">
+                  <volist id="vo" name="data['data']">
+                     <div class="p5 mb10 border2" style="height:90px;">
+                         <div class="l wid44">
+                             <div class=" mb5 font8"><b><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}" target="_blank">
+                             <php> echo msubstr(real_strip_tags($vo['title']),0,15);</php></a></b></div>
+                             <div class="font1">
+                            <p>作者：<b><a href="{$vo['uid']|getUserUrl}" target="_blank">{$vo.uid|getUserName}</a></b></p>
+                                <p>资金规模：<php>echo $project_capital[$vo['cap_id']];</php>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类别：<php>echo $project_cate[$vo['cate_id']];</php></p>
+                                <p>发布时间：{$vo.ctime|date="Y-m-d H:m",###}&nbsp;&nbsp;&nbsp;&nbsp; 浏览：{$vo.browsecount}次</p>
+                             </div>
+                         </div>
+                         <div class="r wid55 font1">
+                            <php> echo msubstr(real_strip_tags($vo['intro']),0,100);</php>
+                         </div>
+                     </div>
+                     <div class="cl"></div>  
+                  </volist>
+              	  <div class="cl"></div>
+                  <div class="tc">{$data.html}</div>
+			   </div> 
+          </div>
+       </div>
+       </div>
+    </div>
+  </div>  
+<include file="r_side" />
+<include file="__THEME__/footer" />

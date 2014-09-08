@@ -1,0 +1,117 @@
+<include file="__THEME__/header" />
+<div class="pagewidth">
+    <div class="qz_t1 p15 mb5">
+        <div class="mb20 xm_t1">
+        	<div class="l wid60">{$data.title}</div>
+        	<div class="r wid33 mr20">
+                <form action="{:U('home/project/modiproject')}" onclick="{if(confirm('确定要修改吗?')){return true;}return false;}" method="post" class="l ml10">
+                <php>if (intval($data['uid']) == intval($user['uid'])){ </php>
+                <input type="image" src="__THEME__/images/xg1.jpg" />
+                <input type="hidden" name="pro_id" value="{$data.pro_id}">
+                <input type="hidden" name="status" value="{$data.status}">
+                <php>}</php>
+                </form>
+                <form action="{:U('home/project/delProject')}" onclick="{if(confirm('确定要删除吗?')){return true;}return false;}" method="post" class="l ml10">
+                <php>if (intval($data['uid']) == intval($user['uid'])){ </php>
+                <input type="image" src="__THEME__/images/sc1.jpg" />
+                <input type="hidden" name="pro_id" value="{$data.pro_id}">
+                <input type="hidden" name="status" value="{$data.status}">
+                <php>}</php>
+                </form>
+				<form action="{:U('home/project/add_fav')}" method="post"  class="l ml10">
+				<php>if ($iscollect != '0'){ </php>
+				<input type="image" src="__THEME__/images/ysc.gif" />
+				<php>} else {</php>
+				<input type="image" src="__THEME__/images/sc.gif" />
+				<php>}</php>
+				<input type="hidden" name="pro_id" value="{$data.pro_id}">
+				<input type="hidden" name="iscollect" value="{$iscollect}">
+				</form>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <div class="cl"></div>
+        <div class="l xm_t2 wid29">
+          资金规模：<php>echo $project_capital[$data['cap_id']];</php><br />
+          项目类别：<php>echo $project_cate[$data['cate_id']];</php><br />
+          发布时间：{$data.ctime|date="Y-m-d H:m",###}<br />
+          浏览次数：{$data.browsecount}次
+        </div>
+        <div class="r bgc2 p10 mb10 border1 wid30 mr20">
+            <div class="l wid30"><a href="{$create_user.url}"><img src="{$create_user.face}" width="80" height="80" /></a></div>
+            <div class="r wid69">
+               <div class="font5"><a href="{$create_user.url}">{$create_user.uname}</a></div>
+               <div>
+                 <p  class="font1">{$create_user.position}</p>
+                 <p  class="font5">{$create_user.company}</p>
+               </div>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg p10">
+        <div class="bgc2 border1 p10 font6">
+          {$data.intro}
+        </div>
+        <div class="cl"></div>
+        <php>if (strlen($data['instruction']) > 0) { </php>
+        <div class="bgc2 p10 mb10 border1">
+            <div class="l wid300"><img src="__UPLOAD__/{$data.instruction}" width="300" /></div>
+            <div class="r wid69">
+               <div class="font5"></div>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <php> } </php>
+       <div class="cl"></div>
+       <div>
+          <div class="bgc1 p5 hei25">
+            <p class="l wid49 font6">评论{$comment.total}条</p>
+            <p class="r wid49 tr font6"></p>
+          </div>
+          <div class="cl"></div>
+          <div class="bgc2 p5">
+          	  <volist id="vo" name="comment['data']">
+              <div class="mb10">
+                  <div class="l wid10 tc">
+                    <p><img src="{$vo.userface}"  width="50" height="50"/></p>
+                    <p class="tc font3"><a href="{$user.url}" >{$vo.username}</a></p>
+                  </div>
+                  <div class="r wid89">
+                     <div class="rtit3 mb5">{$vo.content}</div>
+                     <div class="cl"></div>
+                     <div class="p3  mb20 border5 hei20">
+                      <p class="l wid49 rtit3_1">{$vo.ctime|date="Y-m-d H:m",###}</p>
+                      <p class="tr"><label class="font5"></p>
+                     </div>
+                     <div class="cl"></div>
+                  </div>
+              </div>
+              <div class="cl"></div>
+              </volist>
+              <div class="xm_t3 p10">
+                 <div class="l wid10 tc">
+                    <p><img src="{$user.face}"  width="50" height="50"/></p>
+                    <p class="tc font3"><a href="{$user.url}" >{$user.uname}</a></p>
+                  </div>
+        		  <form action="{:U('home/project/add_project_comment')}" method="post" >
+                  <div class="r wid89">我来评论：<br/>
+                     <p class="mb10"><textarea name="content" cols="" rows="" style="width:800px; height:100px; border:1px solid #CCC;"></textarea></p>
+                     <p class="tr">
+                     <input type="image" src="__THEME__/images/bc.jpg" />&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;</p>
+        			<input type="hidden" name="pro_id" value="{$data.pro_id}">
+                  </div>
+                  </form>
+                  <div class="cl"></div>
+              </div>   
+          </div>
+       </div>
+    </div>
+</div>
+<div class="cl"></div>
+<div class="mb30 hei20"></div>
+
+<include file="__THEME__/footer" />

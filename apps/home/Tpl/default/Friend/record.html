@@ -1,0 +1,131 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/friend.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+      <div class="bg p10">
+          <div class="">
+            <div class="w_tit1 mb5">
+               <div class="tab">
+                  <div id="bg" class="xixi1">
+                      <div id="font1" class="tab1"><a href="{:U('home/friend/index')}">人脉拓展</a></div>
+                      <div id="font2" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect')}">一度人脉</a></div>
+                      <div id="font3" class="tab2" style="width:70px;"><a href="{:U('home/friend/category')}">人脉分类</a></div>
+                      <div id="font4" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect_more')}">更多人脉</a></div>
+                      <div id="font5" class="tab2" style="width:70px;"><a href="{:U('home/friend/fan')}">我的粉丝</a></div>
+                      <div id="font6" class="tab2" style="width:120px;"><a href="{:U('home/friend/inbox')}">待处理的名片<php>if($inbox_count>0){</php>({$inbox_count})<php>}</php></a></div>
+                      <div id="font7" class="tab2" style="width:110px;"><a href="{:U('home/friend/outbox')}">递出的名片<php>if($outbox_count>0){</php>({$outbox_count})<php>}</php></a></div>
+                      <div id="font8" class="tab2" style="width:70px;"><a href="{:U('home/friend/record')}" style="color:#163abb;">录入名片</a></div>
+                      <div class="cl"></div>
+                  </div>
+                  <div class="p15" style="width:650px;">
+                     <div class="rm_t1 mb10">录入名片</div>
+                     <div class="p10">
+                       <form action="{:U('home/friend/saveRecord')}" method="post" id="card_form">
+                           <div class="border7">
+                             <div class="mb10">
+                               <div class="l wid46">
+                                   <div class="mb10">
+                                     <div class="l wid55">
+                                        <p class="font6">姓名</p>
+                                        <p><input name="name" type="text" style="width:120px; height:20px; border:1px solid #CCC;"/></p>
+                                     </div>
+                                     <div class="r wid44">
+                                        <p class="font6">性别</p>
+                                        <p><select name="sex" style="width:95px; height:25px; border:1px solid #CCC;"><option value="1">男</option><option value="0">女</option></select></p>
+                                     </div>
+                                     <div class="cl"></div>
+                                   </div>
+                                   <div class="mb10">
+                                      <p class="font6">公司/单位</p>
+                                      <p><input name="company" type="text" style="width:220px; height:20px; border:1px solid #CCC;"/></p>
+                                     <div class="cl"></div>
+                                   </div>
+                                   <div class="mb10">
+                                      <p class="font6">职业</p>
+                                      <p><input name="position" type="text" style="width:220px; height:20px; border:1px solid #CCC;"/></p>
+                                     <div class="cl"></div>
+                                   </div>
+                               </div>
+                               <div class="r wid46">
+                                   <div class="mb10">
+                                      <p class="font6">邮件</p>
+                                      <p><input name="email" type="text" style="width:220px; height:20px; border:1px solid #CCC;"/></p>
+                                     <div class="cl"></div>
+                                   </div>
+                                   <div class="mb10">
+                                      <div class="l wid49">
+                                          <p class="font6">手机</p>
+                                          <p><input name="cellphone" type="text" style="width:100px; height:20px; border:1px solid #CCC;"/></p>
+                                          <div class="cl"></div>
+                                      </div>
+                                      <div class="r wid49">
+                                           <p class="font6">固话</p>
+                                           <p><input name="telephone" type="text" style="width:100px; height:20px; border:1px solid #CCC;"/></p>
+                                           <div class="cl"></div>
+                                      </div>  
+                                      <div class="cl"></div>              
+                                   </div>
+                                   <div class="mb10">
+                                      <p class="font6">备注</p>
+                                      <p><textarea name="remark" cols="" rows="" style="width:220px; height:43px; border:1px solid #CCC; color:#999"></textarea></p>
+                                      <div class="cl"></div>
+                                   </div>   
+                               </div>
+                               <div class="cl"></div>
+                             </div>
+                             <!--<div class="mb10">
+                               <img src="__THEME__/images/ico6.gif" /> <b><a href="#" onclick="showdiv(1)">给此名片分类</a></b>
+                               <div class="cl"></div>
+                             </div>
+                             <div class="mb10 bgc5 p15" id="div1">
+                               <div class="mb20 lr_t1 hei20">
+                                 <p class="l wid55 font6">选择分类</p>
+                                 <p class="r wid44 font9 tr"><b><a href="#" onclick="clo()">X</a></b></p>
+                                 <div class="cl"></div>
+                               </div>
+                               <div class="mb10">
+                                  <div class="l wid22 tr lr_t2">新分类</div>
+                                  <div class="r wid77"><input name="" type="text" style="width:350px; height:23px; border:1px solid #CCC; color:#999;" value="请输入公司名称" /></div>
+                                  <div class="cl"></div>
+                               </div>
+                               <div class="mb10">
+                                  <div class="l wid22"></div>
+                                  <div class="r wid77">
+                                     <p><input name="" type="checkbox" value="" /> aa &nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="checkbox" value="" /> bb</p>
+                                     
+                                  </div>
+                                  <div class="cl"></div>
+                               </div>
+                               <div class="mb10">
+                                  <div class="l wid22"></div>
+                                  <div class="r wid77">
+                                     <p><img src="__THEME__/images/qd.jpg" /></p>
+                                  </div>
+                                  <div class="cl"></div>
+                               </div>
+                             </div>-->
+                             <div class="mb10 bgc5 p15" id="div2">
+                               <div class="mb20 lr_t1 hei20">
+                                 <p class="font6">邀请函</p>
+                                 <div class="cl"></div>
+                               </div>
+                               <div class="mb10">
+                               <textarea name="invite" cols="" rows="" style="width:600px; height:100px; border:1px solid #CCC;"></textarea>
+                               </div>
+                               <div class="cl"></div>
+                             </div>
+                             <div class="mb10 tr submit_card"><span id="loading"><img src="__THEME__/images/loading.gif" align="absmiddle" />邀请发送中，请稍侯...</span><input type="image" src="__THEME__/images/bcbfs.gif" /></div>
+                           </div>
+                       </form>
+                     <div class="cl"></div>   
+                     </div>
+                  </div>
+              </div>
+      		</div>
+          </div>
+      </div>
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" /> 

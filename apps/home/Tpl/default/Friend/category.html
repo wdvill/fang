@@ -1,0 +1,48 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/friend.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+      <div class="bg p10">
+          <div class="">
+            <div class="w_tit1 mb5">
+               <div class="tab">
+                  <div id="bg" class="xixi1">
+                      <div id="font1" class="tab1"><a href="{:U('home/friend/index')}">人脉拓展</a></div>
+                      <div id="font2" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect')}">一度人脉</a></div>
+                      <div id="font3" class="tab2" style="width:70px;"><a href="{:U('home/friend/category')}" style="color:#163abb;">人脉分类</a></div>
+                      <div id="font4" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect_more')}">更多人脉</a></div>
+                      <div id="font5" class="tab2" style="width:70px;"><a href="{:U('home/friend/fan')}">我的粉丝</a></div>
+                      <div id="font6" class="tab2" style="width:120px;"><a href="{:U('home/friend/inbox')}">待处理的名片<php>if($inbox_count>0){</php>({$inbox_count})<php>}</php></a></div>
+                      <div id="font7" class="tab2" style="width:110px;"><a href="{:U('home/friend/outbox')}">递出的名片<php>if($outbox_count>0){</php>({$outbox_count})<php>}</php></a></div>
+                      <div id="font8" class="tab2" style="width:70px;"><a href="{:U('home/friend/record')}">录入名片</a></div>
+                      <div class="cl"></div>
+                  </div>
+                  <div class="p15" style="width:650px;">
+                      <div class="rm_t1 mb10">人脉分类</div>
+                      <div class="p10">
+                       <div class="bgc5 hei20 mb5 p5">
+                         <div class="l wid70"><h1 class="font8">共有{$group_count}个分类</h1></div>
+                         <div class="r wid29 font8 tr"><b><a href="{:U('home/friend/category',array('tp'=>'create'))}">添加新分类</a></b></div>
+                         <div class="cl"></div>
+                       </div>
+                       <volist id="vo" name="group">
+                           <div class="mb5 p3 border2 hei20 cate_{$vo.friend_group_id}">
+                             <div class="l wid55 font"><b><a href="{:U('home/friend/cateinfo',array('gp'=>$vo['friend_group_id']))}">[{$vo.title}]</a></b></div>
+                             <div class="l wid15 font5">{$vo.count} 人</div>
+                             <div class="r wid29 font8 tr">
+                             	<a href="{:U('home/friend/category',array('tp'=>'edit','gp'=>$vo['friend_group_id']))}">编辑</a> | 
+                                <a href="javascript:void();" onclick="deleteCategory({$vo.friend_group_id});">删除</a>
+                             </div>
+                             <div class="cl"></div>
+                           </div>
+                       </volist>
+                      </div> 
+                  </div>
+              </div>
+      		</div>
+          </div>
+      </div>
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" /> 

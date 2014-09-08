@@ -1,0 +1,104 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/Plugins/init')}"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{$uid|getUserUrl}">个人资料</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='weibo'}" style="color:#163abb;">微博（{$space_count.weibo}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='qa'}">问答（{$space_count.qa}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='group'}">群组（{$space_count.group}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='event'}">活动（{$space_count.event}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='blog'}">博客（{$space_count.blog}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='follow'}">关注（{$userinfo.following_count}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='fan'}">粉丝（{$userinfo.follower_count}）</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                   <div class="bg p15 border8">
+                      <php>if($list['data']){</php>
+                        <volist id="vo" name="list['data']">
+                            <div class="mb10" id="list_li_{$vo.id}">
+                                <div class="r" style="width:800px;">
+                                    <div class="rtit3 mb10">{$vo.content|format=true}</div> 
+                                    <php>if( $vo['transpond_id'] ){</php>
+                                        <php>if($vo['expend']){</php>
+                                            <div class="">
+                                                <div class="rtit3_2"></div>
+                                                <div class="bgc1 p10 border3 wid610">
+                                                    <p class="font5"><space uid="vo.expend.uid" class="null" >@{uname}</space></p>
+                                                    <p class="rtit3_3 mb10"><b>“</b>{$vo.expend.content|format=true}<b>”</b></p>
+                                                    <div class="cl"></div>
+                                                    <div class="mb5">
+                                                        <div class="l wid20 font2">{$vo.expend.ctime|friendlyDate}</div>
+                                                        <div class="r wid77 tr">
+                                                            <label class="font5"><a href="#">转发</a></label>
+                                                            <php>if($vo['expend']['transpond']){</php>
+                                                                <label class="font2">共{$vo.expend.transpond}次</label>
+                                                            <php>}</php>
+                                                            &nbsp;|&nbsp;
+                                                            <label class="font5"><a href="#">收藏</a></label>
+                                                            <php>if($vo['expend']['collect']){</php>
+                                                                <label class="font2">共{$vo.expend.collect}次</label>
+                                                            <php>}</php>
+                                                            &nbsp;|&nbsp;
+                                                            <label class="font5"><a href="#">评论</a></label>
+                                                            <php>if($vo['expend']['comment']){</php>
+                                                                <label class="font2">共{$vo.expend.comment}次</label>
+                                                            <php>}</php>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cl border4"></div>
+                                                </div>
+                                            </div>
+                                        <php>}else{</php>
+                                            <div class="">
+                                                <div class="rtit3_2"></div>
+                                                <div class="bgc1 p10 border3 wid610">
+                                                    <b>此微博已被原作者删除</b>
+                                                    <div class="cl border4"></div>
+                                                </div>
+                                            </div>
+                                        <php>}</php>
+                                    <php>}else{</php>
+                                        {$vo.expend}
+                                    <php>}</php>
+                                    <div class="p3  mb20 border5 hei20">
+                                        <p class="l wid49 rtit3_1">{$vo.ctime|friendlyDate}</p>
+                                        <p class="tr">
+                                            <php>if($vo['uid']==$mid){</php>
+                                                <label class="font5"><a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id})">删除</a></label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            <php>}</php>
+                                            <label class="font5"><a href="javascript:void(0)" onclick="weibo.transpond({$vo.id})">转发({$vo.transpond})</a></label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            <label class="font5">
+                                                <php>if($vo['is_favorited']){</php>
+                                                    <a href="javascript:void(0)" onclick="weibo.unFavorite({$vo.id},this)">取消收藏</a>
+                                                <php>}else{</php>
+                                                    <a href="javascript:void(0)" onclick="weibo.favorite({$vo.id},this)">收藏</a>
+                                                <php>}</php>
+                                            </label>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                            <label class="font5"><a href="javascript:void(0)" rel="comment" minid="{$vo.id}" >评论({$vo.comment})</a></label>
+                                        </p>
+                                    </div>
+                                    <div class="cl"></div>
+                                    <div class="bgc2 mb10" id="comment_list_{$vo.id}"></div>     
+                                </div>
+                            </div>
+                            <div class="cl {$vo.id}"></div>
+                            <div class="border6 mb20 {$vo.id}"></div>
+                            <div class="cl {$vo.id}"></div>
+                        </volist>
+                       <php>}else{</php>
+                        <h1 align="center">没有相关微博</h1>
+                       <php>}</php>
+                   </div>
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

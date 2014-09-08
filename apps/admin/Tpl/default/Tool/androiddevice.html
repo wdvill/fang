@@ -1,0 +1,166 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">设备管理</div>
+  <!-------- 搜索设备 -------->
+  <div id="searchDevice_div" <neq name="type" value="searchDevice">style="display:none;"</neq>>
+  	<div class="page_tit">搜索设备 [ <a href="javascript:void(0);" onclick="searchDevice();">隐藏</a> ]</div>
+	
+	<div class="form2">
+	<form method="post" action="{:U('admin/Tool/searchdevice')}">
+    <dl class="lineD">
+      <dt>设备TOKEN：</dt>
+      <dd>
+        <input name="token" id="token" type="text" value="">
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>设备ID：</dt>
+      <dd>
+        <input name="id" id="id" type="text">&nbsp;&nbsp;多个id使用英文的","分割
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+  
+  <!-------- 设备列表 -------->
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$list.html}</div>
+	<!--<a href="javascript:void(0);" class="btn_a" onclick="searchDevice();">
+		<span class="searchDevice_action"><neq name="type" value="searchDevice">搜索设备<else/>搜索完毕</neq></span>
+	</a>-->
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteDevice();"><span>删除设备</span></a>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+		<input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+    	<label for="checkbox"></label>
+	</th>
+    <th class="line_l" style="width:80px">ID</th>
+    <th class="line_l">设备TOKEN</th>
+    <th class="line_l">添加时间</th>
+    <th class="line_l" style="width:100px">操作</th>
+  </tr>
+  <volist id="vo" name="list['data']">
+	  <tr overstyle='on' id="device_{$vo['id']}">
+	    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+	    <td>{$vo.id}</td>
+	    <td>{$vo.token}</td>
+	    <td>{$vo.ctime}</td>
+	    <td>
+	    	<a href="javascript:void(0);" onclick="deleteDevice({$vo['id']});">删除</a>
+		</td>
+	  </tr>
+  </volist>
+  </table>
+  </div>
+
+  <div class="Toolbar_inbox">
+	<div class="page right">{$list.html}</div>
+	<!--<a href="javascript:void(0);" class="btn_a" onclick="searchDevice();">
+		<span class="searchDevice_action"><neq name="type" value="searchDevice">搜索设备<else/>搜索完毕</neq></span>
+	</a>-->
+	<a href="javascript:void(0);" class="btn_a" onclick="deleteDevice();"><span>删除设备</span></a>
+  </div>
+</div>
+<script>
+	//鼠标移动表格效果
+	$(document).ready(function(){
+		$("tr[overstyle='on']").hover(
+		  function () {
+		    $(this).addClass("bg_hover");
+		  },
+		  function () {
+		    $(this).removeClass("bg_hover");
+		  }
+		);
+	});
+	
+	function checkon(o){
+		if( o.checked == true ){
+			$(o).parents('tr').addClass('bg_on') ;
+		}else{
+			$(o).parents('tr').removeClass('bg_on') ;
+		}
+	}
+	
+	function checkAll(o){
+		if( o.checked == true ){
+			$('input[name="checkbox"]').attr('checked','true');
+			$('tr[overstyle="on"]').addClass("bg_on");
+		}else{
+			$('input[name="checkbox"]').removeAttr('checked');
+			$('tr[overstyle="on"]').removeClass("bg_on");
+		}
+	}
+
+	//获取已选择设备的ID数组
+	function getChecked() {
+		var ids = new Array();
+		$.each($('table input:checked'), function(i, n){
+			ids.push( $(n).val() );
+		});
+		return ids;
+	}
+	
+	//删除设备
+	function deleteDevice(id) {
+		var length = 0;
+		if(id) {
+		    length = 1;         
+		}else {
+		    id    = getChecked();
+		    length = id.length;
+		    id    = id.toString();
+		}
+		if(id=='') {
+		    ui.error('请先选择一个设备');
+		    return ;
+		}
+		if(id == '' || !confirm('确认删除所选设备？')) return false;
+		
+		$.post("{:U('admin/Tool/deletedevice')}", {id:id}, function(res){
+			if(res == '1') {
+				id = id.toString().split(',');
+				for(i = 0; i < id.length; i++) {
+					$('#device_'+id[i]).remove();
+				}
+				ui.success('操作成功');
+			}else {
+				ui.error('操作失败');
+			}
+		});
+	}
+	
+	//搜索设备
+	var isSearchHidden = <neq name="type" value="searchDevice">1<else/>0</neq>;
+	function searchDevice() {
+		if(isSearchHidden == 1) {
+			$("#searchDevice_div").slideDown("fast");
+			$(".searchDevice_action").html("搜索完毕");
+			isSearchHidden = 0;
+		}else {
+			$("#searchDevice_div").slideUp("fast");
+			$(".searchDevice_action").html("搜索设备");
+			isSearchHidden = 1;
+		}
+	}
+	
+	function folder(type, _this) {
+		$('#search_'+type).slideToggle('fast');
+		if ($(_this).html() == '展开') {
+			$(_this).html('收起');
+		}else {
+			$(_this).html('展开');
+		}
+		
+	}
+</script>
+
+<include file="../Public/_footer" />

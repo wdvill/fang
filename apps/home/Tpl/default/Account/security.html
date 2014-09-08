@@ -1,0 +1,71 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}" style="color:#163abb;">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p15">
+                     <div class="l wid46">
+                     <form action="{:U('home/account/savesecurity')}" method="post" id="security_form">
+                        <div class="mb10">
+                          <p class="font6">当前密码：</p>
+                          <p><input name="old_pwd" type="password" style="width:370px; height:20px; border:1px solid #CCC;"/></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">新密码：</p>
+                          <p><input name="pwd" type="password" style="width:370px; height:20px; border:1px solid #CCC;"/></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">重复新密码：</p>
+                          <p><input name="confirmpwd" type="password" style="width:370px; height:20px; border:1px solid #CCC;"/></p>
+                          <div class="cl"></div>
+                        </div>
+                        
+                     </div>
+                     <div class="r wid46">
+                        <div class="mb10">
+                          <p class="font6">生日：</p>
+                          <p>
+                              <select name="year" style="width:105px; height:20px; border:1px solid #CCC;">
+                                <option value="">请选择</option>
+                                <script>document.write(getUserYearList(2012,{$birth.year}));</script>
+                              </select> 年 
+                              <select name="month" style="width:105px; height:20px; border:1px solid #CCC;">
+                                <option value="">请选择</option>
+                                <script>document.write(getMonthList(2012,{$birth.month}));</script>
+                              </select> 月 
+                              <select name="day" style="width:105px; height:20px; border:1px solid #CCC;">
+                                <option value="">请选择</option>
+                                <script>document.write(getDayList(2012,{$birth.day}));</script>
+                              </select> 日
+                          </p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="tr submit_security"><input type="image" src="__THEME__/images/bc.jpg" style="cursor:pointer"/></div>
+                     </div>
+                     <div class="cl"></div>
+                     </form>
+                  </div>
+                    <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

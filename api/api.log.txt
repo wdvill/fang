@@ -1,0 +1,8 @@
+
+Execute time : 2013-05-18 23:27:40
+
+From URL : http://www.tsqss.com.cn/index.php?app=api&mod=zsts&act=getpush&type=android
+
+Execute sql : SELECT id,content,content_type,url,title,send_type,send_time FROM `zx_push_message` WHERE  send_type="android" ORDER BY  id DESC 
+
+

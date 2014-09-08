@@ -1,0 +1,50 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/pwd.js"></script>
+<div class="pagewidth">
+    <div class="wid70 mb20">
+        <div class="l wid30 tr"></div>
+        <div class="r wid69 mb10 sy_t13">
+        取回密码&nbsp;&nbsp;
+        <input type="radio" name="ptype" value="email" checked="checked" /><span class="sy_t14">邮箱</span>
+        <input type="radio" name="ptype" value="phone" /><span class="sy_t14">手机</span>
+        </div>
+        <div class="cl"></div>
+        <form action="{:U('home/Public/dosendpwd')}" method="post" onsubmit="return check_pwd_form(this);" id="email_pwd">
+            <div class="l wid30 tr sy_t14"></div>
+            <div class="r wid69 mb10 "><input name="email" type="text" style="width:300px; height:25px; border:1px solid #3c728c;"/>&nbsp;&nbsp;<input type="submit" class="btn_b" value="取回密码" /></div>
+            <div class="l wid30 tr"></div>
+        	<div class="r wid69 mb10"><span class="error-message"></span></div>
+            <div class="cl"></div>
+        </form>
+        <div id="phone_pwd" style="display:none">
+            <div class="l wid30 tr sy_t14">手机号码：</div>
+            <div class="r wid69 mb10 ">
+            	<input name="phone" type="text" style="width:300px; height:25px; border:1px solid #3c728c;" value="请输入您注册时的手机号..." onfocus="focusCheck(this,'请输入您注册时的手机号...');" onblur="blurCheck(this,'请输入您注册时的手机号...');"/>&nbsp;&nbsp;
+                <a href="javascript:void();" id="getphoneverify" class="sy_t14">获取验证码</a>
+            </div>
+            <div class="cl"></div>
+            <div class="l wid30 tr sy_t14">手机验证码：</div>
+            <div class="r wid69 mb10"><input name="phoneverify" type="text" style="width:300px; height:25px; border:1px solid #3c728c;" value="请输入您收到的手机验证码..." onfocus="focusCheck(this,'请输入您收到的手机验证码...');" onblur="blurCheck(this,'请输入您收到的手机验证码...');" /></div>
+            <div class="cl"></div>
+            <div class="l wid30 tr sy_t14">新密码：</div>
+            <div class="r wid69 mb10 ">
+            	<input name="password" type="password" style="width:300px; height:25px; border:1px solid #3c728c;"/>
+            </div>
+            <div class="cl"></div>
+            <div class="l wid30 tr sy_t14">确认新密码：</div>
+            <div class="r wid69 mb10 ">
+            	<input name="repassword" type="password" style="width:300px; height:25px; border:1px solid #3c728c;"/>
+            </div>
+            <div class="cl"></div>
+            <div class="l wid30 tr"></div>
+            <div class="r wid69 mb10"><input type="button" class="btn_b" value="确认提交" id="submit_phone_pwd" /></div>
+            <div class="cl"></div>
+            <div class="l wid30 tr"></div>
+            <div class="r wid69 mb10"><span class="error-message"></span></div>
+            <div class="cl"></div>
+        </div>
+    </div>
+</div>
+<div class="cl"></div>
+<hr />
+<include file="__THEME__/footer" />

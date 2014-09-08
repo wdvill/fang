@@ -1,0 +1,41 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/signs.js"></script>
+<div class="pagewidth">
+  <div class="l wid60 border11 mb20 signs-invite-register">
+    <div class="l wid30 tr"></div>
+    <div class="r wid69 mb10 sy_t13">完成注册信息</div>
+    <div class="cl"></div>
+    <div class="l wid30 tr sy_t14">姓名：</div>
+    <div class="r wid69 mb10 "><input id="name" type="text" value="{$invite.uname}" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+    <div class="cl"></div>
+    <div class="l wid30 tr sy_t14">Email：</div>
+    <div class="r wid69 mb10 "><input id="email" type="text" value="{$invite.email}" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+    <div class="cl"></div>
+    <div class="l wid30 tr sy_t14">密码：</div>
+    <div class="r wid69 mb10 "><input id="user_password" type="password" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+    <div class="cl"></div>
+    <div class="l wid30 tr sy_t14">手机：</div>
+    <div class="r wid69 mb10 "><input id="cellphone" type="text" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+    <div class="cl"></div>
+    <div class="l wid30 tr sy_t14">邀请码：</div>
+    <div class="r wid69 mb10 "><input id="invitecode" type="text" value="{$invitecode}" style="width:300px; height:25px; border:1px solid #3c728c;"/>
+    <!--<div class="sy_t15">请输入您通过手机短信收到的注册邀请码</div>-->
+    </div>
+    <div class="cl"></div>
+    <div class="l wid30 tr"></div>
+    <div class="r wid69 mb10 sy_t15"><input name="service" type="checkbox" value="1" checked="checked"/> 我已经阅读并同意服务条款</div>
+    <div class="cl"></div>
+    <div class="l wid30 tr"></div>
+    <div class="r wid69 mb10">
+        <img src="__THEME__/images/zc1.jpg" id="register_invite_submit" style="cursor:pointer"/>
+        <span class="register-error"></span>
+    </div>
+    <div class="cl"></div>
+  </div>
+  <div class="r wid37">
+      <img src="__THEME__/images/zh.jpg" />
+  </div>
+<div class="cl"></div>
+<hr />
+<include file="__THEME__/footer" /> 

@@ -1,0 +1,50 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/friend.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+      <div class="bg p10">
+          <div class="">
+            <div class="w_tit1 mb5">
+               <div class="tab">
+                  <div id="bg" class="xixi1">
+                      <div id="font1" class="tab1"><a href="{:U('home/friend/index')}">人脉拓展</a></div>
+                      <div id="font2" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect')}">一度人脉</a></div>
+                      <div id="font3" class="tab2" style="width:70px;"><a href="{:U('home/friend/category')}">人脉分类</a></div>
+                      <div id="font4" class="tab2" style="width:70px;"><a href="{:U('home/friend/connect_more')}">更多人脉</a></div>
+                      <div id="font5" class="tab2" style="width:70px;"><a href="{:U('home/friend/fan')}" style="color:#163abb;">我的粉丝</a></div>
+                      <div id="font6" class="tab2" style="width:120px;"><a href="{:U('home/friend/inbox')}">待处理的名片<php>if($inbox_count>0){</php>({$inbox_count})<php>}</php></a></div>
+                      <div id="font7" class="tab2" style="width:110px;"><a href="{:U('home/friend/outbox')}">递出的名片<php>if($outbox_count>0){</php>({$outbox_count})<php>}</php></a></div>
+                      <div id="font8" class="tab2" style="width:70px;"><a href="{:U('home/friend/record')}">录入名片</a></div>
+                      <div class="cl"></div>
+                  </div>
+                  <div class="p15" style="width:650px;">
+                     <div class="rm_t1 mb10">我的粉丝</div>
+                      <div class="p10">
+                        <div class="mb10">
+                          <volist id="vo" name="fan['data']">
+                              <div class="l wid49">
+                                  <div class="ss_t1 mb10">
+                                   <div class="p10 bgc2 border1" style="height:70px;">
+                                      <div class="l wid37"><a href="{$vo.user.url}" target="_blank"><img src="{$vo.user.face}" width="80" height="80" /></a></div>
+                                      <div class="r wid60">
+                                         <p class="font3 mt mb5"><a href="{$vo.user.url}" target="_blank">{$vo.user.uname}</a></p>
+                                         <p class="font1">{$vo.user.position}</p>
+                                         <p class="font5">{$vo.user.company}</p>
+                                      </div>
+                                   </div>  
+                                  </div>
+                              </div>
+                          </volist>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="tc">{$fan.html}</div>
+                      </div>
+                  </div>
+              </div>
+      		</div>
+          </div>
+      </div>
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" /> 

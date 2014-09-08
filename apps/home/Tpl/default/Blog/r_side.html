@@ -1,0 +1,20 @@
+  <div class="r wid22">
+    <div class="tit4">精英博主</div>
+     <div class="mb10">
+        <ul class="l wid32">
+        <volist id="vo" name="hot_bloger">
+           <li><a href="{$vo['uid']|getUserUrl='blog'}" target="_blank"><img src="{$vo['uid']|getUserFace='m'}" width="50">{$vo.uname}</a></li>
+        </volist>
+        </ul>
+     </div>
+    <!--广告start-->
+      <php>$ads = D("Ads","home")->getADList();</php>
+      <div class="mb5">
+          <volist id="vo" name="ads">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="210" height="236" /></a>
+          </volist>
+      </div>
+     <!--广告end-->
+  </div>
+</div>
+</div>

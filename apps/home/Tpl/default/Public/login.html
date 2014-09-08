@@ -1,0 +1,29 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/signs.js"></script>
+<div class="pagewidth">
+  <div class="l wid66 border11 mb20">
+   <form action="{:U('home/public/doLogin')}" method="post" id="login_form">
+      <div class="l wid30 tr"></div>
+      <div class="r wid69 mb10 sy_t13">会员登录</div>
+      <div class="cl"></div>
+      <div class="l wid30 tr sy_t14">登录邮箱：</div>
+      <div class="r wid69 mb10 "><input name="email" type="text" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+      <div class="cl"></div>
+      <div class="l wid30 tr sy_t14">密码：</div>
+      <div class="r wid69 mb10 "><input name="password" type="password" style="width:300px; height:25px; border:1px solid #3c728c;"/></div>
+      <div class="cl"></div>
+      <div class="l wid30 tr"><input name="remember" type="checkbox" value="1" checked="checked"/></div>
+      <div class="r wid69 mb10 sy_t15">记住我 | <a href="{:U('home/public/sendpwd')}">找回密码</a></div>
+      <div class="cl"></div>
+      <div class="l wid30 tr"></div>
+      <div class="r wid69 mb10"><input type="image" src="__THEME__/images/dl1.jpg" /><span class="error-message"></span></div>
+      <div class="cl"></div>
+   </form>
+  </div>
+  <div class="r wid29">
+       <div class="sy_t14 mt mb10">你还不是会员？<a href="{:U('home/public/register')}" style="font-size:18px">立即注册</a></div>
+  </div>
+<div class="cl"></div>
+<hr />
+<include file="__THEME__/footer" />

@@ -1,0 +1,56 @@
+<div class="rtit2">
+    <div class="hei25">
+        <div class="l wid70 rtit2_1">发布：
+            <a href="javascript:void();" onclick="showSelection('weibo',this);" style="color:#F00">微博</a> | 
+            <a href="javascript:void();" onclick="showSelection('question',this);">提问</a> | 
+            <a href="{:U('event/index/addEvent')}">活动</a> | 
+            <a href="{:U('home/project/post_project')}">项目</a>
+        </div>
+        <div class="r wid29 tr rtit2_2" style="display:none"><input type="checkbox" name="issync" value="sina" id="sina_sync" <php>if($login_bind['sina']){</php>checked="checked"<php>}</php> onclick="selectSync(this)"><img src="__THEME__/images/ico3.gif" width="16" height="16">同步到新浪微博</div>
+    </div>
+    <div class="cl"></div>
+    <div class="publish weibo">
+      <form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" oncomplete="false" onsubmit="return weibo.do_publish()" >
+        <input type="hidden" name="publish_type" value="0">
+        <div class="l wid89"><textarea name="content" id="content_publish" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666">我想说...</textarea></div>
+        <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif"/></div>
+        <div class="cl"></div>
+        <div id="publish_type_content_before" style="float:left;"></div>
+      </form>
+    </div>
+    <div class="publish question" id="publish_question" style="display:none">
+        <div class="l wid89"><textarea name="content" cols="" rows="" style="border:1px solid #CCC; width:628px; height:47px; color:#666" onfocus="onFocus('我要提问...',this);" onblur="onBlur('我要提问...',this);">我要提问...</textarea></div>
+        <div class="r wid10"><input type="image" src="__THEME__/images/fb.gif" id="question_publish"/></div>
+        <div class="cl"></div>
+        <div style="float:left;">
+            <span><input type="checkbox" name="ques_private" value="1" checked="checked"/>我的朋友 - 私密问题</span>&nbsp;|&nbsp;
+            <span><input type="checkbox" name="ques_public" value="1" />知行问答 - 公开问题</span>
+        </div>
+    </div>  
+</div>
+<div class="cl"></div>
+<div class="fx_tit3 mb10 publish question" id="private_question" style="display:none;height:200px">
+    <div class="border2 mb10 hei25" style="font-size:14px;font-weight:600">
+        <span id="ques_email" style="color:#F00;cursor:pointer">邮箱地址</span>&nbsp;|&nbsp;<span id="ques_friend" style="cursor:pointer">一度人脉</span>
+    </div>
+    <div class="cl"></div>
+    <div class="p10" id="ques_email_detail">
+        <div class="hei25 mb10">
+            <div class="l wid89" style="font-size:14px;">
+                邮箱地址以英文逗号或者空格分隔<br />
+                <textarea name="qemail" style="width:600px; height:100px; border:1px solid #CCC;"></textarea>
+            </div>
+        </div>
+        <div class="cl"></div>
+    </div>
+    <div class="p10" id="ques_friend_detail" style="display:none">
+        <div class="hei25 mb10">
+            <div class="l wid89" style="font-size:14px; border-top:#999 1px solid;padding:5px 0;">
+                <div style="background:#E3F0F9;padding:2px 10px"><input type="checkbox" value="0" onclick="checkAllFriend(this);">&nbsp;&nbsp;全选</div>
+                <div id="get_all_friend" style="overflow-y:scroll;height:100px;"></div>
+            </div>
+        </div>
+        <div class="cl"></div>
+    </div>
+</div>
+<div class="cl"></div>

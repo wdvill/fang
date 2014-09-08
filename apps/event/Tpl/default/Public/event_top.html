@@ -1,0 +1,29 @@
+<div class="qz_t1 p10">
+   <div class="l wid15 pic1"><img src="{$cover}" /></div>
+   <div class="r wid84">
+      <div class="qz_t2">
+         <h1>{$title}</h1>
+         <span>{$intro}</span>
+      </div>
+      <div class="cl"></div>
+      <div class="l wid60 qz_t3">
+        <p>时  间：{$sdate} 至 {$edate}</p>
+        <p>地  点：{$address}</p>
+        <p>费  用：{$costExplain}</p>
+      </div>
+      <php>if($mid == $uid){</php>
+      	  <div class="r wid39 tr mt"><a href="{:U('event/index/edit',array('id'=>$id))}"><img src="__THEME__/images/xghd.jpg" /></a></div>
+          <div class="r wid39 tr mt" onclick="deleteEvent({$id});"><img src="__THEME__/images/schd.jpg" /></div>
+      <php>}else{</php>
+          <php>if($hasMember){</php>
+            <div class="r wid39 tr mt joinin-act joined" id="{$id}"><img src="__THEME__/images/tchd.jpg" /></div>
+          <php>}elseif($verify){</php>
+            <div class="r wid39 tr mt" style="font-size:16px"><b>等待审核...</b></div>
+          <php>}else{</php>
+            <div class="r wid39 tr mt joinin-act join" id="{$id}"><img src="__THEME__/images/jrhd.jpg" /></div>
+          <php>}</php>
+      <php>}</php>
+   </div>
+   <div class="cl"></div>
+</div>
+<div class="cl"></div>

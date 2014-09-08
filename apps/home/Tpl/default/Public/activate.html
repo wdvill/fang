@@ -1,0 +1,19 @@
+<include file="__THEME__/header" />
+<div class="pagewidth">
+    <div class="">
+       <div class="rtit6">
+          <div style="height:150px">
+            <div class="l wid80 rtit2_1">
+            	<eq name="is_error" value="1">
+                	<h1 style="font-size:18px">ERROR：邮件发送失败！</h1>
+                <else/>
+                	<h1 style="font-size:18px">我们已经将激活邮件发送到邮箱：{$email}</h1>
+                </eq>
+                <p style="margin:20px 50px;font-size:16px;font-weight:500"><b>提示：</b>若没有收到邮件，请<a href="{:U('home/Public/resendEmail',array('uid'=>$uid,'email'=>$email,'validationid'=>$invite['validationid'], 'validationcode'=>$invite['validationcode']))}" style="font-size:16px;"><b>点此重新发送邮件</b></a>。</p>
+            </div>
+          </div>
+          <div class="cl"></div>
+       </div>
+    </div>
+</div>
+<include file="__THEME__/footer" />

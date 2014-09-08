@@ -1,0 +1,126 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/account.js"></script>
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="../Space/space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{:U('home/account/index')}">预览</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/profile')}" style="color:#163abb;">我的名片</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/avatar')}">肖像</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/work')}">工作经历</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/edu')}">教育背景</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/security')}">安全设置</a></div>
+                  <div class="tab2" style="width:60px;"><a href="{:U('home/account/bind')}">绑定设置</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                   <div class="p15">
+                   	 <form action="{:U('home/account/saveprofile')}" method="post" id="profile_form">
+                     <div class="l wid46">
+                        <div class="mb10">
+                          <div class="l wid73">
+                             <p class="font6">姓名</p>
+                             <p><input name="name" type="text" style="width:250px; height:20px; border:1px solid #CCC;" value="{$userinfo.uname}"/><font style="color:#F00">*</font></p>
+                           </div>
+                           <div class="r wid26">
+                              <p class="font6">性别</p>
+                              <p>
+                              	<select name="sex" style="width:80px; height:25px; border:1px solid #CCC;">
+                              		<option <eq name="userinfo['sex']" value="0">selected="selected"</eq> value="0">女</option>
+                                    <option <eq name="userinfo['sex']" value="1">selected="selected"</eq> value="1">男</option>
+                                </select>
+                              </p>
+                           </div>
+                           <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">引称<label class="font2">方便知友在微博内提到您，扩大您的影响力</label></p>
+                          <p>@ <input name="atme" type="text" style="width:335px; height:20px; border:1px solid #CCC;" value="{$profile.atme}"/></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">公司/单位</p>
+                          <p><input name="company" type="text" style="width:350px; height:20px; border:1px solid #CCC;" value="{$userinfo.company}"/><font style="color:#F00">*</font></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">职位</p>
+                          <p><input name="position" type="text" style="width:350px; height:20px; border:1px solid #CCC;" value="{$userinfo.position}"/><font style="color:#F00">*</font></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <p class="font6">网址<label class="font2">公司或单位网址</label></p>
+                          <p><input name="website" type="text" style="width:350px; height:20px; border:1px solid #CCC;" value="{$profile.website}"/></p>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <div class="l wid50">
+                             <p class="font6">所在行业</p>
+                             <p><input name="industry" type="text" style="width:180px; height:20px; border:1px solid #CCC;" value="{$userinfo.industry}"/><font style="color:#F00">*</font></p>
+                           </div>
+                           <div class="r wid50">
+                              <p class="font6">城市</p>
+                              <p><script>ui.getarea('area','',{$userinfo.province},{$userinfo.city});</script></p>
+                           </div>
+                           <div class="cl"></div>
+                        </div>
+                     </div>
+                     <div class="r wid46">
+                        <div class="mb10">
+                          <div class="l wid49">
+                          	<p class="font6">邮件地址</p>
+                          	<p><input name="email" type="text" style="width:170px; height:20px; border:1px solid #CCC;" value="{$userinfo.email}"/><font style="color:#F00;float:right">*</font></p>
+                          </div>
+                          <div class="r wid49">
+                              <p class="font6">固话<label class="font2">只有您能看到</label></p>
+                              <p><input name="telephone" type="text" style="width:190px; height:20px; border:1px solid #CCC;" value="{$userinfo.telephone}"/></p>
+                           </div>
+                          <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <div class="l wid49">
+                             <p class="font6">手机<label class="font2">保密&nbsp;&nbsp;<a href="javascript:void();" id="getphoneverify" style="color:#163abb;">获取验证码</a></label></p>
+                             <p><input name="cellphone" type="text" style="width:190px; height:20px; border:1px solid #CCC;" value="{$userinfo.cellphone}"/></p>
+                           </div>
+                           <div class="r wid49">
+                              <p class="font6">手机验证码<label class="font2">保存手机号需验证</label></p>
+                             <p><input name="phoneverify" type="text" style="width:190px; height:20px; border:1px solid #CCC;" value=""/></p>
+                           </div>
+                           <div class="cl"></div>
+                        </div>
+                        <div class="mb10">
+                          <div class="l wid49">
+                             <p class="font6">职业兴趣</p>
+                             <p><input name="work_interest" type="text" style="width:190px; height:20px; border:1px solid #CCC;" value="{$profile.work_interest}"/></p>
+                           </div>
+                           <div class="r wid49">
+                              <p class="font6">业余爱好</p>
+                              <p><input name="interest" type="text" style="width:190px; height:20px; border:1px solid #CCC;" value="{$profile.interest}"/></p>
+                           </div>
+                           <div class="cl"></div>
+                        </div>
+                        <div class="bgc1 p15">
+                          <p class="gr_t6 mb5"><b>个人名片链接</b></p>
+                          <p class="font8 mb5"><b>http://www.zhixing001.com/</b> <input name="domain" type="text" style="width:90px; height:20px; border:1px solid #CCC;" value="{$userinfo.domain}"/> <img src="__THEME__/images/jc.gif" style="cursor:pointer" onclick="checkDomain();"/></p>
+                          <p class="mb10">请选择5位以上，英文字母或阿拉伯数字</p>
+                        </div>
+                     </div>
+                     <div class="cl"></div>
+                     <div class="mb10">
+                     	<p class="font6">简介</p>
+                        <textarea name="summary" cols="" rows="" style="width:820px; height:120px; border:1px solid #CCC;">{$profile.summary}</textarea>
+                     </div>
+                     <div class="tr p5 submit_profile"><input type="image" src="__THEME__/images/bc.jpg" /></div>
+                     </form>
+                   </div>
+                   <div class="cl"></div> 
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

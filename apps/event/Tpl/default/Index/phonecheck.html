@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+<neq name="ts['site']['page_title']" value="">
+    {$ts['site']['page_title']} <neq name="ts['app']['app_alias']" value="">- {$ts['app']['app_alias']}&nbsp;</neq>- {$ts['site']['site_name']} <neq name="ts['site']['site_slogan']" value="">- {$ts['site']['site_slogan']}</neq>
+<else/>
+    {$ts['site']['site_name']} <neq name="ts['site']['site_slogan']" value="">- {$ts['site']['site_slogan']}</neq>
+</neq>
+</title>
+<link rel="shortcut icon" href="__THEME__/favicon.ico" />
+<meta name="keywords" content="{$ts['site']['site_header_keywords']}" />
+<meta name="description" content="{$ts['site']['site_header_description']}" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<script>
+	var _UID_   = '{$uid}';
+	var _MID_   = '{$mid}';
+	var _ROOT_  = '__ROOT__';
+	var _THEME_ = '__THEME__';
+	var _PUBLIC_ = '__PUBLIC__';
+</script>
+<!-- 全局风格CSS -->
+<link href="__THEME__/images/css.css?<?php echo date('Ymd', time()); ?>" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/js/tbox/box.css" rel="stylesheet" type="text/css" />
+<!-- 核心JS加载 -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/main.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/tbox/box.js"></script>
+
+<script type="text/javascript" src="http://js.tongji.juhuir.com/2815633/tongji.js"></script><noscript><a href="http://www.juhuir.com"><img src="http://img.tongji.juhuir.com/2815633/tongji.gif"/></a></noscript><script language="javascript" type="text/javascript" src="http://www.juhuir.com/img/tc23.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/phone.js"></script>
+<script>
+	var html = '<div style="padding:20px; line-height:25px;margin-left:20px;width:300px"><p style="font-size:16px">请先验证手机号码：</p><form action="{:U(\'home/account/savephone\')}" method="post" onsubmit="return savePhoneEvent(this);"><p>手机号:<input type="text" name="phone" style="height:20px;" /><a href="javascript:void();" id="getphoneverify">获取验证码</a></p><p>验证码:<input type="text" name="phoneverify" style="height:20px;" /></p><input type="submit" value="提交" class="btn_b" style="margin-left:40px"/></form></div>';
+	ui.box.show(html,{title:'验证手机号码'});
+</script>
+</body>
+</html>

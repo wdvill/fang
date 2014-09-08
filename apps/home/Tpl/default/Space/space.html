@@ -1,0 +1,74 @@
+<script type="text/javascript" src="__PUBLIC__/js/space.js"></script>
+<div class="mb10">
+  <div class="l wid55">
+     <div class="l l_bg"></div>
+     <div class="l c_bg" style="width:475px;">
+        <div class="c_bg_t1">
+           <div class="hei30">
+              <p class="l wid77 c_bg_t2 mt">知行名片：<b><a href="{$uid|getUserUrl}">{$uid|getUserUrl}</a></b></p>
+              <p class="r wid22 tr font1 mt">浏览：{$userinfo.visit_count}次</p>
+           </div>
+           <div class="cl"></div>
+           <div class="l wid44 pic2"><img src="{$userinfo.face}" width="150" height="150"/></div>
+           <div class="r wid55">
+             <div class="mb30">
+               <p class="gr_t1 mb5"><b>{$userinfo.uname}</b></p>
+               <p class="gr_t2">{$userinfo.position}</p>
+               <p class="gr_t3">{$userinfo.company}</p>
+               <p class="gr_t2">{$userinfo.location}</p>
+             </div>
+             <div class="cl"></div>
+             <div class="gr_t4"><b>{$userinfo.friend_count}</b><a href="{:U('home/friend/connect')}">人脉</a> | <b>{$userinfo.follower_count}</b><a href="{$uid|getUserUrl='fan'}">粉丝</a> | <b>{$userinfo.following_count}</b><a href="{$uid|getUserUrl='follow'}">关注</a></div>
+           </div>
+        </div>
+     </div>
+     <div class="l r_bg"></div>
+  </div>
+  <div class="r wid44">
+     <div class="l l_bg"></div>
+     <div class="l c_bg" style="width:370px;">
+        <div class="c_bg_t1">
+           <div class="p15">
+           <php>if($mid && $uid==$mid){</php>
+             <div class="b1 mb5"><a href="{:U('home/account/profile')}">个人档案</a></div>
+             <div class="b2 mb5"><a href="{:U('home/account/security')}">修改密码</a></div>
+           <php>}elseif($mid && $is_friend){</php>
+           	 <php>if($is_friend==1){</php>
+             	<div class="b1 mb5"><a href="javascript:void();" onclick="ui.sendmessage({$uid});">发私信</a></div>
+             <php>}</php>
+             <!--<div class="b2 mb5"><a href="#">职业评价</a></div>
+             <div class="b3 mb5"><a href="#">介绍给朋友</a></div>-->
+             <div class="b5 mb5">
+             <php>if($userinfo['is_followed']=='follow'){</php>
+             	<a href="javascript:void();" class="following unfollow" fd="{$uid}">取消关注</a>
+             <php>}else{</php>
+             	<a href="javascript:void();" class="following follow" fd="{$uid}">加关注</a>
+             <php>}</php>
+             </div>
+             <php>if($is_friend==1){</php>
+             	<div class="b2 mb5"><a href="javascript:void();" class="friend delete" fu={$uid}>删除好友</a></div>
+             <php>}elseif($is_friend==2){</php>
+             	<div class="b2 mb5"><a href="javascript:void();">好友已请求</a></div>
+             <php>}elseif($is_friend==3){</php>
+             	<div class="b2 mb5"><a href="javascript:void();" class="accept-friend" fu={$uid}>接收好友请求</a></div>
+             <php>}</php>
+           <php>}else{</php>
+             <div class="b1 mb5"><a href="javascript:void();" class="friend add" fu={$uid}>加为好友</a></div>
+             <div class="b2 mb5"><a href="javascript:void();" class="addconnect" fu={$uid}>递名片并建立关系</a></div>
+             <!--<div class="b3 mb5"><a href="#">职业评价</a></div>
+             <div class="b4 mb5"><a href="#">发邮件</a></div>-->
+             <div class="b5 mb5">
+             <php>if($userinfo['is_followed']=='follow'){</php>
+             	<a href="javascript:void();" class="following unfollow" fd="{$uid}">取消关注</a>
+             <php>}else{</php>
+             	<a href="javascript:void();" class="following follow" fd="{$uid}">加关注</a>
+             <php>}</php>
+             </div>
+           <php>}</php>
+           </div>
+        </div>
+     </div>
+     <div class="l r_bg"></div>
+  </div>
+</div>
+<div class="cl"></div>

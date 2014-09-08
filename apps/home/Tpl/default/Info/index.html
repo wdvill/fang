@@ -1,0 +1,52 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/info.js"></script>
+</script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+        <form action="{:U('home/info/search')}" method="post" onsubmit="return searchInfo(this);">
+            <div class="l wid89">
+                <input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的资讯..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg p3">
+        <div class="mb5">
+          <div id="KinSlideshow" style="visibility:hidden;">
+              <volist id="vo" name="recommend">
+                  <a href="{$vo.url}" target="_blank"><img src="{$vo.cover}" width="729" height="269" title="{$vo.title}" /></a>
+              </volist>
+          </div>
+       </div>
+       <div class="cl"></div>
+       <php>
+       	$info_i = 1;
+       	foreach($list as $k=>$v){
+        	$lr = ($info_i%2) ? 'l':'r';
+        	$cl = ($info_i%2) ? '':'<div class="cl"></div>';
+            $info_i++;
+       </php>
+           <div class="{$lr} wid49">
+              <div class="bgc2 border1 p10">
+                 <div class="font">【<a href="{:U('home/info/lists',array('cate'=>$k))}">{$cate_name[$k]}</a>】</div>
+                 <div class="cl"></div>
+                 <ul class="ul_5 p10 size110">
+                    <volist id="vo" name="v">
+                        <li><a href="{$vo.url}" target="_blank">{$vo.m_title}</a></li>
+                    </volist>
+                 </ul>
+              </div>
+           </div>
+           {$cl}
+       <php>
+        }
+       </php>
+    </div> 
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" />

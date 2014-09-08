@@ -1,0 +1,56 @@
+<include file="__THEME__/header" />
+<script  type="text/javascript" src="__PUBLIC__/js/rcalendar.js" ></script>
+<script type="text/javascript" src="../Public/js/event.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <include file="../Public/event_top" />
+    <div class="bg">
+      <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+              <div id="font1" class="tab1" style="width:100px;"><a href="{:U('event/index/eventDetail',array('id'=>$id,'uid'=>$uid))}">简介</a></div>
+              <div id="font3" class="tab1" style="width:100px;"><a href="{:U('event/index/member',array('id'=>$id))}" style="color:#163abb">成员列表</a></div>
+              <div id="font4" class="tab1" style="width:90px;"><a href="{:U('event/index/invite',array('id'=>$id))}">邀请</a></div>
+          </div>
+          <div class="p10">
+              <div class="p10">
+              	<php>if($mid == $uid){</php>
+              	  <div class="rm_t1 mb10">需审批成员列表</div>
+                  <div class="p10">
+                  <volist id="vo" name="verifylist['data']">
+                    <div class="mb5 hei45 verify_list_c_{$vo.uid}">
+                      <div class="l wid8 tc"><img src="{$vo.face}" width="45" height="45" /></div>
+                      <div class="l wid75 qz_t4"><b><a href="{$vo.url}">{$vo.uname}</a></b> {$vo.position}<label>{$vo.company}</label></div>
+                          <div class="r wid15">
+                            <a href="javascript:void();" style="color:#2e5194;" onclick="ui.confirm(this,'确认审核通过该用户？');" callback="verifyUser({$id},{$vo['uid']});">审核通过</a><br />
+                            <a href="javascript:void();" style="color:#2e5194;" onclick="ui.confirm(this,'确定将其移出活动？');" callback="removeMember({$id},{$vo['uid']});">移出活动</a>
+                          </div>
+                    </div>
+                    <div class="cl"></div>
+                  </volist>
+                  </div>
+                  <div class="cl"></div>
+                <php>}</php>
+                  <div class="rm_t1 mb10">群组成员列表</div>
+                  <div class="p10 member_list">
+                      <volist id="vo" name="memberlist['data']">
+                        <div class="mb5 hei45 member_list_c_{$vo.uid}">
+                          <div class="l wid8 tc"><img src="{$vo.face}" width="45" height="45" /></div>
+                          <div class="l wid75 qz_t4"><b><a href="{$vo.url}">{$vo.uname}</a></b> {$vo.position}<label>{$vo.company}</label></div>
+                          <php>if($mid == $uid){</php>
+                            <a href="javascript:void();" style="color:#2e5194;" onclick="ui.confirm(this,'确定将其移出活动？');" callback="removeMember({$id},{$vo['uid']});">移出活动</a>
+                          <php>}</php>
+                        </div>
+                        <div class="cl"></div>
+                      </volist>
+                  </div>
+              </div> 
+          </div>
+      </div>
+    </div>
+    <div class="cl"></div>
+   </div> 
+  </div>  
+  <include file="../Public/r_side" />
+</div>
+<include file="__THEME__/footer" />

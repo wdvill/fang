@@ -1,0 +1,59 @@
+RewriteEngine on 
+RewriteRule ^index\.html$ index\.php [L]
+
+#URL重写规则
+	
+#group应用
+RewriteRule ^group/$ /index.php?app=group&mod=index&act=index [L]
+RewriteRule  ^gdetail/?(.*)/$ /index.php?app=group&mod=group&act=$1 [L]
+RewriteRule  ^group/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=group&mod=index&act=$1 [L]
+RewriteRule  ^group/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=group&mod=$1&act=$2 [L]
+
+#event应用
+RewriteRule ^event/$ /index.php?app=event&mod=index&act=index [L] 
+RewriteRule  ^eventdetail/?([0-9]+)$ /index.php?app=event&mod=index&act=eventDetail&id=$1 [L]
+RewriteRule  ^event/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=event&mod=index&act=$1 [L]
+
+RewriteRule  ^event/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=event&mod=$1&act=$2 [L]
+
+#weibo应用
+RewriteRule ^weibo/$ /index.php?app=weibo&mod=index&act=index [L]
+RewriteRule ^weibo/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=weibo&mod=index&act=$1 [L]
+RewriteRule  ^weibo/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=weibo&mod=$1&act=$2 [L]
+
+#admin应用
+RewriteRule ^adminsite/$ /index.php?app=admin&mod=index&act=index [L]   #管理界面
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^adminsite/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=admin&mod=$1&act=$2&%1 [L]
+
+#home应用
+RewriteRule  ^login/$ /index.php?app=home&mod=public&act=login [L]  #登录
+RewriteRule  ^register/$ /index.php?app=home&mod=public&act=register [L]	#注册
+RewriteRule  ^pub/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=home&mod=public&act=$1 [L]
+
+RewriteRule  ^/?([a-zA-Z0-9\_\-]+)$ /index.php?app=home&mod=space&act=index&uid=$1 [L]
+RewriteRule  ^profile/?([0-9]+)$ /index.php?app=home&mod=space&act=index&uid=$1 [L] 
+RewriteRule  ^profile/?([a-zA-Z0-9\_\-]+)/?(.*)$ /index.php?app=home&mod=space&act=$1&uid=$2 [L]   
+
+RewriteRule  ^main/$ /index.php?app=home&mod=user&act=index [L]  #首页
+RewriteRule  ^main/?(.*)/$ /index.php?app=home&mod=user&act=$1 [L]
+
+RewriteRule  ^setting/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=home&mod=account&act=$1 [L]  #设置页面
+
+RewriteRule ^info/$ /index.php?app=home&mod=info&act=index [L]   #资讯
+RewriteRule  ^info/?([0-9]+)$ /index.php?app=home&mod=info&act=detail&ind=$1 [L]	  #资讯内容页
+RewriteRule  ^info/?(.*)/$ /index.php?app=home&mod=info&act=$1 [L]
+
+RewriteRule ^friend/$ /index.php?app=home&mod=friend&act=index [L]   #人脉
+RewriteRule  ^friend/?(.*)/$ /index.php?app=home&mod=friend&act=$1 [L]
+
+RewriteRule ^project/$ /index.php?app=home&mod=project&act=index [L]   #项目
+RewriteRule  ^project/?([0-9]+)$ /index.php?app=home&mod=project&act=project_detail&pro_id=$1 [L]	  #项目内容页
+RewriteRule  ^project/?(.*)/$ /index.php?app=home&mod=project&act=$1 [L]
+
+RewriteRule  ^/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/$ /index.php?app=home&mod=$1&act=$2 [L]  #home应用下连接公共配置
+
+#其他公用
+RewriteRule ^/?([a-zA-Z0-9\_\-]+)/?([a-zA-Z0-9\_\-]+)/?(.*)/$ /index.php?app=$1&mod=$2&act=$3 [L] 
+
+#URL重写规则

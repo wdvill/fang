@@ -1,0 +1,77 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/message.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid90">
+    <div class="bg">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+             <div class="l wid55">
+              <div class="tab1" ><a href="{:U('home/Message/inbox')}" <eq name="type" value="inbox">style="color:#163abb;"</eq>>收件箱</a></div>
+              <div class="tab2" style="width:85px;"><a href="{:U('home/Message/outbox')}" <eq name="type" value="outbox">style="color:#163abb;"</eq>>发件箱</a></div>
+              <div class="tab2" style="width:100px;"><a href="{:U('home/Message/garbage')}">垃圾箱</a></div>
+             </div>
+          </div>
+          <div class="p10">
+              <div class="p10">
+              	 <div class="p5 mb10 border2">
+                     <div class="">
+                         <div class=" mb5 font8">
+                           <span class="left" style="padding:0px 5px 0 0;"><input name="" type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll"/></span>
+                           <a href="javascript:void(0)" onclick="checkAll();">全选</a> | 
+                           <eq name="type" value="inbox">
+                           <a href="javascript:void(0)" onclick="setIsUnread();">标记未读</a> | 
+                           <a href="javascript:void(0)" onclick="setIsRead();">标记已读</a> |
+                           </eq> 
+                           <a href="javascript:void(0)" onclick="delMessage();">删除</a>
+                         </div>
+                     </div>
+                     <div class="cl"></div>
+                 </div>
+                 <div class="cl"></div>
+                 <volist id="vo" name="data">
+                     <php>$role_uid = $type == 'inbox' ? $vo['from_uid'] : $vo['to_uid'];</php>
+                     <div class="p5 mb10 border2 <php>if($type=='inbox' && $vo['is_read']==1){</php>bg_warning<php>}</php>" id="message_{$vo['message_id']}">
+                         <div class="" style="width:300px;">
+                             <div class=" mb5 font8">
+                                <input type="checkbox" value="{$vo.message_id}" onclick="checkon(this);"/>&nbsp;
+                                <eq name="type" value="inbox"><b>来自</b>&nbsp;<else/><b>发至</b>&nbsp;</eq><a href="{:U('home/Space/index', array('uid'=>$role_uid))}">{$role_uid|getUserName}</a>
+                                &nbsp;<span style="color:#666">{$vo.ctime|date="Y-m-d",###}</span>
+                             </div>
+                         </div>
+                         <p class="wid70 font1" style="float:left;margin-left:100px">
+                                <!--<a href="{:U('home/Message/detail', array('id'=>$vo['source_message_id'],'type'=>$type))}">{$vo.title}</a>-->
+                                {$vo.summary}
+                         </p>
+                         <div style="float:right;">
+                         	 <php>if($vo['type']=='friend' && $vo['to_uid']==$mid){</php>
+                             	<a href="javascript:void();" onclick="acceptFriend({$vo['from_uid']});" style="color:#163abb;">接收好友请求</a> | 
+                             <php>}</php>
+                             <a href="javascript:void(0);" onclick="ui.confirm(this,'确认删除私信?')" callback="delMessageById({$vo['message_id']})" style="color:#163abb;">删除</a>
+                             <eq name="type" value="inbox">
+                              | <a href="javascript:void(0);" onclick="replyMessage({$vo.message_id});" style="color:#163abb;">回复</a> 
+                             </eq>
+                          </div>
+                          <div class="cl"></div>
+                     </div>
+                     <div class="cl"></div>
+                     <div class="p5 mb10 border2 reply {$vo['message_id']}" style="display:none;">
+                         <div class="">
+                             <div class="mb5 font8" style="text-align:center">
+                                <input type="text" name="reply_content" style="width:300px;height:30px;">
+  								<input type="button" value="回复" onclick="doReply({$vo.message_id});" class="btn_b" style="width:60px;">
+                             </div>
+                         </div>
+                         <div class="cl"></div>
+                     </div>
+                 </volist>
+                 <div class="tc">{$html}</div>
+              </div>
+          </div>
+         </div>
+       </div>
+    </div>
+  </div>  
+</div>
+<include file="__THEME__/footer" /> 

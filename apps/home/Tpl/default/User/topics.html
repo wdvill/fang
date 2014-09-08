@@ -1,0 +1,160 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/plugins/init')}"></script>
+<script>
+$(document).ready(function(){
+	weibo.init();
+	var url = "{:U('home/User/searchTips')}";
+	userAutoTips({id:'content_publish',url: url});
+});
+</script>
+<div class="content"><!-- 内容 begin  -->
+  <div class="main no_l">
+    <div class="mainbox">
+      <div class="mainbox_R">
+		<php>if(!empty($search_key)){</php>
+		  <gt name="mid" value="0">
+			<div class="right_box">
+			  <div id="followTopic" class="followtopic2">
+			  	<php>if($followState){</php><a href="javascript:void(0)" onclick="weibo.unfollowTopic('{$search_key_id}','{$search_key}')">取消该话题</a>
+				<php>}else{</php><a href="javascript:void(0)" onclick="weibo.followTopic('{$search_key}')">关注该话题</a>
+				<php>}</php>
+			  </div>
+			  <h2><span class="ico_tuijian"></span><a href="javascript:void(0)" onclick="weibo.quickpublish('大家来谈谈#{$search_key}#这个话题吧！')">推荐该话题给朋友</a></h2>
+			</div>
+		  </gt>
+		  <div class="right_box">
+		    <h2>其他关注该话题的人</h2>
+		    <ul>
+		      <volist name="other_following" id="of">
+		        <li style="width:33%;" class="left alC">
+		          <div class="userPic">
+		            <space uid="of['uid']" target="_blank">{uavatar=m}</space>
+	              </div>
+		          <div class="HOver">
+		            <space uid="of['uid']" class="fn" target="_blank">{uname}</space>
+	              </div>
+	            </li>
+	          </volist>
+	        </ul>
+	    </div>
+		  <!-- <input type="button" class="btn_green_w121 hand mr10" value="关注该话题" onclick="weibo.followTopic('{$search_key}')" />
+          已关注该话题 <a href="#" class="mr10">取消</a>
+          <input type="button" class="btn_green_w121 hand " value="分享该话题" /> -->
+		<php>}</php>
+        <div class="right_box">
+        {:W('HotTopic', array('type'=>'auto'))} {:W('HotTopic', array('type'=>'recommend'))}</div>
+      </div>
+      <div class="mainbox_C">
+        <if condition="$topics['topic_id']">
+        <div class="topics_info"><if condition="$topics['pic']"><img alt="#{$topics.name}#" src="{:SITE_URL}/data/uploads/{$topics.pic}" /></if>
+          <dl class="topics_info_dl">
+            <dt>#{$topics.name}#</dt>
+            <dd>{$topics.content}<if condition="$topics['link']"><a href="{$topics.link}" target="_blank">&gt;&gt;详细</a></if></dd>
+          </dl>
+        </div>
+        </if>
+        <div class="talkBox">
+          <form method="post" action="{:U('weibo/operate/publish')}" id="miniblog_publish" oncomplete="false">
+            <input type="hidden" name="publish_type" value="0">
+            <h2>
+              <div class="wordNum">你还可以输入<strong id="strconunt">140</strong>字</div>
+              <span>快来说点什么吧……</span></h2>
+            <div class="cntBox">
+              <textarea name="content" id="content_publish" cols="" rows=""style="width:99.3%;_width:99%; height:78px;padding:5px 0;">#{$topics.name}#</textarea>
+              <div class="txtShadow" style="z-index:-1000"></div>
+            </div>
+            <div class="funBox">
+              <div class="right" style="padding-bottom:5px;">
+                <label>同步到:<input type="checkbox" name="sync[]" value="sina" id="sina_sync" 
+                  <php>if($login_bind['sina']){</php>
+                  checked
+                  <php>}</php>
+                  onclick="selectSync(this)"></label>
+                <img src="../Public/images/sina.png" style="" />
+                <input type="button" disabled="true" onclick="weibo.do_publish()" class="btn_big_disable hand" value="&nbsp;" id="publish_handle"  />
+              </div>
+              <div id="publish_type_content_before" class="left"><span>添加：</span><a class="a52" onclick="ui.emotions(this)" target_set="content_publish" href="javascript:void(0)"><img src="http://dev.thinksns.com/ts/2.0/public/themes/classic2/images/zw_img.gif" class="icon_add_face_d">表情</a> <a class="a52" onclick="addtheme()" href="javascript:void(0)"><img src="http://dev.thinksns.com/ts/2.0/public/themes/classic2/images/zw_img.gif" class="icon_add_topic_d">话题</a> <a class="a52" onclick="weibo.plugin.image.click(169)" href="javascript:void(0)"><img src="http://dev.thinksns.com/ts/2.0/public/themes/classic2/images/zw_img.gif" class="icon_add_img_d">图片</a> <a class="a52" onclick="weibo.plugin.video.click(221)" href="javascript:void(0)"><img src="http://dev.thinksns.com/ts/2.0/public/themes/classic2/images/zw_img.gif" class="icon_add_video_d">视频</a> <a class="a52" onclick="weibo.plugin.music.click(271)" href="javascript:void(0)"><img src="http://dev.thinksns.com/ts/2.0/public/themes/classic2/images/zw_img.gif" class="icon_add_music_d">音乐</a></div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-menu"><!-- 切换标签 begin  -->
+          <ul>
+            <li><a href="###" class="on feed_item"><span>热议网友</span></a></li>
+          </ul>
+        </div>
+        <div class="MenuSub alR"> <span class="left cGray">该话题共有"<span class="cRed">{$list.count}</span>"条相关微博</span> <a href="{:U('home/user/topics',array('k'=>urlencode($search_key)))}" 
+          <eq name="type" value="">class="on"</eq>
+          >全部</a>| <a href="{:U('home/user/topics',array('k'=>urlencode($search_key),'type'=>'original'))}" 
+          <eq name="type" value="original">class="on"</eq>
+          >原创</a>| <a href="{:U('home/user/topics',array('k'=>urlencode($search_key),'type'=>'music'))}" 
+          <eq name="type" value="music">class="on"</eq>
+          >音乐</a>| <a href="{:U('home/user/topics',array('k'=>urlencode($search_key),'type'=>'image'))}" 
+          <eq name="type" value="image">class="on"</eq>
+          >图片</a>| <a href="{:U('home/user/topics',array('k'=>urlencode($search_key),'type'=>'video'))}" 
+          <eq name="type" value="video">class="on"</eq>
+          >视频</a></div>
+        <div class="feedBox">
+          <ul class="feed_list" <eq name='type' value=''> id="feed_list"</eq>>
+            <volist id="vo" name="list['data']">
+              <li class="lineD_btm" id="list_li_{$vo.id}">
+                <div class="userPic">
+                <space uid="vo.uid" >{uavatar}</space>
+                
+                </div>
+                <div class="feed_c">
+                  <div class="msgCnt"><space uid="vo.uid" >{uname}</space>{$vo.uid|getUserGroupIcon}：{$vo.content|format=true}</div>
+                  <php>if( $vo['transpond_id'] ){</php>
+				  <php>if($vo['expend']){</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con"> <space uid="vo.expend.uid" class="null" >@{uname}</space>{$vo.expend.uid|getUserGroupIcon}：{$vo.expend.content|format=true} <a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文转发({$vo.expend.transpond}</a>)&nbsp;|&nbsp;<a href="{:U('home/space/detail',array('id'=>$vo['expend']['id']))}">原文评论({$vo.expend.comment})</a> {$vo.expend.expend} </div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+				   <php>}else{</php>
+	                  <div class="feed_quote"> <img class="q_ico_arrow" src="__THEME__/images/zw_img.gif" />
+	                    <div class="q_tit"><img class="q_tit_l" src="__THEME__/images/zw_img.gif" /></div>
+	                    <div class="q_con">此微博已被原作者删除</div>
+	                    <div class="q_btm"><img class="q_btm_l" src="__THEME__/images/zw_img.gif" /></div>
+	                  </div>
+				   <php>}</php>
+				  
+                  <php>}else{</php>
+                  {$vo.expend}
+                  <php>}</php>
+                  <div class="feed_c_btm"> 
+	                  <span class="right">
+	                    <php>if( $vo['uid'] == $mid ){</php>
+	                    <a href="javascript:void(0)" onclick="ui.confirm(this,'确认要删除这条微博?')" callback="weibo.deleted({$vo.id})">删除</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	                    <php>}</php>
+	                    <a href="javascript:void(0)" onclick="weibo.transpond({$vo.id})">转发({$vo.transpond})</a>&nbsp;&nbsp;|&nbsp;&nbsp; 
+						<php>if($vo['is_favorited']){</php>
+						<php>if( ACTION_NAME == 'collection' ){</php>
+							<a href="javascript:void(0)" onclick="weibo.unFavorite({$vo.id},this)">取消收藏</a>
+						<php>}else{</php>
+							已收藏
+						<php>}</php>
+						<php>}else{</php>
+							<a href="javascript:void(0)" onclick="weibo.favorite({$vo.id},this)">收藏</a>
+						<php>}</php>
+						&nbsp;&nbsp;|&nbsp;&nbsp; <a href="javascript:void(0)" rel="comment" minid="{$vo.id}" >评论({$vo.comment})</a> 
+					  </span> 
+					  <cite> <a href="{:U('home/space/detail',array('id'=>$vo['id']))}">{$vo.ctime|friendlyDate}</a></cite> 
+					  来自 <cite><?php echo getFrom($vo['from'], $vo['from_data']);?></cite> 
+				  </div>
+                  <div id="comment_list_{$vo.id}" style=""></div>
+                </div>
+              </li>
+            </volist>
+          </ul>
+        </div>
+        <div class="c"></div>
+        <div class="page">{$list.html}</div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+<!-- 内容 end --> 
+
+<include file="__THEME__/footer" /> 

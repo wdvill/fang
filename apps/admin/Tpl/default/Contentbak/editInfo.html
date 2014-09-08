@@ -1,0 +1,199 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+
+<include file="__THEME__/editor" />
+<script>
+var check_form = false;
+function checkform(o){
+	var title = document.getElementById("title").value;
+	var fromsite = document.getElementById("fromsite").value;
+	var fid = document.getElementById("fid").value;
+	var sort_id = document.getElementById("sort_id").value;
+	
+	if( title == ''){
+		alert('请填写标题！');
+		document.getElementById("title").focus();
+		return false;
+	} else if (title.length < 2){
+		alert('标题长度太短');
+		document.getElementById("title").focus();
+		return false;
+	} else if (title.length > 50){
+	    alert('标题长度太长');
+		document.getElementById("title").focus();
+	    return false;
+	}
+	
+	if( fromsite == ''){
+		alert('请填写新闻来源！');
+		document.getElementById("fromsite").focus();
+		return false;
+	} else if (fromsite.length < 2){
+		alert('新闻来源长度太短');
+		document.getElementById("fromsite").focus();
+		return false;
+	} else if (fromsite.length > 15){
+	    alert('新闻来源长度太长');
+		document.getElementById("fromsite").focus();
+	    return false;
+	}
+	
+	if(fid != '' && fid != 0 && isNaN(fid)){
+		alert("专题id不是数字"); 
+		document.getElementById("fid").focus();
+		return false;
+	}
+	if(sort_id != '' && sort_id != 0 && isNaN(sort_id)){
+		alert("排序id不是数字"); 
+		document.getElementById("sort_id").focus();
+		return false;
+	}
+
+	
+	document.getElementById("newsform").submit();
+
+}
+
+function titlelen(inputobj){
+	var obj;
+	obj=document.getElementById("titlelen");
+	obj.innerHTML=inputobj.value.length;
+}
+
+function introlen(inputobj){
+	var obj;
+	obj=document.getElementById("introlen");
+	obj.innerHTML=inputobj.value.length;
+}
+
+</script>
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>新闻</div>
+	
+	<div class="form2">
+	<form method="post" id='newsform' action="{:U('admin/Content/doEditInfo')}"  enctype="multipart/form-data"  onsubmit="return checkform(this);">
+	<eq name="type" value="edit"><input type="hidden" name="info_id" value="{$info_id}"></eq>
+    <dl class="lineD">
+      <dt>标题：</dt>
+      <dd>
+        <input name="title" id='title' type="text" size="55" value="{$title}" onKeyup="javascript:titlelen(this);" > (必填，已输入字符数：<font color='red' bold><label id='titlelen'></label></font>)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>焦点图：</dt>
+      <dd>
+        <input name="cover" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(选填，格式最好为640*360的宽图)
+        <php>if (strlen($cover)>0) {</php>
+        <br/><img src="__UPLOAD__/{$cover}" style="height:180px; border:1px solid #CCC;"/>
+        <php> } </php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>列表图：</dt>
+      <dd>
+        <input name="smallcover" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(必填，格式最好为120*90的宽图)
+        <php>if (strlen($smallcover)>0) {</php>
+        <br/><img src="__UPLOAD__/{$smallcover}" style="height:90px; border:1px solid #CCC;"/>
+        <php> } </php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>分类：</dt>
+      <dd>
+        <select name="cate_id">
+        	<php>
+        		foreach($info_cate as $_key=>$_value){
+        			if ($cate_id == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select>
+	  </dd>
+    </dl>
+    <php>if ($source != 1){ </php>
+    <dl class="lineD">
+      <dt>推荐：</dt>
+      <dd>
+        <input type="radio" name="recommend" value="0" <eq name="recommend" value="0">checked</eq>>否
+        <php> if ($homecount < 5 || $recommend == 1 ){ </php>
+		<input type="radio" name="recommend" value="1" <eq name="recommend" value="1">checked</eq>>推荐到首页
+		<php> } if ($newscount < 5 || $recommend == 2){ </php>
+		<input type="radio" name="recommend" value="2" <eq name="recommend" value="2">checked</eq>>推荐到新闻频道
+		<php>}</php>
+	  </dd>
+    </dl>
+    <php> } </php>
+    <dl class="lineD">
+      <dt>简介：</dt>
+      <dd>
+      	<textarea name="intro" id="intro" style="width:400px;height:40px" onKeyup="javascript:introlen(this);" >{$intro}</textarea>
+      	(必填，已输入字符数：<font color='red' bold><label id='introlen'></label></font>)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>新闻模版：</dt>
+      <dd>
+        <input type="radio" name="modelid" value="0" <eq name="modelid" value="0">checked</eq>>普通有图版
+		<input type="radio" name="modelid" value="1" <eq name="modelid" value="1">checked</eq>>无图版
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>新闻来源：</dt>
+      <dd>
+        <input name="fromsite" id='fromsite' type="text" size="25" value="{$fromsite}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>新闻排序id：</dt>
+      <dd>
+        <input name="sort_id" id='sort_id' type="text" size="25" value="{$sort_id}"> (选填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>新闻类型：</dt>
+      <dd>
+		<input type="radio" name="source" value="1" <eq name="source" value="1">checked</eq>>新闻专题
+        <input type="radio" name="source" value="0" <eq name="source" value="0">checked</eq>>普通新闻
+		<input type="radio" name="source" value="2" <eq name="source" value="2">checked</eq>>专题下新闻
+		<input name="fid" id='fid' type="text" size="15" value="{$fid}"> (新闻专题的id)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>状态：</dt>
+      <dd>
+        <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq>>未审核
+		<input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq>>已审核
+	  </dd>
+    </dl>
+    <dl class="">
+      <dt>详细内容：</dt>
+      <dd>
+      	<textarea name="content" id="content" style="width:550px;height:200px">{$content}</textarea>
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+});
+</script>
+<include file="../Public/_footer" />

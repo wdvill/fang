@@ -1,0 +1,42 @@
+<php>if($privacy['weibo_comment']){</php>
+	<div style="text-align:center;margin-top:10px">
+        <form action="{:U('weibo/Operate/addcomment')}" rel="miniblog_comment" <neq name="callback" value="">callback="{$callback}"</neq> method="post">
+            <input type="hidden" name="weibo_id" value="{$weibo_id}">
+            <input type="hidden" name="reply_comment_id" id="replyid_{$randtime}">
+                 <a class="faceicon1" href="javascript:void(0)" onclick="ui.emotions(this)" target_set="comment_{$randtime}"></a>
+            <textarea name="comment_content" rows="1" id="comment_{$randtime}" style="border:1px solid #CCC; width:400px; height:22px; color:#666;overflow:hidden;"></textarea>
+            <input type="submit" value="确定" class="N_but">
+            <div style="clear:both; color:#666; margin-left:75px;text-align:left">
+                <!--<label>
+                    <input name="transpond" type="checkbox" value="1" />
+                    同时发一条微博
+                </label><br />-->
+                <if condition="$data['transpond_id']">
+                    <label>
+                        <input name="transpond_weibo_id" type="checkbox" value="{$data['transpond_id']}" />
+                        同时评论给原文作者
+                    </label>
+                </if>
+            </div>
+        </form>
+    </div>
+    <div class="cl"></div>
+    <div class="border5 hei7"></div>
+    <div class="cl publish_end"></div>
+<php>}else{</php>
+	<div class="new_position" >您没有权限评论此微博</div>
+<php>}</php>
+    <volist id="vo" name="list['data']">
+        <div class="p10" id="comment_list_c_{$vo.comment_id}">
+            <div class="l wid12 tc">
+            	<a href="{$vo['uid']|getUserUrl}" target="_blank"><img src="{$vo['uid']|getUserFace='m'}" width="50" height="50"></a>
+            </div>
+            <div class="r wid86 rtit5">
+                <p><space uid="vo.uid" class="null" target="_blank">{uname}</space> <label>{$vo.ctime|friendLydate}</label></p>
+                <span>{$vo.content|formatComment=true}</span>
+            </div>
+        </div>
+        <div class="cl"></div>
+        <div class="border5 hei7"></div>
+        <div class="cl"></div>
+    </volist>

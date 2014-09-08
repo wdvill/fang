@@ -1,0 +1,22 @@
+  <div class="r wid22">
+    <div class="tit4">热门项目</div>
+     <div class="tit4_1">
+        <ul class="ul_1 size110">
+        <volist id="vo" name="hot_project">
+           <li><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}"><php> echo msubstr(real_strip_tags($vo['title']),0,10);</php></a></li>
+         </volist>
+        </ul>
+        <div class="cl"></div>
+     </div>
+     <div class="cl"></div>
+     <div class="cl"></div>
+     <!--广告start-->
+      <php>$ads = D("Ads","home")->getADList();</php>
+      <div class="mb5">
+          <volist id="vo" name="ads">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="210" height="236" /></a>
+          </volist>
+      </div>
+     <!--广告end-->
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+
+<include file="__THEME__/editor" />
+
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>广告</div>
+	
+	<div class="form2">
+	<form method="post" action="{:U('admin/Content/doEditAds')}"  enctype="multipart/form-data">
+	<eq name="type" value="edit"><input type="hidden" name="id" value="{$id}"></eq>
+    <dl class="lineD">
+      <dt>标题：</dt>
+      <dd>
+        <input name="title" type="text" size="55" value="{$title}"> (必填，不多于30个汉字)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>内容：</dt>
+      <dd>
+        <input name="content" type="text" size="55" value="{$content}"> (图片广告必填，文字广告选填，注意各个区域图片尺寸)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>图片：</dt>
+      <dd>
+        <input name="logo" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(必填)
+        <php>if (strlen($image)>0) {</php>
+        <br/><img src="__UPLOAD__/{$image}" style="height:300px; border:1px solid #CCC;"/>
+        <php> } </php>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>url地址：</dt>
+      <dd>
+        <input name="url" type="text" size="95" value="{$url}"> (跳转网址，选填，如：http://baidu.com ，不超过150个字符)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>分类：</dt>
+      <dd>
+        <select name="type">
+        	<php>
+        		foreach($place_array as $_key=>$_value){
+        			if ($ad_type == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>顺序：</dt>
+      <dd>
+        <input name="order" type="text" size="55" value="{$title}"> (选填，数字，越小越靠前，1最靠前)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>推荐：</dt>
+      <dd>
+        <input type="radio" name="recommend" value="0" <eq name="recommend" value="0">checked</eq>>否<br />
+		<input type="radio" name="recommend" value="1" <eq name="recommend" value="1">checked</eq>>是
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>状态：</dt>
+      <dd>
+        <input type="radio" name="status" value="0" <eq name="status" value="0">checked</eq>>未审核<br />
+		<input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq>>已审核
+	  </dd>
+    </dl>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<include file="../Public/_footer" />

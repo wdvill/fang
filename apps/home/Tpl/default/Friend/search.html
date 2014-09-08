@@ -1,0 +1,58 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/friend.js"></script>
+<div class="pagewidth">
+    <div class="qz_t1 p10 mb5">
+        <form action="{:U('home/friend/search')}" method="post" onsubmit="return searchFriend(this);">
+        	<div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:830px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="按姓名/职位/公司搜索" />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg" class="xixi1">
+              <div class="tab1" style="width:60px;"><a href="{:U('home/friend/search')}" style="color:#163abb">人 脉</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/info/search')}">资 讯</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/project/search')}">项 目</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('event/index/search')}">活 动</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('group/index/search')}">群 组</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/qa/search')}">问 答</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/blog/search')}">博 客</a></div>
+          </div>
+          <div class="p10" style="width:940px;">
+             <div class="rm_t1 mb10 mt10">人脉</div>
+             <div class="p10">
+             	<div class="mb10">
+                  <php>if(empty($list['data'])){</php>
+                  	  <div>对不起，没有找到您搜索的关键字的人脉！请重新搜索！</div>
+                  <php>}else{</php>
+                      <volist id="vo" name="list['data']">
+                          <div class="l wid33">
+                              <div class="ss_t1 mb10">
+                               <div class="p10 bgc2 border1" style="height:70px;">
+                                  <div class="l wid37"><a href="{$vo['uid']|getUserUrl}" target="_blank"><img src="{$vo['uid']|getUserFace}" width="80" height="80" /></a></div>
+                                  <div class="r wid60">
+                                     <p class="font3 mt mb5"><a href="{$vo['uid']|getUserUrl}" target="_blank">{$vo.uname}</a></p>
+                                     <p class="font1">{$vo.position}</p>
+                                     <p class="font5">{$vo.company}</p>
+                                  </div>
+                               </div>
+                              </div>
+                          </div>
+                      </volist>
+                  <php>}</php>
+                  <div class="cl"></div>
+                </div>
+                <div class="tc">{$list.html}</div>
+             </div>
+          </div>
+		</div>
+     <div class="cl"></div>
+    </div>
+  </div>
+</div>
+<include file="__THEME__/footer" /> 

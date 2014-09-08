@@ -1,0 +1,49 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="{:U('weibo/Plugins/init')}"></script>
+
+<div class="pagewidth">
+    <div class="bg p10">
+        <include file="space" />
+        <div class="bgc2">
+          <div class="w_tit1 mb5">
+             <div class="tab">
+                <div id="bg" class="xixi1">
+                  <div class="tab1"><a href="{$uid|getUserUrl}">个人资料</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='weibo'}">微博（{$space_count.weibo}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='qa'}">问答（{$space_count.qa}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='group'}" style="color:#163abb;">群组（{$space_count.group}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='event'}">活动（{$space_count.event}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='blog'}">博客（{$space_count.blog}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='follow'}">关注（{$userinfo.following_count}）</a></div>
+                  <div class="tab2"><a href="{$uid|getUserUrl='fan'}">粉丝（{$userinfo.follower_count}）</a></div>
+                </div>
+                <div class="p30" style="width:850px;">
+                    <div class="p15">
+                    	<volist id="vo" name="group['data']"> 
+                            <div class="p5 mb20 hd_t2" style="height:90px;">
+                                <div class="l wid13 tc">
+                                	<a href="{:U('group/group/index',array('gid'=>$vo['id']))}" target="_blank"><img src="{$vo.logo}" width="100" height="80"/></a>
+                                </div>
+                                <div class="r wid86">
+                                	<div class="l wid60 hd_t4 mb10"><a href="{:U('group/group/index',array('gid'=>$vo['id']))}" target="_blank">{$vo.name}</a></div>
+                                	<div class="r wid39">
+                                        <p>创建者：<a href="{$vo.userurl}" target="_blank">{$vo['uname']}</a></p>
+                                        <p>成员数：{$vo.membercount} 人</p>
+                                    </div>
+                                	<div class="cl"></div>
+                                	<div class="hd_t5">{$vo.m_intro}</div>
+                                	<div class="cl"></div>
+                                </div>
+                                <div class="cl"></div>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+            </div>
+          </div>   
+        </div>  
+    </div>
+</div>
+<include file="__THEME__/footer" /> 

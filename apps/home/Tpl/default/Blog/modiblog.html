@@ -1,0 +1,74 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/blog.js"></script>
+<include file="__THEME__/editor" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/blog.info.form.js"></script>
+<script>
+$(document).ready(function(){
+	loadEditor("content");
+});
+</script>
+
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+    	<form action="{:U('home/blog/search')}" method="post" onsubmit="return searchGroup(this);">
+        	<div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的博客..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg" >
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+             <div class="l wid55">
+              <div id="font1" class="tab1" style="width:80px;"><a href="{:U('home/blog/index')}">最新博客</a></div>
+              <div id="font2" class="tab2" style="width:85px;"><a href="{:U('home/blog/my_blog')}" >我发布的博客</a></div>
+              <div id="font4" class="tab2" ><a href="{:U('home/blog/post_blog')}">发布新博客</a></div>
+              <div id="font4" class="tab2" ><a href="{:U('home/blog/post_blog')}" style="color:#163abb;">修改博客</a></div>
+             </div> 
+          </div>
+          <div id="TabTab03Con4" class="p10">
+              <form action="{:U('home/blog/modi_blog')}" method="post" onsubmit="return checkForm(this);" enctype="multipart/form-data">
+              	<input type="hidden" name="id" value="{$data['id']}">
+              <div class="p10">
+                <div class="mb5 hei25">
+                  <div class="l wid17 font6 tr">标题：</div>
+                  <div class="l wid83"><input name="title" id="title" value="{$data['title']}" type="text" style="width:300px; height:20px; border:1px solid #CCC;"/></div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="mb5 hei25">
+                  <div class="l wid17 font6 tr">分类：</div>
+                  <div class="l wid83"><select name="category" style="width:110px; height:20px; border:1px solid #CCC;">
+                  <volist id="vo" name="blog_category">
+                  
+                  <option value="{$vo.id}" <php>if ($vo['id']==$data['category']) echo " selected='selected'";</php>>{$vo.name}</option>
+                  </volist>
+                  </select></div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="mb5">
+                  <div class="l wid17 font6 tr">内容：</div>
+                  <div class="l wid83">      	
+                  <textarea name="content" id="content" style="width:580px;height:200px">{$data['content']}</textarea>
+                  </div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="cl"></div>
+                <div class="tr"><a href="{:U('home/blog/index')}" >取消</a> <input type="image" src="__THEME__/images/fb1.jpg" /></div>
+             </div>
+             </form>
+          </div>
+        </div> 
+       </div>
+    </div>
+  </div>  
+<include file="r_side" />
+<include file="__THEME__/footer" />

@@ -1,0 +1,57 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/project.js"></script>
+<div class="pagewidth">
+    <div class="qz_t1 p10 mb5">
+        <form action="{:U('home/project/search')}" method="post" onsubmit="return searchGroup(this);">
+        	<div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:830px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的项目..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg" class="xixi1">
+              <div class="tab1" style="width:60px;"><a href="{:U('home/friend/search')}">人 脉</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/info/search')}">资 讯</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/project/search')}" style="color:#163abb">项 目</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('event/index/search')}">活 动</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('group/index/search')}">群 组</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/qa/search')}">问 答</a></div>
+              <div class="tab1" style="width:60px;"><a href="{:U('home/blog/search')}">博 客</a></div>
+          </div>
+          <div class="p10" style="width:940px;">
+             <php> if (intval($data['count']) > 0){ </php> 
+             <div class="rm_t1 mb10 mt10">以下是您搜索的项目</div>
+             <div class="p10">
+             	<volist id="vo" name="data['data']">
+                    <div class="p5 mb10 border2" style="height:90px;">
+                      	<div class="l wid44">
+                     	 <div class="l wid30"><img src="__UPLOAD__/{$vo.instruction}" width="100" height="80"/></div>
+                         <div class="mb5 font8" style="margin-right:20px"><b><a href="{:U('home/project/project_detail',array('pro_id'=>$vo['pro_id']))}" target="_blank">{$vo.title}</a></b></div>
+                         <div class="font1">
+                            <p>项目分类：<php>echo $project_cate[$vo['cate_id']];</php></p>
+                            <p>资金规模：<php>echo $vo['cap_id'];  echo $project_capital[$vo['cap_id']];</php></p>
+                            <p>创建时间：{$vo.ctime|date="Y-m-d h:m",###}</p>
+                         </div>
+                     	</div>
+                     <div class="r wid55 font1">{$vo.intro}</div>
+                 	</div>
+                 <div class="cl"></div>
+                </volist>
+                <div class="tc">{$data.html}</div>
+             </div>
+                <php> } else { </php>
+                    <div class="rm_t1 mb10">对不起，没有找到您搜索的关键字的项目！请重新搜索！</div>
+                 <php> } </php>
+             
+          </div>
+		</div>
+     <div class="cl"></div>
+    </div>
+  </div>
+</div>
+<include file="__THEME__/footer" /> 

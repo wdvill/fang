@@ -1,0 +1,161 @@
+<include file="__THEME__/header" />
+<script  type="text/javascript" src="__PUBLIC__/js/rcalendar.js" ></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="../Public/js/event.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="bg">       
+       <div class="tab">
+		  <div id="TabTab03Con5" class="p10">
+             <div class="p10">
+                 <div class="mb10">
+                    <div class="border2 mb10 wb_t1 hei25"><h1 style="font-size:20px">发布活动</h1></div>
+                    <div class="cl"></div>
+                    <div class="p10">
+                    <form method="post" action="{:U('event/Index/doAddEvent')}" enctype="multipart/form-data" onsubmit="return check(this);">
+                       <div class="hei25 mb10">
+                          <div class="l wid10">活动名称：</div>
+                          <div class="r wid89"><input id="title" name="title" type="text" style="width:400px; height:20px; border:1px solid #CCC;"/></div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="hei25 mb10">
+                          <div class="l wid10">活动时间：</div>
+                          <div class="r wid89">
+                          	<input name="sTime" type="text" style="width:120px; height:20px; border:1px solid #CCC;" id="sTime" onfocus="rcalendar(this,'full');" readonly />
+                      		-
+                      		<input name="eTime" type="text" style="width:120px; height:20px; border:1px solid #CCC;" id="eTime" onfocus="rcalendar(this,'full');" readonly />
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="hei25 mb10">
+                          <div class="l wid10">活动地点：</div>
+                          <div class="r wid89"><input name="address" id="address" type="text" style="width:400px; height:20px; border:1px solid #CCC;"/></div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="hei25 mb10">
+                          <div class="l wid10">活动费用：</div>
+                          <div class="r wid89">
+                          	  <select name="cost" class="text">
+                                <option value="0" selected="selected">免费</option>
+                                <option value="1">AA制</option>
+                                <option value="2">50元以下</option>
+                                <option value="3">50-200元</option>
+                                <option value="4">200-500元</option>
+                                <option value="5">500-1000元</option>
+                                <option value="6">1000元以上</option>
+                              </select>
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="hei25 mb10">
+                          <div class="l wid10">费用说明：</div>
+                          <div class="r wid89"><input name="costExplain" id="costExplain" type="text" style="width:400px; height:20px; border:1px solid #CCC;"/></div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="mb10">
+                          <div class="l wid10">活动简介：</div>
+                          <div class="r wid89"><textarea name="explain" id="explain" cols="" rows="" style="width:600px; height:300px; border:1px solid #CCC;"></textarea></div>
+                       </div>
+                       
+                       <div class="cl"></div>
+                       <div class="hei25 mb10 mt5">
+                          <div class="l wid10">上传海报：</div>
+                          <div class="r wid89">
+                          <input name="cover" id="cover" type="file" style="width:400px; height:20px; border:1px solid #CCC;"/>
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <!--<div class="mb10">
+                          <div class="l wid10">加入方式：</div>
+                          <div class="r wid89">
+                            <p><input name="" type="radio" value="" /> 任何恒指用户都可加入</p>
+                            <p><input name="" type="radio" value="" /> 需要申请并由管理员批准方可加入</p>
+                            <p><input name="" type="radio" value="" /> 只有被邀请才可以加入</p>
+                            <p><input name="" type="radio" value="" /> 只发布信息，不接受报名</p>
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="border2 mb10"></div>
+                       <div class="cl"></div>
+                       <div class="mb10">
+                          <div class="l wid10">成员列表：</div>
+                          <div class="r wid89">
+                            <p><input name="" type="radio" value="" /> 公开</p>
+                            <p><input name="" type="radio" value="" /> 只有活动的成员能够看到</p>
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="border2 mb10"></div>
+                       <div class="cl"></div>
+                       <div class="mb10">
+                          <div class="l wid10">活动性质：</div>
+                          <div class="r wid89">
+                            <p><input name="" type="radio" value="" /> 本活动为公开活动，出现在活动公开列表内</p>
+                            <p><input name="" type="radio" value="" /> 本活动为秘密活动，既不出现在活动公开列表，也不出现在搜索列表中</p>
+                          </div>
+                       </div>
+                       <div class="cl"></div>
+                       <div class="border2 mb10"></div>
+                       <div class="cl"></div>
+                       <div class="hei50 mb10">
+                          <div class="l wid10"></div>
+                          <div class="r wid89">
+                          <input name="sync_weibo" type="checkbox" value="sina" /> <img src="__THEME__/images/ico3.gif" />同时发到微博
+                          </div>
+                       </div>-->
+                       <div class="border2 mb10"></div>
+                       <div class="cl"></div>
+                       <div><input type="image" src="__THEME__/images/fb.jpg" /></div>
+                    </form>  
+                    </div>
+                </div>
+             </div>
+          </div> 
+      </div>
+  	</div>  
+  </div> 
+  <div class="r wid22">
+   <div><a href="{:U('event/index/addEvent')}"><img src="__THEME__/images/fbhd.jpg" /></a></div>
+   <div class="cl"></div>
+    <!--<div class="tit4"><a href="#" target="_blank">活动日历</a></div>
+     <div class="tit5 p10 tc" style="width:197px;">
+        <img src="__THEME__/images/pic13.jpg" />
+     </div>
+     <div class="cl"></div>
+    <div class="tit4_2 mb10"></div>
+     <div class="cl"></div>-->
+     <!--最近加入start-->
+    <div class="tit4"><a href="#">推荐活动</a></div>
+    	<volist id="vo" name="recommend_list">
+         <div class="tit5 p5" style="width:197px;">
+            <div class="p5 border2">
+               <p class="font5"><b><a href="{$vo.url}" target="_blank">{$vo.title}</a></b></p>
+               <p class="font1">时间：{$vo.sdate.date}</p>
+               <p class="font1">地点：{$vo.city}{$vo.address}</p>
+            </div>
+            <div class="cl"></div>
+         </div>
+         <div class="cl"></div>
+        </volist>
+    <div class="tit4_2 mb10"></div>
+    <!--最近加入end-->
+    <div class="cl"></div>
+    <!--广告start-->
+      <php>$ads = D("Ads","home")->getADList();</php>
+      <div class="mb5">
+          <volist id="vo" name="ads">
+              <a href="{$vo.url}" target="_blank" title="{$vo.title}"><img src="{$vo.image}" width="210" height="236" /></a>
+          </volist>
+      </div>
+    <!--广告end-->
+</div>
+<include file="__THEME__/footer" />
+<!--<script>
+$(document).ready(function(){
+    loadEditor("explain");
+});
+function selectArea(){
+    var typevalue = $("#current").val();
+	ui.box.load(U('event/Area/area')+'&selected='+typevalue,{title:'选择城市'});
+}
+</script>-->

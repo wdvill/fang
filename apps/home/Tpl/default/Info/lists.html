@@ -1,0 +1,37 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/info.js"></script>
+</script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+        <form action="{:U('home/info/search')}" method="post" onsubmit="return searchInfo(this);">
+            <div class="l wid89">
+                <input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的资讯..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="rm_t1 mb10 pl10">{$cate.name}</div>
+    <div class="cl"></div>
+    <div class="bg p3 mt10">
+       <volist id="vo" name="list['data']">
+          <div class="mb5 ml10 border2">
+            <div class="l wid44">
+                <div class="mb5 ml10 font8">
+                    <a href="{$vo.url}" target="_blank" style="font-size:16px;">{$vo.title}</a>
+                </div>
+            </div>
+            <div class="r mr10 font1">{$vo.cdate}</div>
+            <div class="cl"></div>
+          </div>
+       </volist>
+       <div class="cl"></div>
+    </div>
+    <div class="tc">{$list.html}</div>
+  </div>  
+  <include file="r_side" />
+</div>
+<include file="__THEME__/footer" />

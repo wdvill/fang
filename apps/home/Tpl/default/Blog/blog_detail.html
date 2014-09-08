@@ -1,0 +1,52 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/blog.js"></script>
+</script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+        <form action="{:U('home/blog/search')}" method="post" onsubmit="return searchGroup(this);">
+            <div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的博客..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="bg">
+      <div class="p10">
+           <div class="rm_t1 mb10"><a href="{:U('home/blog/index')}">博客</a></div>
+           <div class="cl"></div>
+           <div class="bgc2 p10 mb10 border1">
+               <div class="tc font p10"><b>{$blog.title}</b></div>
+               <div class="tc font2 p5 mb10">
+               	作者：<a href="{$blog['uid']|getUserUrl}" target="_blank">{$blog.uid|getUserName}</a>&nbsp;&nbsp;
+               	发布日期：{$blog.cTime|date="Y-m-d H:m",###}&nbsp;&nbsp;浏览：{$blog.readCount}
+               <span style="margin-left:20px;cursor:pointer;color:#0330A7" onclick="transpond({$blog.id});">转发至微博</span>
+               </div>
+               <div class="cl"></div>
+               <div class="p10">{$blog.content}</div> 
+               <div class="r wid30 tc mb10">
+                  <form action="{:U('home/blog/modiblog')}" onclick="{if(confirm('确定要修改吗?')){return true;}return false;}" method="post" class="l ml10">
+                  <php>if (intval($blog['uid']) == intval($user['uid'])){ </php>
+                  <input type="image" src="__THEME__/images/xg1.jpg" />
+                  <input type="hidden" name="id" value="{$blog.id}">
+                  <input type="hidden" name="status" value="{$blog.status}">
+                  <php>}</php>
+                  </form>
+                  <form action="{:U('home/blog/delBlog')}" onclick="{if(confirm('确定要删除吗?')){return true;}return false;}" method="post" class="l ml10">
+                  <php>if (intval($blog['uid']) == intval($user['uid'])){ </php>
+                  <input type="image" src="__THEME__/images/sc1.jpg" />
+                  <input type="hidden" name="id" value="{$blog.id}">
+                  <input type="hidden" name="status" value="{$blog.status}">
+                  <php>}</php>
+                  </form>
+               </div>
+               <div class="cl"></div>
+           </div>
+      </div> 
+    </div>
+  </div>  
+<include file="r_side" />
+<include file="__THEME__/footer" />

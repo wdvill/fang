@@ -1,0 +1,82 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">发送IOS PUSH通知</div>
+  
+  <form method="post" action="{:U('admin/Tool/dosendpush')}" onsubmit="return checkform(this);">
+  
+  <div class="form2">
+    <dl class="lineD">
+      <dt>通知类别：</dt>
+      <dd>
+        <select id="content_type" style="min-width:100px">
+        	<option value="1">新闻</option>
+            <option value="2">微刊</option>
+        </select>
+		&nbsp;
+        <span>*</span>
+    </dl>
+  	<dl class="lineD">
+      <dt>通知标题：</dt>
+      <dd>
+        <input type='text' name="title" id="title" size='50' value=''/><span>*</span>
+    </dl>
+  	<dl class="lineD">
+      <dt>新闻/微刊ID：</dt>
+      <dd>
+        <input type='text' name="url" id="url" size='30' value=''/><span>*(输入新闻或者微刊的数字id,或者外部http开头的url链接)</span>
+    </dl>
+	
+    <input type="hidden" name="token" id="token" value="all" />
+   
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="发送" />&nbsp;&nbsp;
+      <span id="sending" style="display:none">推送通知发送中，请稍候...</span>
+    </div>
+  </div>
+  </form>
+</div>
+<script>
+
+var check_form = false;
+function checkform(o){
+	if(check_form) return false;
+	
+	var url = $(o).attr('action');
+	
+	var param = {};
+	param['token'] = $("#token").val();
+	param['content_type'] = $("#content_type").val();
+	param['title'] = $("#title").val();
+	param['url'] = $("#url").val();
+	
+	if(param['title']==''){
+		alert('请填写通知标题！');
+		return false;
+	}
+	
+	if(param['url']==''){
+		alert('请填写通知的新闻id或者微刊的id！');
+		return false;
+	}
+
+	$('#sending').show();
+	
+	check_form = true;
+	$.post(url,param,function(txt){
+		check_form = false;
+		$('#sending').hide();
+		if(txt == '1'){
+			alert('发送成功');
+			window.location.href = "{:U('admin/Tool/ioslist')}";
+		}else{
+			alert(txt);
+			//alert('发送失败！');
+		}
+	});
+	
+	return false;
+}
+
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/calendar.js"></script>
+<include file="../Public/_footer" />

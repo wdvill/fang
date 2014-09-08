@@ -1,0 +1,101 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  
+  <div class="page_tit">浏览</div>
+
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l" width="15%">标题</th>
+    <th class="line_l">分类</th>
+    <th class="line_l">列表图片</th>
+    <th class="line_l">人均消费</th>
+    <th class="line_l" width="15%">地址</th>
+    <th class="line_l">电话</th>
+    <th class="line_l" width="15%">简介</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="info['data']">
+      <tr overstyle='on' id="{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td><php>echo msubstr($vo['cname'],0,150);</php></td>
+        <td><php>echo $info_cate[$vo['cate_id']];</php></td>
+        <php>if (strlen($vo['smallpic']) > 0){
+        		if (stristr($vo['smallpic'], "http://")){
+        			$smallcover = "<img src='".$vo['smallpic']."' width='40' height='40'>";
+        		} else {
+        			$smallcover = "<img src='".$site_pre_url."/data/uploads/".$vo['smallpic']."' width='40' height='40'>";
+        		}
+        	} else {
+        		$smallcover = ' ';
+        	}
+        </php>
+        <td><php>echo $smallcover;</php></td>
+        <td><php>echo $vo['consume'];</php></td>
+        <td><php>echo msubstr($vo['address'],0,150); </php></td>
+        <td><php>echo msubstr($vo['telephone'],0,150); </php></td>
+        <php>
+        $loglat = ' ';
+        if (strlen($vo['longitude'])>0 && strlen($vo['latitude'])>0){
+        	$loglat = $vo['longitude'].','.$vo['latitude'];
+        }
+        </php>
+        <td><php>echo msubstr($vo['intro'],0,15); </php></td>
+        <td><eq name="vo.status" value="1">已审核<else/>未审核</eq></td>
+        <td>
+			<a href="{:U('admin/Content/editRestaurant',array('id'=>$vo['id']))}">修改</a>
+		</td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+</div>
+
+<script>
+    //鼠标移动表格效果
+    $(document).ready(function(){
+        $("tr[overstyle='on']").hover(
+          function () {
+            $(this).addClass("bg_hover");
+          },
+          function () {
+            $(this).removeClass("bg_hover");
+          }
+        );
+    });
+    
+    function checkon(o){
+        if( o.checked == true ){
+            $(o).parents('tr').addClass('bg_on') ;
+        }else{
+            $(o).parents('tr').removeClass('bg_on') ;
+        }
+    }
+    
+    function checkAll(o){
+        if( o.checked == true ){
+            $('input[name="checkbox"]').attr('checked','true');
+            $('tr[overstyle="on"]').addClass("bg_on");
+        }else{
+            $('input[name="checkbox"]').removeAttr('checked');
+            $('tr[overstyle="on"]').removeClass("bg_on");
+        }
+    }
+
+    //获取已选择用户的ID数组
+    function getChecked() {
+        var ids = new Array();
+        $.each($('table input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+</script>
+<include file="../Public/_footer" />

@@ -1,0 +1,24 @@
+<include file="../Public/_header" />
+
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>博客分类</div>
+	
+	<div class="form2">
+	<form method="post" action="{:U('admin/Content/doEditBlog_cate')}">
+	<eq name="type" value="edit"><input type="hidden" name="id" value="{$id}"></eq>
+    <dl class="lineD">
+      <dt>博客分类中文：</dt>
+      <dd>
+        <input name="name" type="text" value="{$name}"> *
+	  </dd>
+    </dl>
+	
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+<include file="../Public/_footer" />

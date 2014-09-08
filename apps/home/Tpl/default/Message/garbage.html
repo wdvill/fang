@@ -1,0 +1,62 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/message.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid90">
+    <div class="bg">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+             <div class="l wid55">
+              <div class="tab1" ><a href="{:U('home/Message/inbox')}">收件箱</a></div>
+              <div class="tab2" style="width:85px;"><a href="{:U('home/Message/outbox')}">发件箱</a></div>
+              <div class="tab2" style="width:100px;"><a href="{:U('home/Message/garbage')}" style="color:#163abb;">垃圾箱</a></div>
+             </div>
+          </div>
+          <div class="p10">
+              <div class="p10">
+              	 <div class="p5 mb10 border2" id="message_{$vo['source_message_id']}">
+                     <div class="">
+                         <div class=" mb5 font8">
+                           <span class="left" style="padding:0px 5px 0 0;"><input name="" type="checkbox" value="0" onclick="checkAll(this);" id="checkbox_checkAll"/></span>
+                           <a href="javascript:void(0)" onclick="checkAll();">全选</a> | 
+                           <a href="javascript:void(0)" onclick="deleteMessage();">删除</a> | 
+                           <a href="javascript:void(0)" onclick="recoverMessage();">恢复</a>
+                         </div>
+                     </div>
+                     <div class="cl"></div>
+                 </div>
+                 <div class="cl"></div>
+                 <volist id="vo" name="data">
+                     <div class="p5 mb10 border2" id="message_{$vo['message_id']}">
+                         <div class="" style="width:300px;">
+                             <div class="mb5 font8">
+                                <input type="checkbox" value="{$vo.message_id}" onclick="checkon(this);" />&nbsp;
+                                <php>$role_uid = ($vo['from_uid']==$mid) ? $vo['to_uid']:$vo['from_uid'];</php>
+                                <eq name="vo['role_type']" value="from"><b>来自</b>&nbsp;<else/><b>发至</b>&nbsp;</eq><a href="{:U('home/Space/index', array('uid'=>$role_uid))}">{$role_uid|getUserName}</a>
+                                &nbsp;<span style="color:#666">{$vo.ctime|date="Y-m-d",###}</span>
+                             </div>
+                         </div>
+                         <p class="wid70 font1" style="float:left;margin-left:100px">
+                                {$vo.summary}
+                         </p>
+                         <div style="float:right;">
+                         	 <php>if($vo['type']=='friend' && $vo['to_uid']==$mid){</php>
+                             	<a href="javascript:void();" onclick="acceptFriend({$vo['from_uid']});" style="color:#163abb;">接收好友请求</a> | 
+                             <php>}</php>
+                             <a href="javascript:void(0);" onclick="ui.confirm(this,'确认彻底删除私信?')" callback="deleleMessageById({$vo['message_id']})" style="color:#163abb;">删除</a> | 
+                             <a href="javascript:void(0);" onclick="recoverMessage({$vo['message_id']});" style="color:#163abb;">恢复</a> 
+                          </div>
+                          <div class="cl"></div>
+                     </div>
+                     <div class="cl"></div>
+                 </volist>
+                 <div class="tc">{$html}</div>
+              </div>
+          </div>
+         </div>
+       </div>
+    </div>
+  </div>  
+</div>
+<include file="__THEME__/footer" /> 

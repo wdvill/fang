@@ -1,0 +1,75 @@
+<include file="__THEME__/header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/project.info.form.js"></script>
+<div class="pagewidth"> 
+  <div class="l wid77">
+    <div class="qz_t1 p10 mb5">
+    	<form action="{:U('home/project/search')}" method="post" onsubmit="return searchGroup(this);">
+        	<div class="l wid89">
+            	<input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的项目..." />
+            </div>
+            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
+        </form>
+        <div class="cl"></div>
+      </div>
+    <div class="cl"></div>
+    <div class="bg" style="height:550px;">
+       <div class="w_tit1 mb5">
+       <div class="tab">
+          <div id="bg " class="xixi1" >
+             <div class="l wid55">
+              <div id="font1" class="tab1" style="width:80px;"><a href="{:U('home/project/index')}">全部项目</a></div>
+              <div id="font2" class="tab2" style="width:85px;"><a href="{:U('home/project/my_project')}">我发布的项目</a></div>
+              <div id="font3" class="tab2" style="width:100px;"><a href="{:U('home/project/fav_project')}">我收藏的项目</a></div>
+              <div id="font4" class="tab2" ><a href="{:U('home/project/post_project')}" style="color:#163abb;">发布新项目</a></div>
+             </div> 
+          </div>
+          <div id="TabTab03Con4" class="p15">
+              <div class="p22 mb10 bgc1">
+                  <b>注意事项</b><br />
+                  1. 项目发布者的档案（包括个人肖像、个人简介、工作经历、教育背景）必须真实完整<br />
+                  2. 本栏目之目的是供用户共享资源和发现合作机会，请勿发布广告类信息
+              </div>
+              <form action="{:U('home/project/add_project')}" method="post" enctype="multipart/form-data" onsubmit="return project_info.check_form(this);">
+              <div class="p10">
+                <div class="mb5 hei25">
+                  <div class="l wid23 font6 tr">项目名称：</div>
+                  <div class="l wid76"><input name="title" type="text" style="width:300px; height:20px; border:1px solid #CCC;" /></div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="mb5 hei25">
+                  <div class="l wid23 font6 tr">资本规模：</div>
+                  <div class="l wid76"><select name="cap_id" style="width:110px; height:20px; border:1px solid #CCC;">
+                  <volist id="vo" name="project_capital">
+                  <option value="{$vo.cap_id}">{$vo.name}</option>
+                  </volist>
+                  </select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类别 <select name="cate_id" style="width:110px; height:20px; border:1px solid #CCC;">
+                  <volist id="vo" name="project_cate">
+                  <option value="{$vo.cate_id}">{$vo.name}</option>
+                  </volist>
+                  </select></div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="mb5">
+                  <div class="l wid23 font6 tr">项目简介：</div>
+                  <div class="l wid76"><textarea name="intro" id="intro" cols="" rows="" style="width:600px; height:160px; border:1px solid #CCC;" ></textarea></div>
+                  <div class="cl"></div>
+                </div>
+                <div class="cl"></div>
+                <div class="mb5 hei25">
+                  <div class="l wid23 font6 tr">上传海报：</div>
+                  <div class="l wid76" align="left"><input name="logo" type="file" style="width:500px; height:20px; border:1px solid #CCC;" /><br /></div>
+                </div>
+                <div class="cl"></div>
+                <div class="tr"><a href="{:U('home/project/index')}" >取消</a> <input type="image" src="__THEME__/images/fb1.jpg" /></div>
+             </div>
+             </form>
+          </div>
+         </div>
+       </div>
+    </div>
+  </div>  
+<include file="r_side" />
+<include file="__THEME__/footer" />
