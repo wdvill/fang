@@ -1,10 +1,10 @@
 <include file="../Public/_header" />
 <div class="so_main">
   
-  <div class="page_tit">子内容管理</div>
+  <div class="page_tit">户型图管理</div>
   <div class="Toolbar_inbox">
-	<a href="{:U('admin/Content/addSubinfo',array('infotype'=>$infotype,'info_id'=>$info_id))}" class="btn_a""><span>添加子内容</span></a>
-    <a href="javascript:void(0);" class="btn_a" onclick="deleteSubinfo();"><span>删除子内容</span></a>
+	<a href="{:U('admin/Content/addSubinfo',array('infotype'=>$infotype,'info_id'=>$info_id))}" class="btn_a""><span>添加户型图</span></a>
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteSubinfo();"><span>删除户型图</span></a>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$info.html}
   </div>
@@ -17,7 +17,7 @@
     </th>
     <th class="line_l">ID</th>
     <th class="line_l">标题</th>
-    <th class="line_l">内容ID</th>
+    <th class="line_l">内容</th>
     <th class="line_l">列表图片</th>
     <th class="line_l">创建时间</th>
     <th class="line_l">状态</th>
@@ -29,7 +29,7 @@
         <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
         <td>{$vo.id}</td>
         <td><php>echo msubstr($vo['title'],0,15);</php></td>
-        <td><php>echo $vo['info_id'];</php></td>
+        <td><php>echo $vo['intro'];</php></td>
         <php>if (strlen($vo['pic']) > 0){
         		if (stristr($vo['pic'], "http://")){
         			$smallcover = "<img src='".$vo['pic']."' width='40' height='40'>";
@@ -53,8 +53,8 @@
   </table>
   </div>
   <div class="Toolbar_inbox">
-	<a href="{:U('admin/Content/addSubinfo',array('infotype'=>$infotype,'info_id'=>$info_id))}" class="btn_a""><span>添加子内容</span></a>
-    <a href="javascript:void(0);" class="btn_a" onclick="deleteSubinfo();"><span>删除子内容</span></a>
+	<a href="{:U('admin/Content/addSubinfo',array('infotype'=>$infotype,'info_id'=>$info_id))}" class="btn_a""><span>添加户型图</span></a>
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteSubinfo();"><span>删除户型图</span></a>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$info.html}
   </div>

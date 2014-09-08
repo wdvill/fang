@@ -1,52 +1,465 @@
 <include file="__THEME__/header" />
-<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/info.js"></script>
-</script>
-<div class="pagewidth"> 
-  <div class="l wid77">
-    <div class="qz_t1 p10 mb5">
-        <form action="{:U('home/info/search')}" method="post" onsubmit="return searchInfo(this);">
-            <div class="l wid89">
-                <input name="k" style="border:1px solid #CCC; width:615px; height:22px; color:#666;padding:4px 5px 0 5px;font-size:14px" value="搜索您感兴趣的资讯..." />
-            </div>
-            <div class="l wid10 tc"><input type="image" src="__THEME__/images/fx_ss.jpg" /></div>
-        </form>
-        <div class="cl"></div>
+<div class="toptitle">{$title}</div>
+<div class="blank10"></div>
+
+<div class="boxselect">
+<div class="title">查找新房</div>
+
+
+
+
+
+
+<div class="sortCon">
+    <div class="sort">
+        <dl id="wapesfsy_B02_05">
+            <dt>区域</dt>
+            <dd class="m2">
+                <i class="dn more_href"></i>
+                                                <strong><a href="?area=-1">不限</a></strong>
+                                                				<volist name="areas" id="vo" key="k" >
+																<span><a id="areaUrl" href="?area={$k}">{$vo}</a></span>
+																</volist>
+                                            </dd>
+        </dl>
+                <dl id="wapesfsy_B02_06">
+            <dt>单价</dt>
+            <dd>
+                <i class="dn more_href"></i>
+                                                <strong><a id="priceUrl" href="?search_price=-1">不限</a></strong>
+                                                				<volist name="search_prices" id="vo" key="k" >
+																<span><a id="priceUrl" href="?search_price={$k}">{$vo}</a></span>
+																</volist>                                                             
+                                                <span><a onClick="showhide('price')" href="javascript:void(0);">自定义</a></span>
+                <div id="price" style="display:none;" class="define">
+                    <input type="number" value="" class="df-txt"><span>至</span><input id="pricemax" name="pricemax" type="number" value="" class="df-txt"><span>元</span><a class="df-btn">确定</a>
+                </div>
+            </dd>
+        </dl>
+        <dl id="">
+            <dt>类型</dt>
+            <dd>
+                <i class="dn more_href"></i>
+                                                <strong><a href="?building_struct=-1">不限</a></strong>
+                                                				<volist name="building_structs" id="vo" key="k">
+                                                				<span><a href="?building_struct={$k}">{$vo}</a></span>
+                                                				</volist>
+                                                           
+            </dd>
+        </dl>
+        
     </div>
-    <div class="cl"></div>
-    <div class="bg p3">
-        <div class="mb5">
-          <div id="KinSlideshow" style="visibility:hidden;">
-              <volist id="vo" name="recommend">
-                  <a href="{$vo.url}" target="_blank"><img src="{$vo.cover}" width="729" height="269" title="{$vo.title}" /></a>
-              </volist>
-          </div>
-       </div>
-       <div class="cl"></div>
-       <php>
-       	$info_i = 1;
-       	foreach($list as $k=>$v){
-        	$lr = ($info_i%2) ? 'l':'r';
-        	$cl = ($info_i%2) ? '':'<div class="cl"></div>';
-            $info_i++;
-       </php>
-           <div class="{$lr} wid49">
-              <div class="bgc2 border1 p10">
-                 <div class="font">【<a href="{:U('home/info/lists',array('cate'=>$k))}">{$cate_name[$k]}</a>】</div>
-                 <div class="cl"></div>
-                 <ul class="ul_5 p10 size110">
-                    <volist id="vo" name="v">
-                        <li><a href="{$vo.url}" target="_blank">{$vo.m_title}</a></li>
-                    </volist>
-                 </ul>
-              </div>
-           </div>
-           {$cl}
-       <php>
-        }
-       </php>
-    </div> 
-  </div>  
-  <include file="r_side" />
+</div><!--sortCon结束-->
+</div><!--boxselect结束-->
+
+
+
+<volist name="info['data']" id="vo">
+<div class="boxlist">
+<div class="innerbox">
+<ul class="listcon">
+<li>
+<div class="m_c">
+<img width="100" height="70" src="__UPLOAD__/{$vo.cover}">
+<a href="#">{$vo.title}</a>
+<div class="cz_tit">{$vo.house_huxing} | {$vo.size}㎡</div>
+<div class="cz_tit">{$vo.location}</div>
+<div class="r2"><span><php>echo $building_structs[$vo['building_structure']];</php></span><i>{$vo.price}元/㎡</i></div>
 </div>
+<a href="/index.php?app=home&mod=info&act=detail&ind={$vo.info_id}" class="ahover"></a></li>
+</ul>
+</div>
+</div><!--boxlist结束-->
+</volist>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="__THEME__/js/jquery.min.js"></script>
+<script>
+        var siteUrl = "http://m.fang.com/";
+        var city = "bj";
+        var zfSiteUrl = "";
+        var bbsSiteUrl = "http://m.fang.com/bbs/";
+        var newsSiteUrl = "http://m.fang.com/news/";
+        var jiajuSiteUrl = "http://m.fang.com/jiaju/";
+        var askSiteUrl = "http://m.fang.com/ask/";
+        var ns = "" == 'N' ? 0 : 1;
+        var cityname = "北京";
+    
+	var purpose = "住宅";
+
+	var InterValObj;
+	var city="bj";
+	var ns = "n" == 'n' ? 0 : 1;
+	var district = "" != '' ? "" : -1;
+	var comarea = "" != '' ? "" : -1;
+	var price = "";
+	var room = "";
+	var rtype = "";
+	var tags = "";
+	var housetype = "";
+	var railway = "" != '' ? "" : -1;
+	var towards = "";
+	var floor = "";
+	var equipment = "";
+	var orderby = "";
+	var cityname="北京";
+	var count = "868473";
+	var keyword = "";
+        var esfSiteUrl = "http://m.fang.com/esf/";
+	
+	//主文件加载完毕，自动执行浏览/搜索时的记录，注释中的内容用于处理浏览器不兼容问题，onload不行，就用onreadystatechange
+        (function() {
+            var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+            script.src = 'http://js.ub.fang.com/_ubm.js?v=201407181100';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+            script.onload=script.onreadystatechange=function(){
+                if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){
+                    yhxw();
+                }
+            }
+        })();
+	    var b_other = 0;
+        function yhxw(b_other){
+            _ub.city=cityname;//这里用中文
+            _ub.biz = 'm'; // 业务---WAP端
+            _ub.location = ns; // 方位（南北方) ，北方为0，南方为1
+            if(b_other ==0){
+                var b=1; //用户动作（浏览0、搜索1、打电话31、即时通讯24、预约25）
+            }
+
+            if(purpose === '住宅'){
+                var p_temp={	
+                    'me0':district+"^"+comarea+"^"+railway,//区县^商圈^地铁
+                    'me2':price,//价格
+                    'me4':room,//户型
+                    'mey':tags,//特色
+                    'med':housetype,//来源
+                    'me6':towards,//朝向
+                    'me5':floor,//楼层
+                    'mev':equipment,//装修
+                    'mez':orderby,//排序
+                    'mec':keyword,//搜索关键词
+                    'me11':count,//搜索结果数
+                    'meb':''//配套
+                };
+            }
+            if(purpose === '别墅'){
+                var p_temp={
+                    'meg':district+"^"+comarea+"^"+railway,//区县^商圈^地铁
+                    'mei':price,//价格
+                    'mej':buildclass,//类型
+                    'mek':area,//面积
+                    'me12':tags,//特色
+                    'me10':housetype,//来源
+                    'mem':towards,//朝向
+                    'me13':floor,//楼层
+                    'meq':equipment,//装修
+                    'me14':orderby,//排序
+                    'mes':keyword,//搜索关键字
+                    'me15':count,//搜索结果数
+                    'mer':''//配套
+                };
+            }
+            var p={};
+            //若p_temp中属性为空或者无效，则不传入p中
+            for(var temp in p_temp){
+                if(p_temp[temp]!=null&&""!=p_temp[temp]&&undefined!=p_temp[temp]&&"undefined"!=p_temp[temp]){
+                    p[temp]=p_temp[temp];
+                }
+            }
+            // 用户行为(格式：'字段编号':'值')
+            if(b == 1){
+                _ub.collect(b,p); // 收集方法
+            }else{
+            	_ub.collect(b_other,p);
+            }
+        };
+        
+	$('#showMore').hide();
+	$('#showMoreHint').show();
+	function showSort(){
+            window.localStorage.more='0';
+            $('#showMore').hide();
+            $('#showMoreHint').show();
+	}
+	//显示更多筛选条件
+	function showMore(){
+            window.localStorage.more='1';
+            $('#showMore').show();
+            $('#showMoreHint').hide();
+	}
+	var total="868473";
+	var pagesize="10";
+	var totalpage = Math.ceil(total/pagesize);
+	var curp =2;
+	var k = true;
+	var w = $(window);
+	if(totalpage<=1){
+	  $("#drag").hide();
+	  k = false;
+	}
+	$('#drag').click(function(){
+            load();
+	});
+	//滚动到页面底部时，自动加载更多
+	var bua = navigator.userAgent.toLowerCase();
+	$(function(){
+	    $(window).bind("scroll",function(){
+		var scrollh = $(document).height();
+		if(bua.indexOf('iphone') != -1 || bua.indexOf('ios') != -1){
+                    scrollh = scrollh-140;
+		}else{
+                    scrollh = scrollh-80;
+		}
+		var c=document.documentElement.clientHeight || document.body.clientHeight, t=$(document).scrollTop();
+		if(k != false && ($(document).scrollTop() + w.height()) >= scrollh){
+                    load();
+		}
+		var mjason = document.getElementById("content").getBoundingClientRect().top;
+		if(mjason<0){
+                    $('#showorno').show();
+		}else{
+                    $('#showorno').hide();
+		}
+	    });
+	});
+
+	function load(){
+            var draginner=$('.draginner')[0];
+            k = false;
+            $('.draginner').css('padding-left','10px');
+            draginner.style.background="url(img/load.gif) 0 50% no-repeat";
+            draginner.innerHTML="正在加载请稍候";
+            var nowUrl = formatNowUrl('ajaxGetList');
+            $.get(nowUrl+"&r="+Math.random(),{'page':curp},function(data){
+                $('#content').append(data);
+                $('.draginner').css('padding-left','0px');
+                draginner.style.background="";
+                draginner.innerHTML="上拉自动加载更多";
+                curp=parseInt(curp)+1;
+                k = true;
+                if(curp>parseInt(totalpage)){
+                    $('#drag').hide();
+                    k = false;
+                }
+            });
+	}
+	function formatNowUrl(needAction){
+            var nowUrl = '?purpose=%D7%A1%D5%AC&city=%B1%B1%BE%A9&orderby=0&keywordtype=qz&gettype=android&correct=true&';
+            nowUrl = nowUrl+"c=esf&a="+needAction+"&city="+city;
+            return esfSiteUrl+nowUrl;
+	}
+	function assemblyUrl(aId, unit){
+            var minName = aId+"min";
+            var maxName = aId+"max";
+            var minData = $("#"+minName).val()==''?'0':$("#"+minName).val();
+            var maxData = $("#"+maxName).val()==''?'0':$("#"+maxName).val();
+            if(minData == '0' && maxData == ''){
+                    return false;
+            }else if((Number(minData)>Number(maxData))&&(Number(maxData)>0)){
+                    return false;
+            }else{
+                var urlvalue = $('#'+aId+'Url').attr('href');
+                if (aId=='price'){
+                        var urlvalue= "http://m.fang.com/esf/?c=esf&a=index&city="+city+"&keyword="+encodeURIComponent(keyword)+"&district=&comarea=&railway=&price="+minData+","+maxData+"&orderby=&fitment=&room=&area=&floor=&towards=&purpose=住宅&housetype=&from=&buildclass=&tags=&age=";
+//                        urlvalue = urlvalue.replace('p0',"p"+encodeURIComponent(minData+","+maxData));
+                }else if (aId=='area'){
+                        urlvalue = urlvalue.replace('a0',"a"+encodeURIComponent(minData+","+maxData));
+                }
+                $('#'+aId+'FormatUrl').attr("href",urlvalue) ;
+                return true;
+            }
+	}
+
+	function teltj(city,housetype,houseid,newcode,type,phone,channel,agentid){
+		    yhxw(31);
+            $.ajax({url:siteUrl+"data.d?m=houseinfotj&city="+city+"&housetype="+housetype+"&houseid="+houseid+"&newcode="+newcode+"&type="+type+"&phone="+phone+"&channel="+channel+"&agentid="+agentid,async:true});
+            $.ajax({url:siteUrl+"data.d?m=tel&city="+city+"&housetype="+housetype+"&id="+houseid+"&phone="+phone,async:true});
+	};
+
+	if(document.getElementById("agentid")){
+            var agentid = $('#agentid').html();
+            var username = agentid;
+            var zhname = $('#agent_name').html()==null?"":$('#agent_name').html();
+            var agent_img = $('#agent_img').attr('src')==null?"":$('#agent_img').attr('src');
+            var xiaoqu = $('#xiaoqu').html()==null?"":$('#xiaoqu').html();
+            if(zhname != null && zhname != ''){
+                localStorage.setItem(''+username+'', encodeURIComponent(zhname)+';'+agent_img+';'+encodeURIComponent(xiaoqu+'的'));
+            }
+	}
+
+        function chat(zhcity, city, housetype, houseid, newcode, type, phone, channel, uname, aname, agentid) {
+            var bua = navigator.userAgent.toLowerCase();
+            yhxw(24);
+            $.ajax({url: siteUrl+"data.d?m=houseinfotj&city=" + city + "&housetype=" + housetype + "&houseid=" + houseid + "&newcode=" + newcode + "&type=" + type + "&phone=" + phone + "&channel=" + channel + "&agentid=" + agentid, async: false});
+            setTimeout(function() {
+                    var chatUrl = siteUrl+"chat.d?m=chat&username=" + uname + "&city=" + city
+                window.location = chatUrl;
+            }, 500);
+        }
+
+	var juli;
+	suc();
+	function suc(){
+            Y1 = getCookie("geolocation_y");
+            X1 = getCookie("geolocation_x");
+            var X2 = '';
+            var Y2 = '';
+
+            if(X1==null||Y1==null){
+                    return;
+            }
+            $.getJSON("/esf.d?m=getJuli&X1="+X1+"&Y1="+Y1+"&X2="+X2+"&Y2="+Y2,function(data){
+                    juli = data.root.allcount;
+                    $("#juli").html(juli);
+            });
+	}
+
+	function getCookie(name) { 
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+               return unescape(arr[2]); 
+            else 
+               return null; 
+	}
+	function setCookie(name,value) { 
+            var Days = 7; 
+            var exp = new Date(); 
+            exp.setTime(exp.getTime() + Days*24*60*60*1000); 
+            document.cookie = name + "="+ escape (value) +"; path=/"+";expires=" + exp.toGMTString(); 
+	}
+
+	//搜索提示层
+	$('#q').keyup(function(){
+            var currentvalue = $('#q').val();
+            if(currentvalue != "" ){
+                $.ajax({url:"?c=pinggu&a=ajaxGetSearchTip&orderby=esfcount&city=" + city + "&q=" + encodeURIComponent(currentvalue) + "&r=" + Math.random(),
+                    success:function(moredata){
+                        if (moredata != "") {
+                            var obj = eval('(' +moredata+ ')');
+                            if(obj.length <= 0){
+                                    $('.searchBList').hide();
+                            }else{
+                                    var str1 = '<ul>';
+                                    for(var i = 0; i < obj.length ; i++){
+                                            var kw = obj[i].replace(/<\/?[^>]*>/g,'');
+                                            str1 += '<li onclick="search(\''+kw+'\')">'+obj[i]+'</li>';
+                                    }
+                                    str1 += '</ul>';
+                                    $('.searchBList').show();
+                                    $('#searchBorder').html(str1);
+                            }
+                    }
+                }});
+            }else{
+                //取用本地存储
+                var storage = window.localStorage;
+                var hs = storage.getItem("esf_hisSearch");
+                if(hs != null){
+                    var arr_hs = hs.split(",");
+                    var str1 = '<ul>';
+                    for(var i = 0; i < arr_hs.length ; i++){
+                            str1 += '<li onclick="search(\''+arr_hs[i]+'\')">'+arr_hs[i]+'</li>';
+                    }
+                    str1 += '</ul>';
+                    $('.searchBList').show();
+                    $('#searchBorder').html(str1);
+                }else{
+                    $('.searchBList').hide();
+                }
+            }
+	});
+
+	function search(kw){
+            var storage = window.localStorage;
+            var hs = storage.getItem("esf_hisSearch");
+            if(kw == "请输入您的问题" || kw == ""){
+                alert('请输入您要查询的问题');
+                return false;
+            }
+            $('#q').val(kw);
+
+            var type = $('input[name=type][checked]').val();
+
+            if(type == 4){
+                    window.location = bbsSiteUrl+"?c=bbs&a=search&city="+city+"&q="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else if(type == 1){
+                    window.location = esfSiteUrl + city + "/?keyword="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else if(type == 2){
+                    window.location = zfSiteUrl + city + "/?keyword="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else if(type == 3){
+                    window.location = jiajuSiteUrl+"?c=jiaju&a=index&city="+city+"&q="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else if(type == 5){
+                    window.location = newsSiteUrl+"?c=news&a=search&city="+city+"&q="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else if(type ==6){
+                    //问答搜索
+                    window.location = askSiteUrl+"?c=ask&a=search&city="+city+"&keyword="+encodeURIComponent(kw)+"&r="+Math.random();
+            }else{
+                    window.location = siteUrl+"search.d?type="+type+"&city="+city+"&m=search&keyword="+kw+"&r="+Math.random();
+            }
+	}
+	function showhide(id){
+            if($('#'+id).css("display")=='none'){
+                $('#'+id).css("display","inline");
+            }else{
+                $('#'+id).css("display","none");
+            }
+	}
+
+    window.onload = function(){
+        var oSort = document.getElementById('sort');
+        var aBtn = document.getElementsByTagName('i');
+
+        function getStyle(obj, name) {
+            if (obj.currentStyle) {
+                return obj.currentStyle[name];
+            } else {
+                return getComputedStyle(obj, false)[name];
+            }
+        }
+
+        for (var i = 0; i < aBtn.length; i++) {
+            (function(index){
+                aBtn[i].onclick = function(){
+                    var oDD = this.parentNode;
+                    if (oDD.scrollHeight == 28) {
+                        return false;
+                    }
+                    if (oDD.scrollHeight == 50 && index==0) {
+                        return false;
+                    }
+
+                    if (oDD.style.maxHeight != 'inherit') {
+                        oDD.style.maxHeight = 'inherit';
+                        this.className = 'up';
+                    }else{
+                        if (index==0) {
+                            oDD.style.maxHeight = '50px';
+                        }else{
+                            oDD.style.maxHeight = '28px';
+                        }
+                        this.className = 'dn';
+                    }
+                    return false;
+                };
+            })(i);
+        };
+    };
+
+</script>
+
 <include file="__THEME__/footer" />

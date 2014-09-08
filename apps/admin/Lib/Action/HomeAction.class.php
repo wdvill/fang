@@ -32,12 +32,19 @@ class HomeAction extends AdministratorAction
         //unset($user);
         
         // 内容信息
-         $content['栏目数量'] = M('information_cate')->where('cate_id >=10')->count();
-        $content['新闻数量'] = M('information')->where(array('infotype'=>2))->count();
-        $content['图片专题数量'] = M('information')->where(' infotype=3 and cate_id!=7 and cate_id!=8 ')->count();
-         $content['锐朝阳数量'] = M('information')->where(array('infotype'=>4))->count();
-        $content['餐厅数量'] = M('ts_lifecontent')->where(array('cid'=>5))->count();
-        $content['玩乐场所数量'] = M('ts_lifecontent')->where(array('cid'=>4))->count();
+        $map = array();
+        if( $_SESSION['issecondadmin']) {
+        	$map['uid_admin'] = $_SESSION['mid'];
+        } elseif ( !$_SESSION['isadminman']) {
+        	$map['uid'] = $_SESSION['mid'];
+        }
+
+        $content['一手房数量'] = M('information')->where( array_merge($map, array('infotype'=>1)))->count();
+        $content['二手房数量'] = M('information')->where( array_merge($map, array('infotype'=>2)))->count();
+        $content['出租房数量'] = M('information')->where( array_merge($map, array('infotype'=>3)))->count();
+//          $content['锐朝阳数量'] = M('information')->where(array('infotype'=>4))->count();
+//         $content['餐厅数量'] = M('ts_lifecontent')->where(array('cid'=>5))->count();
+//         $content['玩乐场所数量'] = M('ts_lifecontent')->where(array('cid'=>4))->count();
         $statistics[' 内容统计信息'] = $content;
         
         

@@ -1,0 +1,267 @@
+<include file="__THEME__/header" />
+
+
+
+
+
+
+
+
+<div class="toptitle">{$info.title}</div>
+<div class="blank10"></div>
+
+<div class="main">
+<div class="mainimg"><a href="shipinlist.html"><img src="images/mainimg.jpg" width="100%"></a></div>
+<div class="infor">
+<h2>{$info.title}</h2>
+<p class="p1">均价：{$info.price}元/㎡</p>
+<p class="p2"><font color="#333333">开盘时间：</font>{$info.opening_time}{$info.opening_info}</p>
+<div class="selectblock">
+<span><php>echo $decorations[$info['decoration']];</php></span>
+<span><php>echo $areas[$info['area']];</php></span>
+<span><php>echo $traffic_positions[$info['traffic_position']];</php></span>
+</div><!--selectblock结束-->
+</div><!--infor结束-->
+
+<div class="infor2">
+<p>
+<em>物业类型：</em><php>echo $property_types[$info['property_type']];</php><br />
+<em>建筑类别：</em><php>echo $building_types[$info['building_type']];</php><br />
+<em>停车场：</em>{$info.parking}<br />
+<em>周边学校：</em>{$info.school}<br />
+<em>供水供暖情况：</em>{$info.double_gas}<br />
+<em>开发商：</em>{$info.property_developers}<br />
+<em>物业公司：</em>{$info.property_company}<br />
+<em>项目地址：</em>{$info.location}
+</p>
+</div>
+
+
+<div class="description"><a href="index.php?app=home&mod=info&act=lpinfor&ind={$info.info_id}">楼盘详情信息（项目描述）</a></div>
+
+
+<div class="huxing">
+
+<volist name="sub_info['data']" id="vo" >
+<ul>
+<li>
+<img src="__UPLOAD__/{$vo.pic}" width="110" height="68">
+<p><em>{$vo.title}</em><br />
+{$vo.intro}
+</p>
+<a href="pic.html"></a>
+</li>
+</volist>
+
+</ul>
+
+</div><!--huxing结束-->
+
+</div><!--main结束-->
+
+
+
+<div style="margin-top:50px; width:100%;"></div>
+
+
+
+
+
+<div id="pop" class="pop" style="display:none">
+  <div class="pop_head"><a class="close" href="javascript:void(0);" onclick="hide()"></a></div>
+  <div class="pop_body">
+  <div class="title2">预约看房</div>
+  
+<div class="textnei"><p>置业顾问：小张<br />
+电话：13521236541<a href="tel:4008900000"><img src="images/tel.png" width="30" height="22"></a></p>
+ </div> 
+  
+  </div><!--pop_body结束-->
+</div><!--pop结束-->
+
+
+
+
+
+<div id="pop2" class="pop" style="display:none">
+  <div class="pop_head"><a class="close" href="javascript:void(0);" onclick="hide2()"></a></div>
+  <div class="pop_body">
+  <div class="title2">优惠申请</div>
+  
+<div class="textnei2">
+	<div class="inputlist">
+		<ul>
+		<li>购房人名：<input name="" type="text" class="input3"></li>
+		<li>联系电话：<input name="" type="text" class="input3"></li>
+		<li>选择房号：<input name="" type="text" class="input3"></li>
+		<li>销售代表：<input name="" type="text" class="input3"></li>
+		</ul>
+	
+	</div>
+ </div> <!--textnei2结束-->
+  
+  <div class="blank5"></div>
+  
+  <div class="anniu">
+ <div class="anniu1"><a href="#">取消</a></div>
+  
+ <div class="anniu2"><a href="#">确认</a></div>
+  
+  </div>
+  </div><!--pop_body结束-->
+</div><!--pop2结束-->
+
+
+
+
+
+
+
+<div id="pop3" class="pop" style="display:none">
+  <div class="pop_head"><a class="close" href="javascript:void(0);" onclick="hide3()"></a></div>
+  <div class="pop_body">
+  <div class="title2">挑错</div>
+  
+<div class="textnei3">
+	<p class="p4">已卖出：<img src="images/select_act.png" width="20" height="20"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 内容不符：<img src="images/select_act.png" width="20" height="20"></p>
+	<p class="p5">虚假广告：<img src="images/select.png" width="20" height="20"></p>
+	
+	<p class="p5">其他:<textarea name="" cols="" rows="" class="input4"></textarea></p>
+ </div> <!--textnei3结束-->
+  
+  <div class="blank5"></div>
+  
+  <div class="anniu">
+ <div class="anniu1"><a href="#">取消</a></div>
+  
+ <div class="anniu2"><a href="#">确认</a></div>
+  
+  </div>
+  </div><!--pop_body结束-->
+</div><!--pop3结束-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clear"></div>
+<div class="footernav">
+<ul>
+<li><a href="javascript:void(0);" onClick="show();">预约看房</a></li>
+<li><a href="javascript:void(0);" onClick="show2();">优惠申请</a></li>
+<li><a href="javascript:void(0);" onClick="show3();">挑错</a></li>
+</ul>
+</div>
+
+
+
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript"> 
+var EX = {
+	addEvent:function(k,v){//alert('1');
+		var me = this;
+		if(me.addEventListener)
+		me.addEventListener(k, v, false);
+		else if(me.attachEvent)
+		me.attachEvent("on" + k, v);
+		else
+		me["on" + k] = v;
+	},
+	removeEvent:function(k,v){//alert('2');
+		var me = this;
+		if(me.removeEventListener)
+		me.removeEventListener(k, v, false);
+		else if(me.detachEvent)
+		me.detachEvent("on" + k, v);
+		else
+		me["on" + k] = null;
+	},
+	stop:function(evt){//alert('3');
+		evt = evt || window.event;
+		evt.stopPropagation?evt.stopPropagation():evt.cancelBubble=true;
+	}
+};
+////////////////////
+document.getElementById('pop').onclick = EX.stop;
+var url = '#'; 
+function show(){ 
+	var o = document.getElementById('pop'); 
+	o.style.display = ""; 
+	setTimeout(function(){
+		EX.addEvent.call(document,'click',hide);
+	});
+}
+function hide(){ 
+	var o = document.getElementById('pop'); 
+	o.style.display = "none"; 
+	EX.removeEvent.call(document,'click',hide);
+} 
+
+
+
+
+
+
+document.getElementById('pop2').onclick = EX.stop;
+//var url = '#'; 
+function show2(){ 
+	var o2 = document.getElementById('pop2'); 
+	o2.style.display = ""; 
+	setTimeout(function(){
+		EX.addEvent.call(document,'click',hide2);
+	});
+}
+function hide2(){ 
+	var o2 = document.getElementById('pop2'); 
+	o2.style.display = "none"; 
+	EX.removeEvent.call(document,'click',hide2);
+} 
+
+
+
+
+
+document.getElementById('pop3').onclick = EX.stop;
+//var url = '#'; 
+function show3(){ 
+	var o2 = document.getElementById('pop3'); 
+	o2.style.display = ""; 
+	setTimeout(function(){
+		EX.addEvent.call(document,'click',hide3);
+	});
+}
+function hide3(){ 
+	var o2 = document.getElementById('pop3'); 
+	o2.style.display = "none"; 
+	EX.removeEvent.call(document,'click',hide3);
+} 
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+<include file="__THEME__/footer" />

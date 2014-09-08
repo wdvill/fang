@@ -5,21 +5,36 @@
 class InfoAction extends Action{
 	var $info;
 	public function _initialize(){
-		$this->info = D("Info");
+		$this->info = D("info");
 	}
 	
 	public function index(){
-		//获取资讯分类
-		$data['cate_name'] = $this->info->getInfoCateListByCate();
+		//查找所有区域信息
+		$areas = M('Area')->where("view=1")->order('`area_id` ASC')->findAll();
+		$cus_areas = array();
+		foreach ( $areas as $area) {
+			$cus_areas[$area['area_id']] = str_replace(array('市', '县', '区'), array(), $area['title']);
+		}
+
+		$infotype = intval($_REQUEST['infotype']) ? intval($_REQUEST['infotype']) : 1;
+		$data['infotype'] = $infotype;
+		$data['areas'] = $cus_areas;
 		
-		//获取资讯列表
-		$data['list'] = $this->info->getHomeInfoList(9);
+		//标题
+		$data['title'] = "新房速递";
 		
-		//获取推荐资讯
-		$data['recommend'] = $this->info->getRecommendInfo(5);
+		//价格选择
+		$data['search_prices'] = C('SEARCH_PRICE');
 		
-		//获取热门资讯
-		$data['hot'] = $this->info->getHotInfo(10);
+		//房屋结构
+		$data['building_structs'] = C('BUILDING_STRUCTS');
+		
+		//最新一手房源信息
+		$order = ' info_id DESC ';
+		$map = array();
+		$map['infotype'] = $infotype;
+		$map['status'] = 1;
+		$data['info'] = M('information')->where($map)->order($order)->findPage(10);
 		
 		$this->assign($data);
 		$this->display();
@@ -64,17 +79,44 @@ class InfoAction extends Action{
 	function detail(){
 		$info_id = $_REQUEST['ind'];
 		if(!is_numeric($info_id) || !$data['info'] = $this->info->getInfoDetail($info_id))
-			handleErrorByJs("该资讯不存在！",U("home/info/index"));
+			handleErrorByJs("该信息不存在！",U("home/info/index"));
 		
-		//更新点击数量
-		$this->info->InfoBrowseCount($info_id);
-		//获取热门资讯
-		//$data['hot'] = $this->info->getHotInfo(10);
-			
+		$areas = M('Area')->where("view=1")->order('`area_id` ASC')->findAll();
+		$cus_areas = array();
+		foreach ( $areas as $area) {
+			$cus_areas[$area['area_id']] = str_replace(array('市', '县', '区'), array(), $area['title']);
+		}
+		$this->assign('infotype', $_REQUEST['infotype']);
+		$this->assign('areas', $cus_areas);
+		
+		$data['title'] = "找房子";
+		
+		$this->assign('property_types', C('PROPERTY_TYPE'));
+		$this->assign('building_types', C('BUILDING_TYPE'));
+		$this->assign('search_prices', C('SEARCH_PRICE'));
+		$this->assign('traffic_positions', C('TRAFFIC_POSITION'));
+		$this->assign('decorations', C('DECORATION'));
+		
+		//楼盘户型图信息
+		$map = ' info_id ='.$data['info']['info_id'];
+		$order = ' sort_id desc,id desc ';
+		$data['sub_info'] = M('ts_sub_info')->where($map)->order($order)->findPage(10);
+
+		$this->assign($data);
+		
+		if( $data['info']['infotype'] == 1) {
+			$this->display("newhouse");
+		}
+	}
+	
+	function lpinfor() {
+		$info_id = $_REQUEST['ind'];
+		if(!is_numeric($info_id) || !$data['info'] = $this->info->getInfoDetail($info_id))
+			handleErrorByJs("该信息不存在！",U("home/info/index"));
+		
 		$this->assign($data);
 		$this->display();
 	}
-	
 	//资讯转发微博
 	function transpond(){
 		$info_id = intval($_POST['id']);

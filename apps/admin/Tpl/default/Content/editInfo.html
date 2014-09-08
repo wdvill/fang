@@ -95,15 +95,9 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>优惠信息：</dt>
+      <dt>开盘时间：</dt>
       <dd>
-        <input name="benefit_info" id='benefit_info' type="text" size="55" value="{$benefit_info}">
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>剩余套数：</dt>
-      <dd>
-        <input name="remaining_house" id='remaining_house' type="text" size="55" value="{$remaining_house}"> 套
+        <input name="opening_time" id='opening_time' type="text" size="55" value="{$opening_time}">
 	  </dd>
     </dl>
     <dl class="lineD">
@@ -113,173 +107,13 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>开盘时间：</dt>
-      <dd>
-        <input name="opening_time" id='opening_time' type="text" size="55" value="{$opening_time}">
-	  </dd>
-    </dl>
-    
-    <dl class="lineD">
-      <dt>面积：</dt>
-      <dd>
-        <input name="total_area" id='total_area' type="text" size="55" value="{$total_area}">
-	  </dd>
-    </dl>
-    
-    <dl class="lineD">
-      <dt>楼层：</dt>
-      <dd>
-        <input name="floor" id='floor' type="text" size="55" value="{$floor}">
-	  </dd>
-    </dl>
-    
-    <dl class="lineD">
-      <dt>区域：</dt>
-      <dd>
-      	<select name="area" id='area'>
-        	<php>
-        		foreach($areas as $_key=>$_value){
-        			if ($area == $_key){
-        				echo "<option value='".$_key."' selected>".$_value."</option>";
-        			} else {
-        				echo "<option value='".$_key."'>".$_value."</option>";
-        			}
-        		}
-			</php>
-		</select> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>详细地址：</dt>
-      <dd>
-        <input name="location" id='location' type="text" size="55" value="{$location}">
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>交通位置：</dt>
-      <dd>
-      	<select name="traffic_position" id='traffic_position'>
-      		<option value='0'>请选择</option>
-        	<php>
-        		foreach($traffic_positions as $_key=>$_value){
-        			if ($traffic_position == $_key){
-        				echo "<option value='".$_key."' selected>".$_value."</option>";
-        			} else {
-        				echo "<option value='".$_key."'>".$_value."</option>";
-        			}
-        		}
-			</php>
-		</select>
-	  </dd>
-    </dl>
-    
-    <dl class="lineD">
       <dt>图片：</dt>
       <dd>
-        <input name="cover" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(选填，格式最好为640*360的宽图)
+        <input name="cover" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(选填，格式最好为100*70的图)
+        {$cover}
         <php>if (strlen($cover)>0) {</php>
-        <br/><img src="__UPLOAD__/{$cover}" style="height:180px; border:1px solid #CCC;"/>
+        <br/><img src="__UPLOAD__/{$cover}" width="100" height="70" style="border:1px solid #CCC;"/>
         <php> } </php>
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>视频：</dt>
-      <dd>
-        <input name="smallcover" type="file" style="width:300px; height:20px; border:1px solid #CCC;" />(必填，格式最好为120*90的宽图)
-        <php>if (strlen($smallcover)>0) {</php>
-        <br/><img src="__UPLOAD__/{$smallcover}" style="height:90px; border:1px solid #CCC;"/>
-        <php> } </php>
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>入住时间：</dt>
-      <dd>
-        <input name="movedate" id='movedate' type="text" size="25" value="{$movedate}"> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>物业类别：</dt>
-      <dd>
-        <select name="property_type" id='property_type'>
-        	<php>
-        		foreach($property_types as $_key=>$_value){
-        			if ($property_type == $_key){
-        				echo "<option value='".$_key."' selected>".$_value."</option>";
-        			} else {
-        				echo "<option value='".$_key."'>".$_value."</option>";
-        			}
-        		}
-			</php>
-		</select> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>物业：</dt>
-      <dd>
-        <input name="property_company" id='property_company' type="text" size="25" value="{$property_company}"> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>物业费：</dt>
-      <dd>
-        <input name="property_charges" id='property_charges' type="text" size="25" value="{$property_charges}"> 元(必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>停车场：</dt>
-      <dd>
-        <input name="parking" id='parking' type="text" size="25" value="{$parking}"> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>建筑类型：</dt>
-      <dd>
-        <select name="building_type" id='building_type'>
-        	<php>
-        		foreach($building_types as $_key=>$_value){
-        			if ($building_type == $_key){
-        				echo "<option value='".$_key."' selected>".$_value."</option>";
-        			} else {
-        				echo "<option value='".$_key."'>".$_value."</option>";
-        			}
-        		}
-			</php>
-		</select> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>建筑类型：</dt>
-      <dd>
-        <select name="building_structure" id='building_structure'>
-        	<option value='0'>请选择</option>
-        	<php>
-        		foreach($building_structures as $_key=>$_value){
-        			if ($building_structure == $_key){
-        				echo "<option value='".$_key."' selected>".$_value."</option>";
-        			} else {
-        				echo "<option value='".$_key."'>".$_value."</option>";
-        			}
-        		}
-			</php>
-		</select> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>产权：</dt>
-      <dd>
-        <input name="property_rights" id='property_rights' type="text" size="25" value="{$property_rights}"> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>产权年限：</dt>
-      <dd>
-        <input name="property_rights_years" id='property_rights_years' type="text" size="25" value="{$property_rights_years}"> 年(必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>双气：</dt>
-      <dd>
-        <input name="double_gas" id='double_gas' type="text" size="25" value="{$double_gas}"> (必填)
 	  </dd>
     </dl>
     <dl class="lineD">
@@ -300,15 +134,104 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>住户：</dt>
+      <dt>区域：</dt>
       <dd>
-        <input name="household" id='household' type="text" size="25" value="{$household}"> 户(必填)
+      	<select name="area" id='area'>
+        	<php>
+        		foreach($areas as $_key=>$_value){
+        			if ($area == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select> (必填)
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>绿化率：</dt>
+      <dt>交通位置：</dt>
       <dd>
-        <input name="greening_rate" id='greening_rate' type="text" size="25" value="{$greening_rate}"> (必填)
+      	<select name="traffic_position" id='traffic_position'>
+      		<option value='0'>请选择</option>
+        	<php>
+        		foreach($traffic_positions as $_key=>$_value){
+        			if ($traffic_position == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select>
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>物业类别：</dt>
+      <dd>
+        <select name="property_type" id='property_type'>
+        	<php>
+        		foreach($property_types as $_key=>$_value){
+        			if ($property_type == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>建筑类型：</dt>
+      <dd>
+        <select name="building_type" id='building_type'>
+        	<php>
+        		foreach($building_types as $_key=>$_value){
+        			if ($building_type == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>房屋结构：</dt>
+      <dd>
+        <select name="building_structure" id='building_structure'>
+        	<option value='0'>请选择</option>
+        	<php>
+        		foreach($building_structs as $_key=>$_value){
+        			if ($building_structure == $_key){
+        				echo "<option value='".$_key."' selected>".$_value."</option>";
+        			} else {
+        				echo "<option value='".$_key."'>".$_value."</option>";
+        			}
+        		}
+			</php>
+		</select> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>停车场：</dt>
+      <dd>
+        <input name="parking" id='parking' type="text" size="25" value="{$parking}"> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>周边小学：</dt>
+      <dd>
+        <input name="school" id='school' type="text" size="25" value="{$school}" readonly="readonly">
+        <input value="选择学校" type="button" id="select_school"/> (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>供水供暖情况：</dt>
+      <dd>
+        <input name="double_gas" id='double_gas' type="text" size="25" value="{$double_gas}"> (必填)
 	  </dd>
     </dl>
     <dl class="lineD">
@@ -320,34 +243,52 @@ function introlen(inputobj){
     <dl class="lineD">
       <dt>预售许可：</dt>
       <dd>
-        <input name="sale_permit" id='sale_permit' type="text" size="25" value="{$sale_permit}"> (必填)
-	  </dd>
-    </dl>
-	<dl class="lineD">
-      <dt>户型：</dt>
-      <dd>
-        <input name="house_type" id='house_type' type="text" size="25" value="{$house_type}"> (必填)
+        <input name="sale_permit" id='sale_permit' type="text" size="25" value="{$sale_permit}">
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>交通：</dt>
+      <dt>物业公司：</dt>
       <dd>
-        <input name="traffic" id='traffic' type="text" size="25" value="{$traffic}"> (必填)
+        <input name="property_company" id='property_company' type="text" size="25" value="{$property_company}"> (必填)
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>周边小学：</dt>
+      <dt>物业费：</dt>
       <dd>
-        <input name="school" id='school' type="text" size="25" value="{$school}" readonly="readonly">
-        <input value="选择学校" type="button" id="select_school"/> (必填)
+        <input name="property_charges" id='property_charges' type="text" size="25" value="{$property_charges}"> 元
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>标签：</dt>
+      <dt>房屋户型：</dt>
       <dd>
-        <input name="tag" id='tag' type="text" size="50" value="{$tag}"> 格式 期房:大产权:有地铁:设施   中间以:分隔(必填)
+        <input name="house_huxing" id='house_huxing' type="text" size="35" value="{$house_huxing}">(必填) (4室2厅2卫)
 	  </dd>
     </dl>
+    <dl class="lineD">
+      <dt>建筑面积：</dt>
+      <dd>
+        <input name="size" id='size' type="text" size="10" value="{$size}"> ㎡ (必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>项目地址：</dt>
+      <dd>
+        <input name="location" id='location' type="text" size="55" value="{$location}">(必填)
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>置业顾问：</dt>
+      <dd>
+        <input name="seller" id='seller' type="text" size="20" value="{$seller}">
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>电话：</dt>
+      <dd>
+        <input name="phone" id='phone' type="text" size="20" value="{$phone}">
+	  </dd>
+    </dl>
+    <php> if( $_SESSION['isadminman'] || $_SESSION['issecondadmin']) { </php>
     <dl class="lineD">
       <dt>状态：</dt>
       <dd>
@@ -355,6 +296,7 @@ function introlen(inputobj){
 		<input type="radio" name="status" value="1" <eq name="status" value="1">checked</eq>>已审核
 	  </dd>
     </dl>
+    <php>}</php>
     <dl class="">
       <dt>详细内容：</dt>
       <dd>

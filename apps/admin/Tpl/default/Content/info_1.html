@@ -23,7 +23,7 @@
 
         <b>&nbsp;&nbsp;区域：</b>
             <select name="area" id='area'>
-            	<option value="0">不限</option>
+            	<option value="-1">不限</option>
         	<php>
         		foreach($areas as $_key=>$_value){
         			if ($_GET['area'] == $_key){
@@ -35,9 +35,9 @@
 			</php>
 		</select>
 		
-		<b>&nbsp;&nbsp;物业类型：</b>
+		<b>&nbsp;&nbsp;物业类别：</b>
 		<select name="property_type" id='property_type'>
-			<option value="0">不限</option>
+			<option value="-1">不限</option>
         	<php>
         		foreach($property_types as $_key=>$_value){
         			if ($_GET['property_type'] == $_key){
@@ -51,7 +51,7 @@
 		
 		<b>&nbsp;&nbsp;单价：</b>
 		<select name="price" id='price'>
-			<option value="0">不限</option>
+			<option value="-1">不限</option>
         	<php>
         		foreach($search_prices as $_key=>$_value){
         			if ($_GET['price'] == $_key){
@@ -88,7 +88,12 @@
                 <php> }</php>
             </select>
          -->
-    <b>&nbsp;&nbsp;二级用户：</b><input type="text" id="uid_admin" name="uid_admin" size="6" value="<php>echo isset($_GET['uid_admin'])?$_GET['uid_admin']:''</php>"/>
+    <php>if ( $_SESSION['isadminman']) { </php>
+    <b>&nbsp;&nbsp;二级用户：</b><input type="text" id="uid_admin_name" name="uid_admin_name" size="6" value="<php>echo isset($_GET['uid_admin_name'])?$_GET['uid_admin_name']:''</php>"/>
+    <php>}</php>
+    <php>if ( $_SESSION['isadminman'] || $_SESSION['issecondadmin']) { </php>
+    <b>&nbsp;&nbsp;三级用户：</b><input type="text" id="uid_name" name="uid_name" size="6" value="<php>echo isset($_GET['uid_name'])?$_GET['uid_name']:''</php>"/>
+    <php>}</php>
   	<b>&nbsp;&nbsp;项目名称：</b><input type="text" id="title" name="title" size="6" value="<php>echo isset($_GET['title'])?$_GET['title']:''</php>"/>
     <input type="submit" class="btn_b" value="确定" />
 	</form>
@@ -102,7 +107,7 @@
     </th>
     <th class="line_l">ID</th>
     <th class="line_l">项目名称</th>
-    <th class="line_l">物业类型</th>
+    <th class="line_l">物业类别</th>
     <th class="line_l">建筑类别</th>
     <th class="line_l">装修</th>
     <th class="line_l">均价(万)</th>
@@ -110,6 +115,7 @@
     <th class="line_l">时间</th>
     <th class="line_l">审核/推荐状态</th>
     <th class="line_l">发布单位</th>
+    <th class="line_l">发布人</th>
     <th class="line_l">操作</th>
   </tr>
   <volist id="vo" name="info['data']">
@@ -121,12 +127,14 @@
         <td><php>echo $building_types[$vo['building_type']];</php></td>
         <td><php>echo $decorations[$vo['decoration']];</php></td>
         <td>{$vo.price}</td>
-        <td>{$vo.area}</td>
+        <td><php>echo $areas[$vo['area']]</php></td>
         <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
         <td><eq name="vo.status" value="1">已审核<else/>未审核</eq></td>
         <!-- <td>{$vo.uid|getUserName}</td>  -->
         <td>{$vo.uid_admin|getUserName}</td>
+        <td>{$vo.uid|getUserName}</td>
         <td>
+        	<a href="{:U('admin/content/subinfo',array('infotype'=>$vo['infotype'],'info_id'=>$vo['info_id']))}">户型图</a>
 			<a href="{:U('admin/Content/editInfo',array('id'=>$vo['info_id']))}">修改</a>
 			<a href="javascript:void(0);" onclick="deleteInfo('{$vo.info_id}')">删除</a>
 		</td>

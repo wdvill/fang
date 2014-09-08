@@ -91,7 +91,8 @@ class IndexAction extends AdministratorAction {
     			'信息统计'	=>	U('admin/Home/statistics'),
     			//'反馈管理'	=>	U('admin/Content/suggestion'),
     			'用户管理'	=>	U('admin/User/user'),
-				'新闻管理'	=>	U('admin/Content/info'),
+				'一手房管理'	=>	U('admin/Content/info'),
+    			'一手房管理'	=>	U('admin/Content/info'),
     			'图片专题管理'	=>	U('admin/Content/picture'),
     			'缓存更新'	=>	SITE_URL . '/cleancache.php?all',
     		),
@@ -101,6 +102,9 @@ class IndexAction extends AdministratorAction {
     				'首页'			=>	array(
     						'信息统计'	=>	U('admin/Home/statistics'),
     						//'反馈管理'	=>	U('admin/Content/suggestion'),
+    						'一手房管理'	=>	U('admin/Content/info', array('infotype'=>1)),
+    						'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
+    						'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
     						'用户管理'	=>	U('admin/User/user'),
     				),
     		);
@@ -108,9 +112,9 @@ class IndexAction extends AdministratorAction {
     	$menu['index'] 		=   array(
     		'首页'			=>	array(
     			'信息统计'	=>	U('admin/Home/statistics'),
-				'新闻管理'	=>	U('admin/Content/info'),
-    			'图片专题管理'	=>	U('admin/Content/picture'),
-    			'锐朝阳'		=>	U('admin/Content/chaoyang'),
+				'一手房管理'	=>	U('admin/Content/info', array('infotype'=>1)),
+    			'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
+    			'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
     		),
     	);
     	} 
@@ -137,11 +141,11 @@ class IndexAction extends AdministratorAction {
 				'一手房管理'	=>	U('admin/Content/info', array('infotype'=>1)),
     			'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
     			'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
-    			'图片专题管理'	=>	U('admin/Content/picture'),
-    			'餐厅管理'	=>	U('admin/Content/restaurant'),
-    			'餐厅特色榜单'	=>	U('admin/Content/ptopic', array('type'=>7)),
-    			'玩乐场所管理'	=>	U('admin/Content/playplace'),
-    			'旅游专题管理'	=>	U('admin/Content/ptopic', array('type'=>8)),
+//     			'图片专题管理'	=>	U('admin/Content/picture'),
+//     			'餐厅管理'	=>	U('admin/Content/restaurant'),
+//     			'餐厅特色榜单'	=>	U('admin/Content/ptopic', array('type'=>7)),
+//     			'玩乐场所管理'	=>	U('admin/Content/playplace'),
+//     			'旅游专题管理'	=>	U('admin/Content/ptopic', array('type'=>8)),
     		),
     	);
     	
