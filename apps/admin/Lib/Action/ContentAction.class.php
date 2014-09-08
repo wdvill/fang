@@ -1145,7 +1145,14 @@ class ContentAction extends AdministratorAction {
 			$_REQUEST['title']	= $_REQUEST['title'];
 		}
 
-		$map = " infotype=".$_REQUEST['infotype'];
+		$map = '';
+		if ( $_SESSION['issecondadmin']) {
+			$map = " uid_admin={$_SESSION['mid']}";
+		} elseif ( !$_SESSION['isadminman']) {
+			$this->error('权限错误');
+		}
+
+		$map .= " infotype=".$_REQUEST['infotype'];
 		if (isset($_REQUEST['modelid']) && ($_REQUEST['modelid'] != -1)){
 			$map = $map." and modelid=".$_REQUEST['modelid'];
 		}
