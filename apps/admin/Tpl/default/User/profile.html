@@ -1,0 +1,43 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  <div class="page_tit">个人信息</div>
+  
+  <form method="post" action="{:U('admin/User/doProfile')}">
+  
+  <div class="form2">
+    <dl class="lineD">
+      <dt>Email：</dt>
+      <dd>
+        <input name="email" id="email" type="text" value="{$email}"><font color="red">(必填)</font>
+        <p>用户进行登录的帐号</p>
+    </dl>
+	
+    <dl class="lineD">
+      <dt>密码：</dt>
+      <dd>
+        <input name="password" id="password" type="text"><font color="red">(必填)</font>
+        <p>用户进行登录的密码</p>
+    </dl>
+
+	
+    <dl class="lineD">
+      <dt>名称：</dt>
+      <dd>
+        <input name="uname" id="uname" type="text" value="{$uname}"><font color="red">(必填)</font>
+        <p>2-10位个中英文、数字、下划线和中划线组成 (单位及单位名称，个人及个人名字)</p>
+    </dl>
+    
+    
+    <dl class="lineD">
+      <dt>性别：</dt>
+      <dd>
+        <label><input name="sex" type="radio" value="1" <eq name="sex" value="1">checked</eq>>男</label>
+        <label><input name="sex" type="radio" value="0" <neq name="sex" value="1">checked</neq>>女</label>
+    </dl>
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+  </div>
+  </form>
+</div>
+<include file="../Public/_footer" />

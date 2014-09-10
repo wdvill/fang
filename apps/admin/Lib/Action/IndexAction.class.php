@@ -113,8 +113,9 @@ class IndexAction extends AdministratorAction {
     		'首页'			=>	array(
     			'信息统计'	=>	U('admin/Home/statistics'),
 				'一手房管理'	=>	U('admin/Content/info', array('infotype'=>1)),
-    			'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
-    			'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
+    			//'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
+    			//'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
+    			'个人信息'	=>	U('admin/User/profile'),
     		),
     	);
     	} 

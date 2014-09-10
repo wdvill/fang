@@ -106,6 +106,71 @@ class UserAction extends AdministratorAction {
 		$this->success('注册成功');
     }
     
+    //编辑自己个人信息
+    public function profile() {
+    	$map['uid']	= $_SESSION['mid'];
+    	
+    	$user = M('user')->where($map)->find();
+    	//     	exit;
+    	if(!$user) $this->error('无此用户');
+    	$this->assign($user);
+    	$this->display();
+    }
+    
+    //提交自己修改后的个人信息
+    public function doProfile() {
+    	//参数合法性检查
+    	$uid = $_SESSION['mid'];
+    	
+		$required_field = array(
+			'email'		=> 'Email',
+			'uname'		=> '姓名',
+		);
+		foreach ($required_field as $k => $v) {
+			if ( empty($_POST[$k]) ) $this->error($v . '不可为空');
+		}
+		if ( ! isValidEmail($_POST['email']) ) {
+			$this->error('Email格式错误，请重新输入');
+		}
+		if ( ! isEmailAvailable($_POST['email'], $uid) ) {
+			$this->error('Email已经被使用，请重新输入');
+		}
+		if ( !empty($_POST['password']) && strlen($_POST['password']) < 6 || strlen($_POST['password']) > 16 ) {
+			$this->error('密码必须为6-16位');
+		}
+
+    	if ( mb_strlen($_POST['uname'],'UTF8') > 10 ) {
+			$this->error('昵称不能超过10个字符');
+		}
+
+		//保存修改
+		$key   			 = array('email','uname','sex');
+		$value 			 = array($_POST['email'], escape(h(t($_POST['uname']))), intval($_POST['sex']) );
+		if ( !empty($_POST['password']) ) {
+			$key[]   	 = 'password';
+			$value[] 	 = md5($_POST['password']);
+		}
+		
+		$map['uid']	= $uid;
+		
+		$_LOG['uid'] = $this->mid;
+		$_LOG['type'] = '3';
+		$data[] = '用户 - 修改个人信息 ';
+		$data[] = M('user')->where($map)->field('uid,email,password,uname,domain,sex,is_active')->find();
+  		$GroupInfo = M( 'UserGroupLink' )->where( $map )->find();
+  		$data['1']['user_group_id'] = $GroupInfo['user_group_id']?$GroupInfo['user_group_id']:'0';
+		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
+		if( !$_POST['password'] )$_POST['password'] = $data['1']['password'];
+		$data[] = $_POST;
+		$_LOG['data'] = serialize($data);
+		$_LOG['ctime'] = time();
+		M('AdminLog')->add($_LOG);
+		
+		$res = M('user')->where($map)->setField($key, $value);
+		
+		$this->success('保存成功');
+    }
+    
     //编辑用户
     public function editUser() {
     	$_GET['uid']  = intval($_GET['uid']);
