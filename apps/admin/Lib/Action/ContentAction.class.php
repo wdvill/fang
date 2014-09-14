@@ -1091,7 +1091,7 @@ class ContentAction extends AdministratorAction {
 			$_REQUEST['title']	= $_REQUEST['title'];
 		}
 
-		$map = '';
+		$map = '1=1 and fid=0 ';
 		if ( $_SESSION['issecondadmin']) {
 			$map = " uid_admin={$_SESSION['mid']}";
 		} elseif ( !$_SESSION['isadminman']) {
@@ -1191,11 +1191,50 @@ class ContentAction extends AdministratorAction {
 		$this->display('info_1');
 	}
 
+	
+	public function subunite() {
+		//if (isset($_REQUEST['infotype'])){
+		$_REQUEST['infotype']	= intval($_REQUEST['infotype']) ? intval($_REQUEST['infotype']) : 1;
+		$_REQUEST['fid']		= intval($_REQUEST['fid']);
+		if( !$_REQUEST['fid']) {
+			$this->error("参数错误");
+		}
+		//}	
+		$map = '1=1';
+	
+		$map .= " and infotype=".$_REQUEST['infotype'];
+		$map .= " and fid=".$_REQUEST['fid'];
+		$title = $this->channels[$_REQUEST['infotype']];
+		$order = ' status desc,recommend desc,sort_id desc,mtime DESC ';
+		$order = ' info_id DESC ';
+		//echo "map=".$map;
+		$data = M('information')->where($map)->order($order)->findPage(10);
+		$this->assign('info', $data);
+
+		$areas = M('Area')->where("view=1")->order('`area_id` ASC')->findAll();
+		$cus_areas = array();
+		foreach ( $areas as $area) {
+			$cus_areas[$area['area_id']] = $area['title'];
+		}
+		$this->assign('infotype', $_REQUEST['infotype']);
+		$this->assign('areas', $cus_areas);
+		$this->assign('property_types', C('PROPERTY_TYPE'));
+		$this->assign('building_types', C('BUILDING_TYPE'));
+		$this->assign('search_prices', C('SEARCH_PRICE'));
+		$this->assign('traffic_positions', C('TRAFFIC_POSITION'));
+		$this->assign('decorations', C('DECORATION'));
+	
+		$this->assign("title", $title);
+		$this->display('info_unite');
+	}
+	
+	
 	public function addInfo() {
 		$this->assign('info_cate', $this->getinfo_cate(2));
 		
 		$this->assign('property_types', C('PROPERTY_TYPE'));
 		$this->assign('building_types', C('BUILDING_TYPE'));
+		$this->assign('building_structs', C('BUILDING_STRUCTS'));
 		$this->assign('traffic_positions', C('TRAFFIC_POSITION'));
 		$this->assign('decorations', C('DECORATION'));
 		$areas = M('Area')->where("view=1")->order('`area_id` ASC')->findAll();
@@ -1213,7 +1252,14 @@ class ContentAction extends AdministratorAction {
 		$this->assign('browsecount', '0');
 		$this->assign('fid', '0');
 		$this->assign('type', 'add');
-		$this->display('editInfo');
+		
+		if ( $_REQUEST['infotype'] == 1) {
+			$this->display('editInfo');
+		} elseif ( $_REQUEST['infotype'] == 2) {
+			$this->display('editInfo_second');
+		} elseif ( $_REQUEST['infotype'] == 3) {
+			$this->display('editInfo_third');
+		}
 	}
 
 	public function editInfo() {
@@ -1242,9 +1288,119 @@ class ContentAction extends AdministratorAction {
 			$this->error('参数错误');
 		$this->assign($ad);
 		$this->assign('type', 'edit');
-		$this->display('editInfo');
+		
+		if ( $ad['infotype'] == 1) {
+			$this->display('editInfo');
+		} elseif ( $ad['infotype'] == 2) {
+			$this->display('editInfo_second');
+		} elseif ( $ad['infotype'] == 3) {
+			$this->display('editInfo_third');
+		}
 	}
 
+	public function uniteInfo() {
+		if( empty($_POST['ids']) ) {
+			exit("请选择房源");
+		}
+		//权限控制
+		if ( !$_SESSION['isadminman']) {
+			exit("权限不够");
+		}
+		
+		$arr_info_id = split(',', t($_POST['ids']));
+		if ( !$arr_info_id) {
+			exit("没有id");
+		}
+		$the_exist = 0;
+		$the_fid = 0;
+		$count_fid = 0;
+		//判断里面是否有父记录，如有则把后面的插入这条父记录中,如没有则新加一条父记录
+		//同时判断里面某条是否已经加入了别的子集
+		foreach( $arr_info_id as $info_id) {
+			$the_finfo = M('information')->where('info_id='.$info_id)->find();
+			if ($the_finfo['sub'] > 0) {
+				$the_fid = $info_id;
+				$the_exist = 1;
+				$count_fid++;
+			}
+			if ( $the_info['fid']) {
+				exit("某条记录已合并为其它条目");
+			}
+		}
+
+		if( $count_fid > 1) {
+			exit("不能合并两个以上全集");
+		}
+		
+		if(!$the_fid) {
+			//插入一条新的父记录
+			$data = M('information')->where( array('info_id'=>$arr_info_id[0]) )->find();
+			unset( $data['info_id']);
+			unset( $data['sub']);
+			unset( $data['fid']);
+			$data['uid'] = $data['uid_admin'] = $this->mid;
+			$new_info_id = M('information')->add($data);
+			if (!$new_info_id) {
+				exit("插入失败");
+			}
+			$the_fid = $new_info_id;
+			$the_finfo = $data;
+		}
+
+		foreach( $arr_info_id as $info_id) {
+			if( $info_id == $the_fid ) {
+				continue;
+			}
+			M('information')->where('info_id='.$info_id)->setField('fid', $the_fid);
+		}
+
+		$sub_count = M('information')->where('fid='.$the_fid)->count();
+		M('information')->where('info_id='.$the_fid)->setField('sub', $sub_count);
+		
+		$_LOG['uid'] = $this->mid;
+		$_LOG['type'] = '2';
+		$data[] = '内容 - 合并房源管理 ';
+		$data[] =  M('information')->where( 'fid='.$the_fid )->findall();
+		$_LOG['data'] = serialize($data);
+		$_LOG['ctime'] = time();
+		M('AdminLog')->add($_LOG);
+		
+		echo 1;
+	}
+	
+	public function deluniteInfo() {
+		if( empty($_POST['ids']) ) {
+			exit("请选择房源");
+		}
+		
+		$arr_info_id = split(',', t($_POST['ids']));
+		if ( !$arr_info_id) {
+			exit("没有id");
+		}
+
+		$count_fid = 0;
+		//判断里面是否有父记录，如有则把后面的插入这条父记录中,如没有则新加一条父记录
+		//同时判断里面某条是否已经加入了别的子集
+		foreach( $arr_info_id as $info_id) {
+			$finfo = M('information')->where('info_id='.$info_id)->find();
+			M('information')->where('info_id='.$info_id)->setField('fid', 0);
+		}
+		
+		$sub_count = M('information')->where('fid='.$finfo['fid'])->count();
+		M('information')->where('info_id='.$finfo['fid'])->setField('sub', $sub_count);
+		
+		$_LOG['uid'] = $this->mid;
+		$_LOG['type'] = '2';
+		$data[] = '内容 - 移除合并房源管理 ';
+		$data[] =  $arr_info_id;
+		$data[] = M('information')->where( 'fid in '.t($_POST['ids']) )->findall();
+		$_LOG['data'] = serialize($data);
+		$_LOG['ctime'] = time();
+		M('AdminLog')->add($_LOG);
+		
+		echo 1;
+	}
+	
 	public function doEditInfo() {
 		$channels = $this->channels;
 		if( ($_POST['info_id'] = intval($_POST['info_id'])) <= 0 )
@@ -1279,7 +1435,9 @@ class ContentAction extends AdministratorAction {
 
 		// 格式化数据
 		$_POST['title']			= h(t($_POST['title']));
+		$_POST['village_name']	= h(t($_POST['village_name']));
 		$_POST['price']			= intval(t($_POST['price']));
+		$_POST['total_price']	= intval(t($_POST['total_price']));
 		$_POST['opening_time']	= t(t($_POST['opening_time']));
 		$_POST['opening_info']	= h($_POST['opening_info']);
 		$_POST['benefit_info']	= h($_POST['benefit_info']);
@@ -1307,8 +1465,10 @@ class ContentAction extends AdministratorAction {
 		$_POST['house_type']	= h($_POST['house_type']);
 		$_POST['house_huxing']	= h($_POST['house_huxing']);
 		$_POST['size']			= intval($_POST['size']);
+		$_POST['building_date']	= h($_POST['building_date']);
 		$_POST['traffic']		= h($_POST['traffic']);
 		$_POST['school']		= h($_POST['school']);
+		$_POST['expire_date']	= h($_POST['expire_date']);
 		$_POST['seller']		= h($_POST['seller']);
 		$_POST['phone']			= h($_POST['phone']);
 		$_POST['tag']			= h($_POST['tag']);
@@ -1361,10 +1521,10 @@ class ContentAction extends AdministratorAction {
 		}
 		
 		if($res) {
-			if( !isset($_POST['info_id']) ) {
-				$this->assign('jumpUrl', U('admin/Content/info'));
+			if( !isset($_POST['http_referer']) ) {
+				$this->assign('jumpUrl', $_POST['http_referer']);
 			}else {
-				$this->assign('jumpUrl', U('admin/Content/info'));
+				$this->assign('jumpUrl', U('admin/Content/info', array('infotype'=>$_POST['infotype'])));
 			}
 			$this->success('保存成功');
 		}else {
@@ -1374,9 +1534,9 @@ class ContentAction extends AdministratorAction {
 
 	public function doDeleteInfo() {
 		if( empty($_POST['ids']) ) {
-			echo 0;
-			exit ;
+			exit("请选择房源删除");
 		}
+		
 		//权限控制
 		$map = array();
 		if ( $_SESSION['issecondadmin']) {
@@ -1386,6 +1546,12 @@ class ContentAction extends AdministratorAction {
 		}
 		
 		$map['info_id'] = array('in', t($_POST['ids']));
+		
+		//判断是否是合并房源集，如果是合并房源集 必需先移除合并房源里的子集
+		$info = M('information')->where($map)->find();
+		if ( $info['sub'] > 0) {
+			exit("请先移除或者删除子集房源");
+		}
 		
 		$_LOG['uid'] = $this->mid;
 		$_LOG['type'] = '2';

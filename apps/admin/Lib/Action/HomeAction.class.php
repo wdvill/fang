@@ -47,6 +47,28 @@ class HomeAction extends AdministratorAction
 //         $content['玩乐场所数量'] = M('ts_lifecontent')->where(array('cid'=>4))->count();
         $statistics[' 内容统计信息'] = $content;
         
+        $map = '';
+        if( $_SESSION['issecondadmin']) {
+        	$map = "uid_admin = {$_SESSION['mid']}";
+        } elseif ( !$_SESSION['isadminman']) {
+        	$map = "uid = {$_SESSION['mid']}";
+        }
+        $map .= " and expire_date is not NULL and DATEDIFF(`expire_date`, now()) <=2";
+        $allInfo = M('information')->field('DATEDIFF(`expire_date`, now()) as diff, title, info_id, infotype')->where( $map)->findAll();
+        
+        foreach( $allInfo as $info) {
+        	if( $info['infotype'] == 2) {
+        		$secondHref .= "<a href='/adminsite/Content/editInfo/?id={$info['info_id']}'>{$info['title']}</a>&nbsp;&nbsp;";
+        	} elseif ( $info['infotype'] == 3) {
+        		$thirdHref .= "<a href='/adminsite/Content/editInfo/?id={$info['info_id']}'>{$info['title']}</a>&nbsp;&nbsp;";
+        	}
+        }
+        
+        $content = array();
+        $content['二手房快过期房源'] = $secondHref ? $secondHref : "无";
+        $content['出租房快过期房源'] = $thirdHref ? $thirdHref : "无";
+        
+        $statistics[' 过期房源统计信息'] = $content;
         
         $this->assign('statistics', $statistics);
         $this->display();

@@ -134,6 +134,9 @@
         <td>{$vo.uid_admin|getUserName}</td>
         <td>{$vo.uid|getUserName}</td>
         <td>
+        	<php>if( $vo['sub'] > 0) { </php>
+        		<a href="{:U('admin/content/subunite',array('infotype'=>$vo['infotype'],'fid'=>$vo['info_id']))}">子集</a>
+        	<php>}</php>
         	<a href="{:U('admin/content/subinfo',array('infotype'=>$vo['infotype'],'info_id'=>$vo['info_id']))}">户型图</a>
 			<a href="{:U('admin/Content/editInfo',array('id'=>$vo['info_id']))}">修改</a>
 			<a href="javascript:void(0);" onclick="deleteInfo('{$vo.info_id}')">删除</a>
@@ -143,6 +146,7 @@
   </table>
   </div>
   <div class="Toolbar_inbox">
+    <a href="javascript:void(0);" class="btn_a" onclick="uniteInfo();"><span>合并房源</span></a>
 	<a href="{:U('admin/Content/addInfo', array('infotype'=>$infotype))}" class="btn_a""><span>添加{$title}</span></a>
     <a href="javascript:void(0);" class="btn_a" onclick="deleteInfo();"><span>删除{$title}</span></a>
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -209,7 +213,33 @@
     				ui.success('删除成功');
     				removeItem(ids);
     			}else {
-    				ui.error('删除失败');
+    				ui.error(res);
+    			}
+    		});
+    	}
+    }
+    
+    function uniteInfo(ids) {
+    	var length = 0;
+    	if(ids) {
+    		length = 1;
+    	}else {
+    		ids    = getChecked();
+    		length = ids[0] == 0 ? ids.length - 1 : ids.length;
+            ids    = ids.toString();
+    	}
+    	if(ids=='') {
+    		ui.error('请先选择一条房源');
+    		return ;
+    	}
+    	if(confirm('您将合并'+length+'条记录，确定继续？')) {
+    		$.post("{:U('admin/Content/uniteInfo')}",{ids:ids},function(res){
+    			if(res=='1') {
+    				ui.success('合并成功');
+    				location.reload()
+    				removeItem(ids);
+    			}else {
+    				ui.error(res);
     			}
     		});
     	}

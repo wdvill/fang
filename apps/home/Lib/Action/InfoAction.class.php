@@ -34,8 +34,60 @@ class InfoAction extends Action{
 		$map = array();
 		$map['infotype'] = $infotype;
 		$map['status'] = 1;
-		$data['info'] = M('information')->where($map)->order($order)->findPage(10);
 		
+		$url = 'index.php?app=home&mod=info';
+		if ( $_REQUEST['area']) {
+			$map['area'] = intval( $_REQUEST['area']);
+			$url = $url."&area={$_REQUEST['area']}";
+		}
+
+		if ( !$_POST && $_REQUEST['search_price'] == '-1') {
+			unset( $_REQUEST['start_price']);
+			unset( $_REQUEST['end_price']);
+		}
+		
+		if ( $_REQUEST['start_price'] && $_REQUEST['end_price']) {
+			unset( $_REQUEST['search_price']);
+			$map['price'] = array(array('egt', $_REQUEST['start_price']),array('lt', $_REQUEST['end_price']));
+			$url = $url."&start_price={$_REQUEST['start_price']}";
+			$url = $url."&end_price={$_REQUEST['end_price']}";
+			$this->assign("sprice", $_REQUEST['start_price']);
+			$this->assign("eprice", $_REQUEST['end_price']);
+		}
+		if ( $_REQUEST['search_price']) {
+			$prices = C('SEARCH_PRICE');
+			switch( $_REQUEST['search_price']) {
+				case 1:
+					$map['price']  = array('lt',10000);
+					break;
+				case 2:
+					$map['price'] = array(array('egt', 10000),array('lt', 15000));
+					break;
+				case 3:
+					$map['price'] = array(array('egt', 15000),array('lt', 20000));
+					break;
+				case 4:
+					$map['price'] = array(array('egt', 20000),array('lt', 30000));
+					break;
+				case 5:
+					$map['price'] = array(array('egt', 30000),array('lt', 40000));
+					break;
+				case 6:
+					$map['price'] = array(array('egt', 40000),array('lt', 50000));
+					break;
+				case 7:
+					$map['price']  = array('egt',50000);
+					break;
+			}
+			$url = $url."&search_price={$_REQUEST['search_price']}";
+		}
+		if ( $_REQUEST['building_struct']) {
+			$map['building_structure'] = intval( $_REQUEST['building_struct']);
+			$url = $url."&building_struct={$_REQUEST['building_struct']}";
+		}
+
+		$data['info'] = M('information')->where($map)->order($order)->findPage(10);
+		$data['url'] = $url;
 		$this->assign($data);
 		$this->display();
 	}

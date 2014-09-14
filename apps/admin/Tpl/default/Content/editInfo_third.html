@@ -1,4 +1,6 @@
 <include file="../Public/_header" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-ui-1.11.1.js"></script>
+<link href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
 
 <!-- 编辑器样式文件 -->
 <link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
@@ -77,7 +79,7 @@ function introlen(inputobj){
 </script>
 <div class="so_main">
   <div id="editTpl_div">
-  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>一手房房源</div>
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>出租房房源</div>
 	
 	<div class="form2">
 	<form method="post" id='newsform' action="{:U('admin/Content/doEditInfo')}"  enctype="multipart/form-data"  onsubmit="return checkform(this);">
@@ -89,21 +91,27 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>价格：</dt>
+      <dt>小区名字：</dt>
       <dd>
-        <input name="price" id='price' type="text" size="55" value="{$price}"> 元/平(必填)
+        <input name="village_name" id='village_name' type="text" size="50" value="{$village_name}"> (必填)
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>开盘时间：</dt>
+      <dt>月租金：</dt>
       <dd>
-        <input name="opening_time" id='opening_time' type="text" size="55" value="{$opening_time}">
+        <input name="price" id='price' type="text" size="10" value="{$price}"> 元/平(必填)
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>开盘信息：</dt>
+      <dt>建筑年代：</dt>
       <dd>
-        <input name="opening_info" id='opening_info' type="text" size="55" value="{$opening_info}">
+        <input name="building_date" id='building_date' type="text" size="20" value="{$building_date}">
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>楼层：</dt>
+      <dd>
+        <input name="floor" id='floor' type="text" size="20" value="{$floor}">
 	  </dd>
     </dl>
     <dl class="lineD">
@@ -235,18 +243,6 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>开发商：</dt>
-      <dd>
-        <input name="property_developers" id='property_developers' type="text" size="25" value="{$property_developers}"> (必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
-      <dt>预售许可：</dt>
-      <dd>
-        <input name="sale_permit" id='sale_permit' type="text" size="25" value="{$sale_permit}">
-	  </dd>
-    </dl>
-    <dl class="lineD">
       <dt>物业公司：</dt>
       <dd>
         <input name="property_company" id='property_company' type="text" size="25" value="{$property_company}"> (必填)
@@ -271,12 +267,6 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <dl class="lineD">
-      <dt>项目地址：</dt>
-      <dd>
-        <input name="location" id='location' type="text" size="55" value="{$location}">(必填)
-	  </dd>
-    </dl>
-    <dl class="lineD">
       <dt>置业顾问：</dt>
       <dd>
         <input name="seller" id='seller' type="text" size="20" value="{$seller}">
@@ -297,6 +287,12 @@ function introlen(inputobj){
 	  </dd>
     </dl>
     <php>}</php>
+    <dl class="">
+      <dt>到期时间：</dt>
+      <dd>
+      	<input name="expire_date" id='expire_date' type="text" size="20" value="{$expire_date}">
+	  </dd>
+    </dl>
     <dl class="">
       <dt>详细内容：</dt>
       <dd>
@@ -330,6 +326,18 @@ function introlen(inputobj){
 <script>
 $(document).ready(function(){
 	loadEditor("content");
+	$('#expire_date').datepicker({                
+		dateFormat: 'yy-mm-dd',  //日期格式，自己设置              
+		buttonImageOnly: true,  //Show an image trigger without any button.             
+		showOn: 'both',//触发条件，both表示点击文本域和图片按钮都生效         
+		yearRange: '2014:2018',//年份范围          
+		clearText:'清除',         
+		closeText:'关闭',         
+		prevText:'前一月',         
+		nextText:'后一月',         
+		currentText:' ',      
+		monthNames:['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],         
+	});
 });
 
 $("#select_school").click(function(event) {

@@ -1,0 +1,157 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  
+  <div class="page_tit">{$title}子集管理</div>
+  <div class="Toolbar_inbox">
+	
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">项目名称</th>
+    <th class="line_l">物业类别</th>
+    <th class="line_l">建筑类别</th>
+    <th class="line_l">装修</th>
+    <th class="line_l">均价(万)</th>
+    <th class="line_l">区域</th>
+    <th class="line_l">时间</th>
+    <th class="line_l">审核/推荐状态</th>
+    <th class="line_l">发布单位</th>
+    <th class="line_l">发布人</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="info['data']">
+      <tr overstyle='on' id="{$vo.info_id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.info_id}"></td>
+        <td>{$vo.info_id}</td>
+        <td><a href="{:U('home/info/detail',array('ind'=>$vo['info_id']))}" target="_blank"><php>echo msubstr($vo['title'],0,15);</php></a></td>
+        <td><php>echo $property_types[$vo['property_type']];</php></td>
+        <td><php>echo $building_types[$vo['building_type']];</php></td>
+        <td><php>echo $decorations[$vo['decoration']];</php></td>
+        <td>{$vo.price}</td>
+        <td><php>echo $areas[$vo['area']]</php></td>
+        <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
+        <td><eq name="vo.status" value="1">已审核<else/>未审核</eq></td>
+        <!-- <td>{$vo.uid|getUserName}</td>  -->
+        <td>{$vo.uid_admin|getUserName}</td>
+        <td>{$vo.uid|getUserName}</td>
+        <td>
+        	<a href="{:U('admin/content/subinfo',array('infotype'=>$vo['infotype'],'info_id'=>$vo['info_id']))}">户型图</a>
+			<a href="{:U('admin/Content/editInfo',array('id'=>$vo['info_id']))}">修改</a>
+			<a href="javascript:void(0);" onclick="deleteInfo('{$vo.info_id}')">删除</a>
+		</td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <a href="javascript:void(0);" class="btn_a" onclick="deluniteInfo();"><span>移出子房源</span></a>
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteInfo();"><span>删除{$title}</span></a>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$info.html}
+  </div>
+</div>
+
+<script>
+    //鼠标移动表格效果
+    $(document).ready(function(){
+        $("tr[overstyle='on']").hover(
+          function () {
+            $(this).addClass("bg_hover");
+          },
+          function () {
+            $(this).removeClass("bg_hover");
+          }
+        );
+    });
+    
+    function checkon(o){
+        if( o.checked == true ){
+            $(o).parents('tr').addClass('bg_on') ;
+        }else{
+            $(o).parents('tr').removeClass('bg_on') ;
+        }
+    }
+    
+    function checkAll(o){
+        if( o.checked == true ){
+            $('input[name="checkbox"]').attr('checked','true');
+            $('tr[overstyle="on"]').addClass("bg_on");
+        }else{
+            $('input[name="checkbox"]').removeAttr('checked');
+            $('tr[overstyle="on"]').removeClass("bg_on");
+        }
+    }
+
+    //获取已选择用户的ID数组
+    function getChecked() {
+        var ids = new Array();
+        $.each($('table input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+    
+    function deleteInfo(ids) {
+    	var length = 0;
+    	if(ids) {
+    		length = 1;
+    	}else {
+    		ids    = getChecked();
+    		length = ids[0] == 0 ? ids.length - 1 : ids.length;
+            ids    = ids.toString();
+    	}
+    	if(ids=='') {
+    		ui.error('请先选择一条新闻');
+    		return ;
+    	}
+    	if(confirm('您将删除'+length+'条记录，删除后无法恢复，确定继续？')) {
+    		$.post("{:U('admin/Content/doDeleteInfo')}",{ids:ids},function(res){
+    			if(res=='1') {
+    				ui.success('删除成功');
+    				removeItem(ids);
+    			}else {
+    				ui.error('删除失败');
+    			}
+    		});
+    	}
+    }
+    
+    function deluniteInfo(ids) {
+    	var length = 0;
+    	if(ids) {
+    		length = 1;
+    	}else {
+    		ids    = getChecked();
+    		length = ids[0] == 0 ? ids.length - 1 : ids.length;
+            ids    = ids.toString();
+    	}
+    	if(ids=='') {
+    		ui.error('请先选择一条房源');
+    		return ;
+    	}
+    	if(confirm('您将移出'+length+'条房源，确定继续？')) {
+    		$.post("{:U('admin/Content/deluniteInfo')}",{ids:ids},function(res){
+    			if(res=='1') {
+    				ui.success('移除成功');
+    				removeItem(ids);
+    			}else {
+    				ui.error(res);
+    			}
+    		});
+    	}
+    }
+    
+    function removeItem(ids) {
+    	ids = ids.split(',');
+        for(i = 0; i < ids.length; i++) {
+            $('#'+ids[i]).remove();
+        }
+    }
+</script>
+<include file="../Public/_footer" />

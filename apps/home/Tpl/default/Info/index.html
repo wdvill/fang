@@ -16,9 +16,9 @@
             <dt>区域</dt>
             <dd class="m2">
                 <i class="dn more_href"></i>
-                                                <strong><a href="?area=-1">不限</a></strong>
+                                                <strong><a href="{$url}&area=0">不限</a></strong>
                                                 				<volist name="areas" id="vo" key="k" >
-																<span><a id="areaUrl" href="?area={$k}">{$vo}</a></span>
+																<span><a id="areaUrl" href="{$url}&area={$k}">{$vo}</a></span>
 																</volist>
                                             </dd>
         </dl>
@@ -26,13 +26,17 @@
             <dt>单价</dt>
             <dd>
                 <i class="dn more_href"></i>
-                                                <strong><a id="priceUrl" href="?search_price=-1">不限</a></strong>
+                                                <strong><a id="priceUrl" href="{$url}&search_price=-1">不限</a></strong>
                                                 				<volist name="search_prices" id="vo" key="k" >
-																<span><a id="priceUrl" href="?search_price={$k}">{$vo}</a></span>
-																</volist>                                                             
+																<span><a id="priceUrl" href="{$url}&search_price={$k}">{$vo}</a></span>
+																</volist>
                                                 <span><a onClick="showhide('price')" href="javascript:void(0);">自定义</a></span>
-                <div id="price" style="display:none;" class="define">
-                    <input type="number" value="" class="df-txt"><span>至</span><input id="pricemax" name="pricemax" type="number" value="" class="df-txt"><span>元</span><a class="df-btn">确定</a>
+                <div id="price" style="display:<php>if($sprice) {echo "inline"; } else { echo "none"; }</php>;" class="define">
+                <form method="post" action="{$url}">
+                    <input type="number" value="{$sprice}" class="df-txt" name="start_price"><span>至</span>
+                    <input id="pricemax" type="number" value="{$eprice}" class="df-txt" name="end_price"><span>元</span>
+                    <input type="submit" class="df-btn" value="确定" />
+                </form>
                 </div>
             </dd>
         </dl>
@@ -40,9 +44,9 @@
             <dt>类型</dt>
             <dd>
                 <i class="dn more_href"></i>
-                                                <strong><a href="?building_struct=-1">不限</a></strong>
+                                                <strong><a href="{$url}&building_struct=0">不限</a></strong>
                                                 				<volist name="building_structs" id="vo" key="k">
-                                                				<span><a href="?building_struct={$k}">{$vo}</a></span>
+                                                				<span><a href="{$url}&building_struct={$k}">{$vo}</a></span>
                                                 				</volist>
                                                            
             </dd>
@@ -459,7 +463,7 @@
             })(i);
         };
     };
-
+    
 </script>
 
 <include file="__THEME__/footer" />
