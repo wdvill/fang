@@ -1573,6 +1573,111 @@ class ContentAction extends AdministratorAction {
 		}
 		return $catearr;
 	}
+	
+	/** 内容管理-优惠申请管理**/
+	public function preferential() {
+		$map = '1=1';
+		if ( $_SESSION['issecondadmin']) {
+			$map = " uid_admin={$_SESSION['mid']}";
+		} elseif ( !$_SESSION['isadminman']) {
+			$map = " uid={$_SESSION['mid']}";
+		}
+
+		if (isset($_REQUEST['buy_name']) && ($_REQUEST['buy_name'])){
+			$map = $map." and buy_name like '%{$_REQUEST['buy_name']}%'";
+		}
+
+		if (isset($_REQUEST['buy_phone']) && ($_REQUEST['buy_phone'])){
+			$map = $map." and buy_phone like '%{$_REQUEST['buy_phone']}%'";
+		}
+
+		if (isset($_REQUEST['buy_seller']) && ($_REQUEST['buy_seller'])){
+			$map = $map." and buy_seller like '%{$_REQUEST['buy_seller']}%'";
+		}
+
+		if (isset($_REQUEST['title']) && ($_REQUEST['title'])){
+			$map = $map." and zx_information.title=".$_REQUEST['title'];
+		}
+
+		$order = ' ctime desc,id DESC ';
+		$data = M('preferential')->field('zx_preferential.*, zx_information.title')->join('zx_information on zx_information.info_id = zx_preferential.info_id')->where($map)->order($order)->findPage(10);		
+		
+		$this->assign('info', $data);
+		$this->display();
+	}
+	
+	public function doDeletePreferential() {
+		if( empty($_POST['ids']) ) {
+			echo 0;
+			exit ;
+		}
+		$map['id'] = array('in', t($_POST['ids']));
+		
+		//权限控制
+		$map = array();
+		if ( $_SESSION['issecondadmin']) {
+			$map['uid_admin'] = $_SESSION['mid'];
+		} elseif ( !$_SESSION['isadminman']) {
+			$map['uid'] = $_SESSION['mid'];
+		}
+		
+		echo M('preferential')->where($map)->delete() ? '1' : '0';
+	}
+	
+	/** 内容管理-房源挑错管理**/
+	public function faults() {
+		$map = '1=1';
+		if ( $_SESSION['issecondadmin']) {
+			$map = " uid_admin={$_SESSION['mid']}";
+		} elseif ( !$_SESSION['isadminman']) {
+			$map = " uid={$_SESSION['mid']}";
+		}
+
+		if (isset($_REQUEST['fault_1']) && ($_REQUEST['fault_1'])){
+			$map = $map." and fault_1 = {$_REQUEST['fault_1']}";
+		}
+	
+		if (isset($_REQUEST['fault_2']) && ($_REQUEST['fault_2'])){
+			$map = $map." and fault_2 = {$_REQUEST['fault_2']}";
+		}
+	
+		if (isset($_REQUEST['fault_3']) && ($_REQUEST['fault_3'])){
+			$map = $map." and fault_3 = {$_REQUEST['fault_3']}";
+		}
+	
+		if (isset($_REQUEST['fault_content']) && ($_REQUEST['fault_content'])){
+			$map = $map." and fault_content like '%{$_REQUEST['fault_content']}%'";
+		}
+	
+		if (isset($_REQUEST['title']) && ($_REQUEST['title'])){
+			$map = $map." and zx_information.title=".$_REQUEST['title'];
+		}
+		
+		$order = ' ctime desc,id DESC ';
+		$data = M('faults')->field('zx_faults.*, zx_information.title')->join('zx_information on zx_information.info_id = zx_faults.info_id')->where($map)->order($order)->findPage(10);
+	
+		$this->assign('info', $data);
+		$this->display();
+	}
+	
+	public function doDeleteFaults() {
+		if( empty($_POST['ids']) ) {
+			echo 0;
+			exit ;
+		}
+		$map['id'] = array('in', t($_POST['ids']));
+		
+		//权限控制
+		$map = array();
+		if ( $_SESSION['issecondadmin']) {
+			$map['uid_admin'] = $_SESSION['mid'];
+		} elseif ( !$_SESSION['isadminman']) {
+			$map['uid'] = $_SESSION['mid'];
+		}
+		
+		echo M('faults')->where($map)->delete() ? '1' : '0';
+	}
+	
 	/** 内容管理- 相册管理 **/
 	public function albums() {
 		$fid = $_REQUEST['fid'] = intval( $_GET['fid']);

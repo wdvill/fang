@@ -1177,4 +1177,50 @@ function ts_cookie($name,$value='',$option=null)
         }
     }
 }
+
+/**
+ * 传统形式显示无限极分类树
+ * @param array $data 树形结构数据
+ * @param string $stable 所操作的数据表
+ * @param integer $left 样式偏移
+ * @param array $delParam 删除关联信息参数，app、module、method
+ * @param integer $level 添加子分类层级，默认为0，则可以添加无限子分类
+ * @param integer $times 用于记录递归层级的次数，默认为1，调用函数时，不需要传入值。
+ * @param integer $limit 分类限制字数。
+ * @return string 树形结构的HTML数据
+ */
+function showTreeCategory($data, $stable, $left, $delParam, $level = 0, $ext = '', $times = 1, $limit = 0) {
+	$html = '<ul class="sort">';
+	foreach($data as $val) {
+		// 判断是否有符号
+		$isFold = empty($val['child']) ? false : true;
+		$html .= '<li id="'.$stable.'_'.$val['id'].'" class="underline" style="padding-left:'.$left.'px;"><div class="c1">';
+		if($isFold) {
+			$html .= '<a href="javascript:;" onclick="admin.foldCategory('.$val['id'].')"><img id="img_'.$val['id'].'" src="'.__THEME__.'/admin/image/on.png" /></a>';
+		}
+		$html .= '<span>'.$val['title'].'</span></div><div class="c2">';
+		if($level == 0 || $times < $level) {
+			$html .= '<a href="javascript:;" onclick="admin.addTreeCategory('.$val['id'].', \''.$stable.'\', '.$limit.');">添加子分类</a>&nbsp;-&nbsp;';
+		}
+		$html .= '<a href="javascript:;" onclick="admin.upTreeCategory('.$val['id'].', \''.$stable.'\', '.$limit.');">编辑</a>&nbsp;-&nbsp;';
+		if(empty($delParam)) {
+			$html .= '<a href="javascript:;" onclick="admin.rmTreeCategory('.$val['id'].', \''.$stable.'\');">删除</a>';
+		} else {
+			$html .= '<a href="javascript:;" onclick="admin.rmTreeCategory('.$val['id'].', \''.$stable.'\', \''.$delParam['app'].'\', \''.$delParam['module'].'\', \''.$delParam['method'].'\');">删除</a>';
+		}
+		$ext !== '' && $html .= '&nbsp;-&nbsp;<a href="'.U('admin/Public/setCategoryConf', array('cid'=>$val['id'], 'stable'=>$stable)).'&'.$ext.'">分类配置</a>';
+		$html .= '</div><div class="c3">';
+		$html .= '<a href="javascript:;" onclick="admin.moveTreeCategory('.$val['id'].', \'up\', \''.$stable.'\')" class="ico_top mr5"></a>';
+		$html .= '<a href="javascript:;" onclick="admin.moveTreeCategory('.$val['id'].', \'down\', \''.$stable.'\')" class="ico_btm"></a>';
+		$html .= '</div></li>';
+		if(!empty($val['child'])) {
+			$html .= '<li id="sub_'.$val['id'].'" style="display:none;">';
+			$html .= showTreeCategory($val['child'], $stable, $left + 15, $delParam, $level, $ext, $times + 1, $limit);
+			$html .= '</li>';
+		}
+	}
+	$html .= '</ul>';
+
+	return $html;
+}
 ?>

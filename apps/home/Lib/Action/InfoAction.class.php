@@ -155,7 +155,6 @@ class InfoAction extends Action{
 		$data['sub_info'] = M('ts_sub_info')->where($map)->order($order)->findPage(10);
 
 		$this->assign($data);
-		
 		if( $data['info']['infotype'] == 1) {
 			$this->display("newhouse");
 		}
@@ -213,5 +212,60 @@ class InfoAction extends Action{
 		}			
 		$this->assign('search_key', h(t($key)));
 		return trim($key);
+	}
+	
+	/**
+	 * 保存用户的优惠申请
+	 */
+	public function send_preferential() {
+		$data = array();
+		$info_id = intval( $_POST['info_id']);
+		$buy_name = html_entity_decode( urldecode($_POST['buy_name']) ,ENT_QUOTES);
+		$buy_phone = html_entity_decode( urldecode($_POST['buy_phone']) ,ENT_QUOTES);
+		$buy_house_id = html_entity_decode( urldecode($_POST['buy_house_id']) ,ENT_QUOTES);
+		$buy_seller = html_entity_decode( urldecode($_POST['buy_seller']) ,ENT_QUOTES);
+		
+		if ( !$info_id) {
+			exit(0);
+		}
+		//判断是否有此房源
+		$infoArr = M('information')->where("info_id = $info_id")->find();
+		$data['uid'] = $infoArr['uid'];
+		$data['uid_admin'] = $infoArr['uid_admin'];
+
+		//过滤完参数，保存数据
+		$data['info_id'] = $info_id;
+		$data['buy_name'] = $buy_name;
+		$data['buy_phone'] = $buy_phone;
+		$data['buy_house_id'] = $buy_house_id;
+		$data['buy_seller'] = $buy_seller;
+		$pre_id = M('preferential')->add($data);
+		exit($pre_id);
+	}
+	
+	/**
+	 * 保存用户的挑错信息
+	 */
+	public function find_fault() {
+		$data = array();
+		$info_id = intval( $_POST['info_id']);
+		$fault_type = $_POST['fault_type'];
+		$fault_content = html_entity_decode( urldecode($_POST['fault_content']) ,ENT_QUOTES);
+	
+		foreach( $fault_type as $type) {
+			$data['fault_'.intval($type)] = 1;
+		}
+		
+		//判断是否有此房源
+		$infoArr = M('information')->where("info_id = $info_id")->find();
+		$data['uid'] = $infoArr['uid'];
+		$data['uid_admin'] = $infoArr['uid_admin'];
+		
+		//过滤完参数，保存数据
+		$data['info_id'] = $info_id;
+		$data['fault_content'] = $fault_content;
+
+		$faults_id = M('faults')->add($data);
+		exit( $faults_id);
 	}
 }

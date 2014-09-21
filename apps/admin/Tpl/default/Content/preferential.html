@@ -1,0 +1,130 @@
+<include file="../Public/_header" />
+<div class="so_main">
+  
+  <div class="page_tit">优惠申请管理</div>
+  <div class="Toolbar_inbox">
+	<form method="get" action="{:U('admin/Content/preferential')}"  enctype="multipart/form-data">
+	<b>&nbsp;&nbsp;购房人名：</b><input type="text" id="buy_name" name="buy_name" size="6" value="<php>echo isset($_GET['buy_name'])?$_GET['buy_name']:''</php>"/>
+	<b>&nbsp;&nbsp;联系电话：</b><input type="text" id="buy_phone" name="buy_phone" size="6" value="<php>echo isset($_GET['buy_phone'])?$_GET['buy_phone']:''</php>"/>
+	<b>&nbsp;&nbsp;销售代表：</b><input type="text" id="buy_seller" name="buy_seller" size="6" value="<php>echo isset($_GET['buy_seller'])?$_GET['buy_seller']:''</php>"/>
+	<b>&nbsp;&nbsp;房源标题：</b><input type="text" id="info_title" name="info_title" size="6" value="<php>echo isset($_GET['info_title'])?$_GET['info_title']:''</php>"/>
+    <input type="submit" class="btn_b" value="确定" />
+	</form>
+  </div>
+  <div class="list">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">购房人名</th>
+    <th class="line_l">物业类别</th>
+    <th class="line_l">选择房号</th>
+    <th class="line_l">销售代表</th>
+    <th class="line_l">房源信息</th>
+    <th class="line_l">房源单位</th>
+    <th class="line_l">房源发布人</th>
+    <th class="line_l">时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist id="vo" name="info['data']">
+      <tr overstyle='on' id="{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.info_id}"></td>
+        <td>{$vo.id}</td>
+        <td>{$vo.buy_name}</td>
+        <td>{$vo.buy_phone}</td>
+        <td>{$vo.buy_house_id}</td>
+        <td>{$vo.buy_seller}</td>
+        <td><a href="{:U('home/info/detail',array('ind'=>$vo['info_id']))}" target="_blank"><php>echo msubstr($vo['title'],0,15);</php></a></td>
+        <td>{$vo.uid_admin|getUserName}</td>
+        <td>{$vo.uid|getUserName}</td>
+        <td>{$vo.ctime|date="Y-m-d H:i",###}</td>
+        <td>
+			<a href="javascript:void(0);" onclick="deleteInfo('{$vo.id}')">删除</a>
+		</td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+    <a href="javascript:void(0);" class="btn_a" onclick="deleteInfo();"><span>删除{$title}</span></a>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$info.html}
+  </div>
+</div>
+
+<script>
+    //鼠标移动表格效果
+    $(document).ready(function(){
+        $("tr[overstyle='on']").hover(
+          function () {
+            $(this).addClass("bg_hover");
+          },
+          function () {
+            $(this).removeClass("bg_hover");
+          }
+        );
+    });
+    
+    function checkon(o){
+        if( o.checked == true ){
+            $(o).parents('tr').addClass('bg_on') ;
+        }else{
+            $(o).parents('tr').removeClass('bg_on') ;
+        }
+    }
+    
+    function checkAll(o){
+        if( o.checked == true ){
+            $('input[name="checkbox"]').attr('checked','true');
+            $('tr[overstyle="on"]').addClass("bg_on");
+        }else{
+            $('input[name="checkbox"]').removeAttr('checked');
+            $('tr[overstyle="on"]').removeClass("bg_on");
+        }
+    }
+
+    //获取已选择用户的ID数组
+    function getChecked() {
+        var ids = new Array();
+        $.each($('table input:checked'), function(i, n){
+            ids.push( $(n).val() );
+        });
+        return ids;
+    }
+    
+    function deleteInfo(ids) {
+    	var length = 0;
+    	if(ids) {
+    		length = 1;
+    	}else {
+    		ids    = getChecked();
+    		length = ids[0] == 0 ? ids.length - 1 : ids.length;
+            ids    = ids.toString();
+    	}
+    	if(ids=='') {
+    		ui.error('请先选择一条优惠申请');
+    		return ;
+    	}
+    	if(confirm('您将删除'+length+'条优惠申请记录，删除后无法恢复，确定继续？')) {
+    		$.post("{:U('admin/Content/doDeletePreferential')}",{ids:ids},function(res){
+    			if(res=='1') {
+    				ui.success('删除成功');
+    				removeItem(ids);
+    			}else {
+    				ui.error("删除失败"+res);
+    			}
+    		});
+    	}
+    }
+    
+    function removeItem(ids) {
+    	ids = ids.split(',');
+        for(i = 0; i < ids.length; i++) {
+            $('#'+ids[i]).remove();
+        }
+    }
+</script>
+<include file="../Public/_footer" />

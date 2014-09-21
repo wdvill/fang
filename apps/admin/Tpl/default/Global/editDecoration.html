@@ -1,0 +1,79 @@
+<include file="../Public/_header" />
+
+<!-- 编辑器样式文件 -->
+<link href="__PUBLIC__/js/editor/editor/theme/base-min.css" rel="stylesheet"/>
+<!--[if lt IE 8]>
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-sprite-min.css" rel="stylesheet"/>
+<![endif]-->
+<!--[if gte IE 8]><!-->
+<link href="__PUBLIC__/js/editor/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+<!--<![endif]-->
+
+<include file="__THEME__/editor" />
+<script>
+var check_form = false;
+function checkform(o){
+	var id = document.getElementById('id').value;
+	var decoration = document.getElementById("decoration").value;
+
+	if( decoration == ''){
+		alert('请填写装修状况！');
+		document.getElementById("decoration").focus();
+		return false;
+	} else if (title.length < 2){
+		alert('装修状况长度太短');
+		document.getElementById("decoration").focus();
+		return false;
+	} else if (title.length > 50){
+	    alert('装修状况长度太长');
+		document.getElementById("decoration").focus();
+	    return false;
+	}
+	
+	document.getElementById("newsform").submit();
+
+}
+
+function titlelen(inputobj){
+	var obj;
+	obj=document.getElementById("titlelen");
+	obj.innerHTML=inputobj.value.length;
+}
+
+function introlen(inputobj){
+	var obj;
+	obj=document.getElementById("introlen");
+	obj.innerHTML=inputobj.value.length;
+}
+
+</script>
+<div class="so_main">
+  <div id="editTpl_div">
+  	<div class="page_tit"><eq name="type" value="edit">编辑<else/>添加</eq>装修状况配置</div>
+
+	<div class="form2">
+	<form method="post" id='newsform' action="{:U('admin/Global/doEditDecoration')}"  enctype="multipart/form-data"  onsubmit="return checkform(this);">
+    <dl class="lineD">
+      <dt>装修ID：</dt>
+      <dd>
+        <input name="id" id='id' type="text" size="55" value="{$id}" > 必填  必需输入 唯一标识 装修ID
+	  </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>装修状况：</dt>
+      <dd>
+        <input name="decoration" id='decoration' type="text" size="55" value="{$decoration}" onKeyup="javascript:titlelen(this);" > (必填，已输入字符数：<font color='red' bold><label id='titlelen'></label></font>)
+	  </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="hidden" name="http_referer" value="<php>echo $_SERVER['HTTP_REFERER'];</php>" />
+      <input type="hidden" name="type" value="{$type}" />
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>
+</div>
+
+<include file="../Public/_footer" />

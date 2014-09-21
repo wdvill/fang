@@ -92,7 +92,7 @@ class IndexAction extends AdministratorAction {
     			//'反馈管理'	=>	U('admin/Content/suggestion'),
     			'用户管理'	=>	U('admin/User/user'),
 				'一手房管理'	=>	U('admin/Content/info'),
-    			'一手房管理'	=>	U('admin/Content/info'),
+    			'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
     			'图片专题管理'	=>	U('admin/Content/picture'),
     			'缓存更新'	=>	SITE_URL . '/cleancache.php?all',
     		),
@@ -125,8 +125,8 @@ class IndexAction extends AdministratorAction {
     	$menu['global'] 	=   array(
     		'网站设置'		=>  array(
     			'信息统计'	=>	U('admin/Home/statistics'),
-    			'启动图片管理'	=>	U('admin/Content/editLoadpic'),
-    			'关于我们管理'	=>	U('admin/Content/editAboutus'),
+    			'装修状况管理'	=>	U('admin/Global/decoration'),
+    			'区域管理'	=>	'/index.php?app=admin&mod=Config&act=area#',
     			//'反馈管理'	=>	U('admin/Content/suggestion'),
     			'全局配置'	=>	U('admin/Global/siteopt'),
 				//'帮助配置'	=>	U('admin/Global/document'),
@@ -142,6 +142,8 @@ class IndexAction extends AdministratorAction {
 				'一手房管理'	=>	U('admin/Content/info', array('infotype'=>1)),
     			'二手房管理'	=>	U('admin/Content/info', array('infotype'=>2)),
     			'出租房管理'	=>	U('admin/Content/info', array('infotype'=>3)),
+    			'优惠申请管理'	=>	U('admin/Content/preferential'),
+    			'用户挑错管理'	=>	U('admin/Content/faults'),
 //     			'图片专题管理'	=>	U('admin/Content/picture'),
 //     			'餐厅管理'	=>	U('admin/Content/restaurant'),
 //     			'餐厅特色榜单'	=>	U('admin/Content/ptopic', array('type'=>7)),

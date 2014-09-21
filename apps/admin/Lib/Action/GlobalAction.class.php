@@ -100,326 +100,6 @@ class GlobalAction extends AdministratorAction {
 		}
 	}
 	
-	/** 系统配置 - 积分配置 **/
-	//积分类别设置
-	public function creditType(){
-		$creditType = M('credit_type')->order('id ASC')->findAll();
-		$this->assign('creditType',$creditType);
-		$this->display();
-	}
-	public function editCreditType(){
-		$type   = $_GET['type'];
-		if($cid = intval($_GET['cid'])){
-			$creditType = M('credit_type')->where("`id`=$cid")->find();//积分类别
-			if (!$creditType) $this->error('无此积分类型');
-			$this->assign('creditType',$creditType);
-		}
-
-		$this->assign('type', $type);
-		$this->display();		
-	}
-	public function doAddCreditType(){
-		if ( !$this->__isValidRequest('name') ) $this->error('数据不完整');
-
-		$_POST = array_map('t',$_POST);
-		$_POST = array_map('h',$_POST);
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '1';
-		$data[] = '全局 - 积分配置  - 积分类型';
-		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
-		$data[] = $_POST;
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		$res = M('credit_type')->add($_POST);
-		if ($res) {
-			$db_prefix  = C('DB_PREFIX');
-			$model = M('');
-			$setting = $model->query("ALTER TABLE {$db_prefix}credit_setting ADD {$_POST['name']} INT(11) DEFAULT 0;");
-			$user    = $model->query("ALTER TABLE {$db_prefix}credit_user ADD {$_POST['name']} INT(11) DEFAULT 0;");
-
-			$this->assign('jumpUrl', U('admin/Global/creditType'));
-			$this->success('保存成功');
-		}else {
-			$this->error('保存失败');
-		}		
-	}
-	public function doEditCreditType(){
-		if ( !$this->__isValidRequest('id,name') ) $this->error('数据不完整');
-
-        $_POST = array_map('t',$_POST);
-        $_POST = array_map('h',$_POST);
-		$creditTypeDao = M('credit_type');
-		//获取原字段名
-		$oldName = $creditTypeDao->find($_POST['id']);
-		//修改字段名
-		$res = $creditTypeDao->save($_POST);
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '3';
-		$data[] = '全局 - 积分配置 - 积分类型 ';
-		$data[] = $oldName;
-		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
-		$data[] = $_POST;
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		if ($res) {
-			$db_prefix  = C('DB_PREFIX');
-			$model = M('');
-			$setting = $model->query("ALTER TABLE {$db_prefix}credit_setting CHANGE {$oldName['name']} {$_POST['name']} INT(11);");
-			$user    = $model->query("ALTER TABLE {$db_prefix}credit_user CHANGE {$oldName['name']} {$_POST['name']} INT(11);");
-
-			$this->assign('jumpUrl', U('admin/Global/creditType'));
-			$this->success('保存成功');
-		}else {
-			$this->error('保存失败');
-		}		
-	}
-	public function doDeleteCreditType(){
-		$ids = t($_POST['ids']);
-		$ids = explode(',', $ids);
-		if ( empty($ids) ) {echo 0; return ;}
-		
-		$map['id'] = array('in', $ids);
-		$creditTypeDao = M('credit_type');
-		//获取字段名
-		$typeName = $creditTypeDao->where($map)->findAll();
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '2';
-		$data[] = '全局 - 积分配置 - 积分类型 ';
-		$data[] = $typeName;
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		//清除type信息和对应字段
-		$res = M('credit_type')->where($map)->delete();
-		if ($res){
-			$db_prefix  = C('DB_PREFIX');
-			$model = M('');
-			foreach($typeName as $v){
-				$setting = $model->query("ALTER TABLE {$db_prefix}credit_setting DROP {$v['name']};");
-				$user    = $model->query("ALTER TABLE {$db_prefix}credit_user DROP {$v['name']};");
-			}
-			echo 1;
-		}else{
-			echo 0;
-		}
-	}
-	//积分规则设置
-	public function credit() {
-		$list = M('credit_setting')->order('type ASC')->findPage(30);
-		$creditType = M('credit_type')->order('id ASC')->findAll();
-		$this->assign('creditType',$creditType);
-		$this->assign($list);
-		$this->display();
-	}	
-	public function addCredit() {
-		$creditType = M('credit_type')->order('id ASC')->findAll();//积分类别
-		$this->assign('creditType',$creditType);
-		$this->assign('type','add');
-		$this->display('editCredit');
-	}	
-	public function doAddCredit() {
-		if ( !$this->__isValidRequest('name') ) $this->error('数据不完整');
-
-        $_POST = array_map('t',$_POST);
-        $_POST = array_map('h',$_POST);
-        
-		$creditType = M('credit_type')->order('id ASC')->findAll();
-		foreach($creditType as $v){
-			if(!is_numeric($_POST[$v['name']])){
-				$this->error($v['alias'].'的值必须为数字！');
-			}
-		}
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '1';
-		$data[] = '全局 - 积分配置 - 积分规则 ';
-		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
-		$data[] = $_POST;
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		$res = M('credit_setting')->add($_POST);
-		if ($res) {
-			$this->assign('jumpUrl', U('admin/Global/credit'));
-			$this->success('保存成功');
-		}else {
-			$this->error('保存失败');
-		}
-	}	
-	public function editCredit() {
-		$cid 	= intval($_GET['cid']);
-		$credit	= M('credit_setting')->where("`id`=$cid")->find();
-		if (!$credit) $this->error('无此积分规则');
-
-		$creditType = M('credit_type')->order('id ASC')->findAll();//积分类别
-		$this->assign('creditType',$creditType);
-
-		$this->assign('credit', $credit);
-		$this->assign('type', 'edit');
-		$this->display();
-	}	
-	public function doEditCredit() {
-		if ( !$this->__isValidRequest('id,name') ) $this->error('数据不完整');
-
-        $_POST = array_map('t',$_POST);
-        $_POST = array_map('h',$_POST);
-        
-		$creditType = M('credit_type')->order('id ASC')->findAll();
-		foreach($creditType as $v){
-			if(!is_numeric($_POST[$v['name']])){
-				$this->error($v['alias'].'的值必须为数字！');
-			}
-		}
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '3';
-		$data[] = '全局 - 积分配置 - 积分规则 ';
-		$credit_info = M('credit_setting')->where('id='.$_POST['id'])->find();
-		$data[] = $credit_info;
-		$_POST['info'] = $credit_info['info'];
-		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
-		$data[] = $_POST;
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		$res = M('credit_setting')->save($_POST);
-		if ($res) {
-			$this->assign('jumpUrl', U('admin/Global/credit'));
-			$this->success('保存成功');
-		}else {
-			$this->error('保存失败');
-		}
-	}	
-	public function doDeleteCredit() {
-		$ids = t($_POST['ids']);
-		$ids = explode(',', $ids);
-		if ( empty($ids) ) {echo 0; return ;}
-		
-		$map['id'] = array('in', $ids);
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '2';
-		$data[] = '全局 - 积分配置 - 积分规则 ';
-		$data[] = M('credit_setting')->where('id='.$_POST['id'])->find();
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		$res = M('credit_setting')->where($map)->delete();
-		if ($res) echo 1;
-		else 	  echo 0;
-	}
-	//批量用户积分设置
-	public function creditUser(){
-		$creditType = M('credit_type')->order('id ASC')->findAll();
-        $this->assign('creditType',$creditType);
-        $this->assign('grounlist',model('UserGroup')->getUserGroupByMap('','user_group_id,title'));
-        $this->display();
-	}
-	public function doCreditUser(){
-		set_time_limit(0);
-		//查询用户ID
-		$_POST['uId'] && $map['uid'] = array('in',explode(',',t($_POST['uId'])));
-		$_POST['gId']!='all' && $map['admin_level'] = intval($_POST['gId']);
-		$_POST['active']!='all' && $map['is_active'] = intval($_POST['active']);
-		$user = D('User','home')->where($map)->field('uid')->findAll();
-        if($user == false){
-        	$this->error('查询失败，没有这样条件的人');
-        }
-	    //组装积分规则
-		$setCredit = X('Credit');
-		$creditType = $setCredit->getCreditType();
-		foreach($creditType as $v){
-			$action[$v['name']] = intval($_POST[$v['name']]);
-		}
-		
-		
-		
-		if($_POST['action'] == 'set'){//积分修改为
-			foreach($user as $v){
-				$setCredit->setUserCredit($v['uid'],$action,'reset');
-				if($setCredit->getInfo()===false)$this->error('保存失败');
-			}
-		}else{//增减积分
-			foreach($user as $v){
-				$setCredit->setUserCredit($v['uid'],$action);
-				if($setCredit->getInfo()===false)$this->error('保存失败');
-			}
-		}
-
-		$this->assign('jumpUrl', U('admin/Global/creditUser'));
-		
-		$_LOG['uid'] = $this->mid;
-		$_LOG['type'] = '1';
-		if( $_POST['action'] == 'set' ){
-			$data[] = '全局 - 积分配置 - 设置用户积分 - 积分修改操作 ';
-		}else{
-			$data[] = '全局 - 积分配置 - 设置用户积分 - 积分增减操作 ';
-		}
-		$data['1'] = $action;
-		$data['1']['uid'] = $_POST['uId'];
-		$data['1']['gId'] = $_POST['gId'];
-		$data['1']['active'] = $_POST['active'];
-		$data['1']['action'] = $_POST['action'];
-		$_LOG['data'] = serialize($data);
-		$_LOG['ctime'] = time();
-		M('AdminLog')->add($_LOG);
-		
-		$this->success('保存成功');
-	}
-	
-	/** 系统配置 - 邀请配置 **/
-	
-	//邀请配置
-	function invite(){
-		$data = model('Invite')->getSet();
-		$this->assign( $data );
-		$this->display();
-	}
-	
-	//邀请码发放
-	function invitecode(){
-		$num = intval($_POST['send_type_num']);
-		$user = t($_POST['send_type_user']);
-		
-		if($_POST['send_type']==1){
-			$user = M('user')->where('is_init=1 AND is_active=1')->field('uid')->findall();
-			foreach ($user as $key=>$value){
-				model('Invite')->sendcode($value['uid'],$num);
-			}
-		}else{
-			$user = explode(',', $user);
-			foreach ($user as $k=>$v){
-				model('Invite')->sendcode($v,$num);
-				x('Notify')->sendIn($v,'admin_sendinvitecode',array('num'=>$num)); //通知发送
-			}					
-		}
-		
-		if( $_POST ){
-			$_LOG['uid'] = $this->mid;
-			$_LOG['type'] = '1';
-			$data[] = '全局 - 邀请配置 ';
-			if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
-			$data[] = $_POST;
-			$_LOG['data'] = serialize($data);
-			$_LOG['ctime'] = time();
-			M('AdminLog')->add($_LOG);
-		}
-		
-		
-		$this->success('操作成功');
-	}
-	
 	/** 系统配置 - 公告配置 **/
 	
 	public function announcement() {
@@ -657,5 +337,83 @@ class GlobalAction extends AdministratorAction {
 		}
 		$this->assign('jumpUrl', U('admin/Global/audit'));
 		$this->success("配置成功");
+	}
+	
+	/** 装修状况配置 **/
+	public function decoration(){
+		$aDecoration = M('decoration')->findAll();
+		$this->assign('data', $aDecoration);
+		$this->display();
+	}
+	
+	public function addDecoration() {
+		$this->assign('type', 'add');
+		$this->display('editDecoration');
+	}
+	
+	public function editDecoration() {
+		$map['id'] = intval($_GET['id']);
+		$ad = M('decoration')->where($map)->find();
+		if(empty($ad))
+			$this->error('参数错误');
+		$this->assign($ad);
+		$this->assign('type', 'edit');
+		$this->display();
+	}
+	
+	public function doEditDecoration() {
+		// 格式化数据
+		$_POST['id']			= h(t($_POST['id']));
+		$_POST['decoration']	= h(t($_POST['decoration']));
+
+		$_POST['mtime']			= time();
+		if ( !isset($_POST['id']) )
+			$_POST['ctime']		= time();
+	
+		// 数据检查
+		if(empty($_POST['decoration']))
+			$this->error('装修状况不能为空');
+	
+		$_LOG['uid'] = $this->mid;
+		$_LOG['type'] = isset($_POST['info_id']) ? '3' : '1';
+		$data[] = "内容 - 修改装修状况信息";
+		isset($_POST['id']) && $data[] =  M('decoration')->where( array( 'id'=>intval($_POST['id']) ) )->find();
+		if ( isset($_POST['id']) ) unset( $data['1']['ctime'] );
+		//unset( $data['1']['display_order'] );
+		if( $_POST['__hash__'] )unset( $_POST['__hash__'] );
+		$data[] = $_POST;
+		$_LOG['data'] = serialize($data);
+		$_LOG['ctime'] = time();
+		M('AdminLog')->add($_LOG);
+
+		// 提交数据
+		if ( $_POST['type'] == 'edit') {
+			$map = array();
+			$map['id'] = intval( $_POST['id']);
+			$res = M('decoration')->where($map)->save($_POST);
+		} else {
+			$res = M('decoration')->add($_POST);
+		}
+	
+		if($res) {
+			if( !isset($_POST['http_referer']) ) {
+				$this->assign('jumpUrl', $_POST['http_referer']);
+			}else {
+				$this->assign('jumpUrl', U('admin/Global/decoration'));
+			}
+			$this->success('保存成功');
+		}else {
+			$this->error('保存失败');
+		}
+	}
+	
+	public function doDeleteDecorations() {
+		if( empty($_POST['ids']) ) {
+			echo 0;
+			exit ;
+		}
+		$map['id'] = array('in', t($_POST['ids']));
+
+		echo M('decoration')->where($map)->delete() ? '1' : '0';
 	}
 }

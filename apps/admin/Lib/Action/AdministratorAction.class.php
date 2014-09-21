@@ -43,4 +43,27 @@ class AdministratorAction extends Action {
 		
 		return $map;
 	}
+
+	/**
+	 * 现实分类页面
+	 * @param array $tree 树形结构数据
+	 * @param string $stable 资源表明
+	 * @param integer $level 子分类添加层级数目，默认为0（无限极）
+	 * @param array $delParam 删除关联数据模型参数，app、module、method
+	 * @param array $extra 附加配置信息字段，字段间使用|分割，字段的属性用-分割。例：attach|type-是-否|is_audit
+	 * @return string HTML页面数据
+	 */
+	public function displayTree($tree = array(), $stable = null, $level = 0, $delParam = null, $extra = '', $limit = 0)
+	{
+		$this->assign('stable', $stable);
+		if(!isset($delParam['module']) || !isset($delParam['method'])) {
+			$delParam = null;
+		}
+		$this->assign('delParam', $delParam);
+		$this->assign('tree', $tree);
+		$this->assign('level', $level);
+		$this->assign('extra', $extra);
+		$this->assign('limit', $limit);
+		$this->display(THEME_PATH.'/admin_tree.html');
+	}
 }

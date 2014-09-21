@@ -11,7 +11,7 @@
 <div class="blank10"></div>
 
 <div class="main">
-<div class="mainimg"><a href="shipinlist.html"><img src="images/mainimg.jpg" width="100%"></a></div>
+<div class="mainimg"><a href="shipinlist.html"><img src="__THEME__/images/mainimg.jpg" width="100%"></a></div>
 <div class="infor">
 <h2>{$info.title}</h2>
 <p class="p1">均价：{$info.price}元/㎡</p>
@@ -71,9 +71,16 @@
   <div class="pop_head"><a class="close" href="javascript:void(0);" onclick="hide()"></a></div>
   <div class="pop_body">
   <div class="title2">预约看房</div>
-  
-<div class="textnei"><p>置业顾问：小张<br />
-电话：13521236541<a href="tel:4008900000"><img src="images/tel.png" width="30" height="22"></a></p>
+<php>
+if ( !$info['seller']) {
+	$info['seller'] = '无';
+}
+if ( !$info['phone']) {
+	$info['phone'] = '无';
+}
+</php>
+<div class="textnei"><p>置业顾问：{$info.seller}<br />
+电话：{$info.phone}<a href="tel:{$info.phone}"><img src="__THEME__/images/tel.png" width="30" height="22"></a></p>
  </div> 
   
   </div><!--pop_body结束-->
@@ -91,10 +98,10 @@
 <div class="textnei2">
 	<div class="inputlist">
 		<ul>
-		<li>购房人名：<input name="" type="text" class="input3"></li>
-		<li>联系电话：<input name="" type="text" class="input3"></li>
-		<li>选择房号：<input name="" type="text" class="input3"></li>
-		<li>销售代表：<input name="" type="text" class="input3"></li>
+		<li>购房人名：<input id="buy_name" name="buy_name" type="text" class="input3"></li>
+		<li>联系电话：<input id="buy_phone" name="buy_phone" type="text" class="input3"></li>
+		<li>选择房号：<input id="buy_house_id" name="buy_house_id" type="text" class="input3"></li>
+		<li>销售代表：<input id="buy_seller" name="buy_seller" type="text" class="input3"></li>
 		</ul>
 	
 	</div>
@@ -103,9 +110,9 @@
   <div class="blank5"></div>
   
   <div class="anniu">
- <div class="anniu1"><a href="#">取消</a></div>
+ <div class="anniu1"><a href="javascript:void(0);" onclick="hide2()">取消</a></div>
   
- <div class="anniu2"><a href="#">确认</a></div>
+ <div class="anniu2"><a href="javascript:void(0);" onclick="send_preferential()">确认</a></div>
   
   </div>
   </div><!--pop_body结束-->
@@ -123,18 +130,18 @@
   <div class="title2">挑错</div>
   
 <div class="textnei3">
-	<p class="p4">已卖出：<img src="images/select_act.png" width="20" height="20"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 内容不符：<img src="images/select_act.png" width="20" height="20"></p>
-	<p class="p5">虚假广告：<img src="images/select.png" width="20" height="20"></p>
+	<p class="p4">已卖出：<input name="fault_type" type="checkbox" value="1" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 内容不符：<input name="fault_type" type="checkbox" value="2" /></p>
+	<p class="p5">虚假广告：<input name="fault_type" type="checkbox" value="3" /></p>
 	
-	<p class="p5">其他:<textarea name="" cols="" rows="" class="input4"></textarea></p>
+	<p class="p5">其他:<textarea name="fault_content" id="fault_content" cols="" rows="" class="input4"></textarea></p>
  </div> <!--textnei3结束-->
   
   <div class="blank5"></div>
   
   <div class="anniu">
- <div class="anniu1"><a href="#">取消</a></div>
+ <div class="anniu1"><a href="javascript:void(0);" onclick="hide3()">取消</a></div>
   
- <div class="anniu2"><a href="#">确认</a></div>
+ <div class="anniu2"><a href="javascript:void(0);" onclick="find_fault()">确认</a></div>
   
   </div>
   </div><!--pop_body结束-->
@@ -168,8 +175,10 @@
 
 </body>
 </html>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript" src="__THEME__/js/jquery.min.js"></script>
+<script type="text/javascript">
+var info_id = {$info.info_id}
+<literal>
 var EX = {
 	addEvent:function(k,v){//alert('1');
 		var me = this;
@@ -254,14 +263,83 @@ function hide3(){
 
 
 
+//发送优惠申请
+function send_preferential() {
+	var buy_name =  document.getElementById('buy_name').value;
+	var buy_phone =  document.getElementById('buy_phone').value;
+	var buy_house_id =  document.getElementById('buy_house_id').value;
+	var buy_seller =  document.getElementById('buy_seller').value;
+	pro_info = {info_id:info_id,
+			buy_name:buy_name,
+			buy_phone:buy_phone,
+			buy_house_id:buy_house_id,
+			buy_seller:buy_seller}
+	$.ajax({
+		url: 'index.php?app=home&mod=info&act=send_preferential',
+
+		type: 'POST',
+
+		data: pro_info,
+
+		dataType: 'html',
+
+		timeout: 1000,
+
+		error: function(){alert('提交失败');},
+
+		success: function(result){
+			alert("申请提交成功");
+			hide2();
+		}
+
+	});
+}
 
 
 
+//发送挑错信息
+function find_fault() {
+	var chk_value =[];
+	$('input[name="fault_type"]:checked').each(function(){    
+	  chk_value.push($(this).val());
+	});
+	var fault_content =  document.getElementById('fault_content').value;
+
+	fault_info = {info_id:info_id,
+			fault_type:chk_value,
+			fault_content:fault_content}
+	$.ajax({
+		url: 'index.php?app=home&mod=info&act=find_fault',
+
+		type: 'POST',
+
+		data: fault_info,
+
+		dataType: 'html',
+
+		timeout: 1000,
+
+		error: function(){
+			alert('提交失败');
+		},
+
+		success: function(result){
+			alert("感谢你的提交 谢谢");
+			hide3();
+		}
+
+	});
+}
+</literal>
 </script>
 
 
 
 
 
-
+<style>
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+</style>
 <include file="__THEME__/footer" />
